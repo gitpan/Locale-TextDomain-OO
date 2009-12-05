@@ -141,7 +141,7 @@ Locale::TextDomain::OO::MessagesStruct - Perl Interface extension to use gettext
 
 $Id: MessagesStruct.pm 97 2009-09-21 08:02:17Z steffenw $
 
-$HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/branches/WithoutModuleTextDomain/lib/Locale/TextDomain/OO/MessagesStruct.pm $
+$HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO/MessagesStruct.pm $
 
 =head1 VERSION
 
