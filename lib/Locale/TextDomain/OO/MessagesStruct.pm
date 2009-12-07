@@ -3,7 +3,7 @@ package Locale::TextDomain::OO::MessagesStruct;
 use strict;
 use warnings;
 
-use version; our $VERSION = qv('0.01');
+use version; our $VERSION = qv('0.03');
 
 use Carp qw(croak);
 
@@ -137,15 +137,15 @@ __END__
 
 =head1 NAME
 
-Locale::TextDomain::OO::MessagesStruct - Perl Interface extension to use gettext and not mo-files
+Locale::TextDomain::OO::MessagesStruct - Perl Interface extension to use gettext and not mo files
 
-$Id: MessagesStruct.pm 97 2009-09-21 08:02:17Z steffenw $
+$Id: MessagesStruct.pm 164 2009-12-07 21:29:45Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO/MessagesStruct.pm $
 
 =head1 VERSION
 
-0.01
+0.03
 
 =head1 DESCRIPTION
 
@@ -173,7 +173,7 @@ Maybe such data were read from a database.
     my %struct = (
         $text_domain => {
             plural_ref = $loc->get_function_ref_plural(
-                # The next line is like Plural-Forms at the po/mo-file.
+                # The next line is like Plural-Forms at the po/mo file.
                 '$nplurals=2; $plural=$n != 1;'
             ),
             array_ref => [
@@ -210,7 +210,7 @@ Maybe such data were read from a database.
 
 =head1 EXAMPLE
 
-Inside of this Distribution is a directory named example.
+Inside of this distribution is a directory named example.
 Run this *.pl files.
 
 =head1 DIAGNOSTICS

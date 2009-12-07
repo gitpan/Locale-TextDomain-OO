@@ -3,7 +3,7 @@ package Locale::TextDomain::OO::FunctionalInterface;
 use strict;
 use warnings;
 
-use version; our $VERSION = qv('0.02');
+use version; our $VERSION = qv('0.03');
 
 use Carp qw(croak);
 use Perl6::Export::Attrs;
@@ -61,20 +61,21 @@ __END__
 
 =head1 NAME
 
-Locale::TextDomain::OO::FunctionalInterface - Call object methods as function
+Locale::TextDomain::OO::FunctionalInterface - Call object methods as functions
 
-$Id: FunctionalInterface.pm 151 2009-12-05 21:08:57Z steffenw $
+$Id: FunctionalInterface.pm 164 2009-12-07 21:29:45Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO/FunctionalInterface.pm $
 
 =head1 VERSION
 
-0.02
+0.03
 
 =head1 DESCRIPTION
 
-This module wraps the object and allows to call a method as function.
-Then the translating subroutines are compatible to module Locale::TextDomain.
+This module wraps the object and allows to call a method as a function.
+Then the interface of the translating subroutines
+is compatible to module Locale::TextDomain.
 
 =head1 SYNOPSIS
 
@@ -104,7 +105,7 @@ or
 
 =head1 EXAMPLE
 
-Inside of this Distribution is a directory named example.
+Inside of this distribution is a directory named example.
 Run this *.pl files.
 
 =head1 DIAGNOSTICS

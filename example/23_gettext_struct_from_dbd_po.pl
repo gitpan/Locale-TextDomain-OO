@@ -40,7 +40,7 @@ my $dbh = DBI->connect(
 ) or croak DBI->errstr();
 $dbh->{po_tables}->{$text_domain} = {file => "$text_domain.po"};
 
-# read header of po-file
+# read the header of the po file
 my $plural_forms = $dbh->func(
     {
         table => $text_domain,
@@ -60,7 +60,7 @@ my $sth = $dbh->prepare(<<"EO_SQL");
     WHERE msgid <> ''
 EO_SQL
 
-# read all entrys of the full po-file
+# read all entrys of the full po file
 $sth->execute();
 my @array;
 while ( my $hashref = $sth->fetchrow_hashref() ) {
@@ -149,7 +149,7 @@ bind_object($loc);
         num => 2,
     );
 
-# $Id: 23_gettext_struct_from_dbd_po.pl 103 2009-09-25 04:23:53Z steffenw $
+# $Id: 23_gettext_struct_from_dbd_po.pl 156 2009-12-06 06:14:46Z steffenw $
 
 __END__
 

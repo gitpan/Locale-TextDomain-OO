@@ -1,6 +1,6 @@
 ---
 name: Locale-TextDomain-OO
-version: 0.02
+version: 0.03
 author:
   - 'Steffen Winkler <steffenw at cpan.org>'
 abstract: 'Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation'
@@ -30,16 +30,16 @@ configure_requires:
 provides:
   Locale::TextDomain::OO:
     file: lib/Locale/TextDomain/OO.pm
-    version: 0.02
+    version: 0.03
   Locale::TextDomain::OO::FunctionalInterface:
     file: lib/Locale/TextDomain/OO/FunctionalInterface.pm
-    version: v0.2.0
+    version: v0.3.0
   Locale::TextDomain::OO::Maketext:
     file: lib/Locale/TextDomain/OO/Maketext.pm
-    version: v0.2.0
+    version: v0.3.0
   Locale::TextDomain::OO::MessagesStruct:
     file: lib/Locale/TextDomain/OO/MessagesStruct.pm
-    version: v0.1.0
+    version: v0.3.0
 generated_by: Module::Build version 0.34
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html

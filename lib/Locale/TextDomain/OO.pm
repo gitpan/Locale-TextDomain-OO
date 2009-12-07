@@ -3,7 +3,7 @@ package Locale::TextDomain::OO;
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use Carp qw(croak);
 use Cwd qw(abs_path);
@@ -103,14 +103,16 @@ sub _set_gettext_package {
     my ($self, $gettext_package) = @_;
 
     if ( ! $gettext_package ) {
-        # Try to load the C version first.
-        my $code = 'require Locale::gettext_xs';
-        () = eval $code; ## no critic (StringyEval)
+        # Try to load the XS version first.
+        my $version_ok = eval <<'EOC';  ## no critic (StringyEval)
+            require 'Locale::gettext_xs';
+            Locale::gettext_xs::__gettext_xs_version() >= 1.20;
+EOC
         $EVAL_ERROR
             and return $self->_set_gettext_package('Locale::gettext_pp');
-        my $version = Locale::gettext_xs::__gettext_xs_version(); ## no critic (PrivateSubs)
-        $version >= 1.20 ## no critic (MagicNumbers)
-            or croak "gettext_xs_version $version is to old.";
+        $version_ok
+            or croak 'gettext_xs_version is older than 1.20.';
+        $gettext_package = 'Locale::gettext_xs';
     }
     my $code = "require $gettext_package";
     () = eval $code; ## no critic (StringyEval)
@@ -468,13 +470,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 150 2009-12-05 21:02:30Z steffenw $
+$Id: OO.pm 164 2009-12-07 21:29:45Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-0.02
+0.03
 
 =head1 DESCRIPTION
 
@@ -494,11 +496,11 @@ Locale::TextDomain::OO has a flexible object oriented interface.
 =head2 Why to write a wrapper?
 
 Locale::TextDomain depends on L<Locale::Messages>
-and Locale::Messages depends on gettext mo-files.
+and Locale::Messages depends on gettext mo files.
 This is a very good idea to do this.
 It is a standard.
 
-But if the data are not saved in mo-files
+But if the data are not saved in mo files
 and the project is not a new project,
 how to bind a database or anything else
 to the Locale::TextDomain API?
@@ -553,7 +555,7 @@ A plural form can not be before a number.
 
 =item *
 
-There is no plural form without a nummber in the phrase.
+There is no plural form without a number in the phrase.
 
     I like this book.
     I like these books.
@@ -561,7 +563,7 @@ There is no plural form without a nummber in the phrase.
 =item *
 
 Placeholders are numbered serially.
-It is difficult to translate this,
+It is difficult to translate this
 because the sense of the phrase could be lost.
 
     [_1] is a [_2] in [_3].
@@ -680,7 +682,7 @@ Run the examples of this distribution (folder example).
            |                   ^                      |
            v                   |                 _____|_____
     .----------.         .----------.           /_ _ _ _ _ _\
-    | mo-files |-.       | po-files |-.         |           |
+    | mo files |-.       | po files |-.         |           |
     `----------' |       `----------' |         | Database  |
       `----------'         `----------'         `-----------'
            ^                   ^                      ^
@@ -722,7 +724,7 @@ Set the search dirs.
         ...
     );
 
-The default for search_dirs is:
+The default for the search_dirs is:
 
     my @locale_dirs = map {
         -d "$_/LocaleData"
@@ -820,13 +822,13 @@ How many plurals has the translation?
 This is one-time interesting to read the translation data.
 
     $nplurals = $self->get_nplurals(
-        'nplurals=2; plural=n != 1;' # look at po-/mo-file header
+        'nplurals=2; plural=n != 1;' # look at the po/mo file header
     );
 
 or
 
     $nplurals = Locale::Text::Domain::OO->get_nplurals(
-        'nplurals=2; plural=n != 1;' # look at po-/mo-file header
+        'nplurals=2; plural=n != 1;' # look at the po/mo file header
     );
 
 =head2 object or class method get_function_ref_plural
@@ -835,13 +837,13 @@ Which plural form sould be used?
 The code runs during every plural tranlation.
 
     $code_ref = $self->get_function_ref_plural(
-        'nplurals=2; plural=n != 1;' # look at po-/mo-file header
+        'nplurals=2; plural=n != 1;' # look at the po/mo file header
     );
 
 or
 
     $code_ref = Locale::Text::Domain::OO->get_function_ref_plural(
-        'nplurals=2; plural=n != 1;' # look at po-/mo-file header
+        'nplurals=2; plural=n != 1;' # look at the po/mo file header
     );
 
 =head2 Translating methods
@@ -938,7 +940,7 @@ because it is the same like method __nx.
 
 =head2 Methods to mark the translation for extraction only
 
-How to bild the method name?
+How to build the method name?
 
 Use N__ and append this with 'n', 'p' and/or 'x' in alphabetic order.
 
@@ -953,8 +955,8 @@ Use N__ and append this with 'n', 'p' and/or 'x' in alphabetic order.
 
 =head3 N__, N__x, N__n, N__nx, N__p, N__px, N__np, N__npx
 
-The extractor looks for C<__('...'>
-and has no problem with C<$loc->N__('...')>.
+The extractor looks for C<__('...')>
+and has no problem with C<<$loc->N__('...')>>.
 
 This is the idea of the N-Methods.
 
@@ -962,7 +964,7 @@ This is the idea of the N-Methods.
 
 =head1 EXAMPLE
 
-Inside of this Distribution is a directory named example.
+Inside of this distribution is a directory named example.
 Read the file README there.
 Then run the *.pl files.
 
