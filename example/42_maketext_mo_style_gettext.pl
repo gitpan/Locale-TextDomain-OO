@@ -69,7 +69,7 @@ my $loc = Locale::TextDomain::OO::Maketext->new(
         2,
     );
 
-# $Id: 25_maketext_mo_style_gettext.pl 132 2009-11-30 20:35:54Z steffenw $
+# $Id: 42_maketext_mo_style_gettext.pl 189 2009-12-12 07:13:56Z steffenw $
 
 __END__
 

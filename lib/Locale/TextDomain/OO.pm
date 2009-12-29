@@ -3,7 +3,7 @@ package Locale::TextDomain::OO;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use Carp qw(croak);
 use Cwd qw(abs_path);
@@ -470,13 +470,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 164 2009-12-07 21:29:45Z steffenw $
+$Id: OO.pm 264 2009-12-29 19:41:11Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-0.03
+0.04
 
 =head1 DESCRIPTION
 
@@ -518,6 +518,21 @@ use an extended API Locale::TextDomain::OO::Maketext.
 Locale::TextDomain::OO::FunctionalInterface is a wrapper
 to have functions like Locale::TextDomain for the application interface
 and all the benefit from the binded object too.
+
+=head2 When tie the object to a hash?
+
+Fetch a hash is similar to call a subroutine.
+Fetch hash is interpolated in a string but call a subroutine not.
+This is a reason, to use the tied interface.
+
+=head2 How to extract?
+
+Inside this distribution is module L<Locale::TextDomain::OO::Extract>.
+This is a base class for all source scanner to create pot files.
+Use this base class and give this module the rules
+or use one of the already exteded classes.
+L<Locale::TextDomain::OO::Extract::Perl>
+is a extension for Perl code and so on.
 
 =head2 Do not follow the dead end of Locale::Maketext!
 
@@ -1028,13 +1043,29 @@ L<Locale::TextDoamin>
 
 L<Locale::Messages>
 
+ At version 1.20:
+
+ The bug L<http://rt.cpan.org/Public/Bug/Display.html?id=49744>
+ "gettext_pp.pm can not parse Russian plural forms"
+ was fixed in module Locale::Text::Domain::OO.
+
+ The bug L<http://rt.cpan.org/Public/Bug/Display.html?id=49758>
+ "no perl unicode support or the half one only"
+ was fixed in module Locale::Text::Domain::OO.
+ The problem is in detail if you have an UTF-8 Perl source
+ and a non ASCII msgid, msgid_plural or msgctxt.
+ Because English is not ASCII, you can have
+ the English currency symbol, the paragraph symbol
+ and so on.
+
 L<http://www.gnu.org/software/gettext/manual/gettext.html>
 
 L<http://en.wikipedia.org/wiki/Gettext>
 
 L<http://translate.sourceforge.net/wiki/l10n/pluralforms>
 
-L<http://rassie.org/archives/247> The choice of the right module for the translation.
+L<http://rassie.org/archives/247>
+The choice of the right module for the translation.
 
 =head1 AUTHOR
 

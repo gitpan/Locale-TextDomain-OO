@@ -13,7 +13,7 @@ require Locale::TextDomain;
 use Locale::Messages qw(bind_textdomain_filter);
 
 local $ENV{LANGUAGE} = 'ru';
-my $text_domain      = 'test';
+my $text_domain      = 'example';
 
 # bind text domain
 Locale::TextDomain->import( $text_domain, qw(./LocaleData) );
@@ -57,11 +57,15 @@ binmode STDOUT, ':encoding(utf-8)'
         encode_utf8('c§ book'),
     );
 
-# $Id: 01_locale_textdomian_utf-8.pl 86 2009-09-16 14:37:51Z steffenw $
+# $Id: 01_locale_textdomian_utf-8.pl 262 2009-12-29 19:02:09Z steffenw $
 
 __END__
 
-Output:
+There is a bug
+ http://rt.cpan.org/Public/Bug/Display.html?id=49744
+in Locale::gettext.pp, version 1.20 during calculate plurals.
+
+Correct output should be:
 
 книга
 § книга

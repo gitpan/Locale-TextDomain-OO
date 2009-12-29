@@ -53,7 +53,7 @@ sub bind_object :Export(:DEFAULT) {
     }
 
     return;
-};
+}
 
 1;
 
@@ -63,7 +63,7 @@ __END__
 
 Locale::TextDomain::OO::FunctionalInterface - Call object methods as functions
 
-$Id: FunctionalInterface.pm 164 2009-12-07 21:29:45Z steffenw $
+$Id: FunctionalInterface.pm 252 2009-12-29 13:55:33Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO/FunctionalInterface.pm $
 
@@ -127,6 +127,8 @@ Subroutine bind_object can not bind a non existing object method.
 none
 
 =head1 DEPENDENCIES
+
+version
 
 Carp
 

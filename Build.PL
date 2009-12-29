@@ -16,25 +16,30 @@ Module::Build->new(
         version                => 0,
         parent                 => 0,
         Safe                   => 0,
+        Clone                  => 0, # for extractor only
+        DBI                    => 0, # for extractor only
+        'DBD::PO'              => 2.09,
         'Perl6::Export::Attrs' => 0,
         'I18N::LangTags'       => 0,
-        'Locale::Messages'     => 1.20, # dist libintl-perl
+        'Tie::Sub'             => 0.09,
         $is_ppm
-        ? ()
+        ? (
+            'libintl-perl' => 1.20,
+        )
         : (
             Carp                     => 0, # perl dist
             Cwd                      => 0, # perl dist
             Encode                   => 0, # perl dist
             English                  => 0, # perl dist
             'I18N::LangTags::Detect' => 0, # dist I18N-LangTags
+            'Locale::Messages'       => 1.20, # dist libintl-perl
         )
     },
     build_requires => {
         'Test::NoWarnings'  => 0,
         'Test::Exception'   => 0,
         'Test::Differences' => 0,
-        'DBI'               => 0,
-        'DBD::PO'           => 2.00,
+        'Data::Dumper'      => 0,
         $is_ppm
         ? (
             'Test::Simple' => 0,

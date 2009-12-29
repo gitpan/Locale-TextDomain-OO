@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use utf8;
 
 our $VERSION = 0;
 
@@ -13,24 +14,23 @@ require Locale::TextDomain::OO;
 require Locale::TextDomain::OO::MessagesStruct;
 use Locale::TextDomain::OO::FunctionalInterface qw(bind_object);
 
-local $ENV{LANGUAGE} = 'de_DE';
+local $ENV{LANGUAGE} = 'ru';
 my $text_domain      = 'example';
 
 my $loc = Locale::TextDomain::OO->new(
     gettext_object => Locale::TextDomain::OO::MessagesStruct->new(\my %struct),
     text_domain    => $text_domain,
-    search_dirs    => [qw(./LocaleData/)],
+    search_dirs    => [qw(./LocaleData)],
 );
 
 # find the database for the expected language
-# here fallback to 'de'
 my $file_path = $loc->get_file_path($text_domain, '.po');
 
 # connect
 my $dbh = DBI->connect(
     'DBI:PO:'
     . "f_dir=$file_path;"
-    . 'po_charset=', # pass bytes of ISO-8859-1 po file
+    . 'po_charset=utf-8',
     undef,
     undef,
     {
@@ -40,7 +40,7 @@ my $dbh = DBI->connect(
 ) or croak DBI->errstr();
 $dbh->{po_tables}->{$text_domain} = {file => "$text_domain.po"};
 
-# read the header of the po file
+# Read the header of the po file and extract the 'Plural-Forms'.
 my $plural_forms = $dbh->func(
     {
         table => $text_domain,
@@ -78,92 +78,55 @@ $dbh->disconnect();
     },
 );
 
+# all unicode chars encode to UTF-8
+binmode STDOUT, ':encoding(utf-8)'
+    or croak "Binmode STDOUT\n$OS_ERROR";
+
 # allow functions to call object methods
 bind_object($loc);
 
 # run all translations
 () = print map {"$_\n"}
     __(
-        'This is a text.',
+        'book',
     ),
-    __x(
-        '{name} is programming {language}.',
-        name     => 'Steffen',
-        language => 'Perl',
+    __(
+        '§ book',
     ),
     __n(
-        'Singular',
-        'Plural',
+        '§§ book',
+        '§§ books',
+        0,
+    ),
+    __n(
+        '§§ book',
+        '§§ books',
         1,
     ),
     __n(
-        'Singular',
-        'Plural',
+        '§§ book',
+        '§§ books',
         2,
-    ),
-    __nx(
-        '{num} shelf',
-        '{num} shelves',
-        1,
-        num => 1,
-    ),
-    __nx(
-        '{num} shelf',
-        '{num} shelves',
-        2,
-        num => 2,
     ),
     __p(
-        'maskulin',
-        'Dear',
+        'c',
+        'c book',
     ),
-    __px(
-        'maskulin',
-        'Dear {name}',
-        name => 'Winkler',
-    ),
-    __np(
-        'better',
-        'shelf',
-        'shelves',
-        1,
-    ),
-    __np(
-        'better',
-        'shelf',
-        'shelves',
-        2,
-    ),
-    __npx(
-        'better',
-        '{num} shelf',
-        '{num} shelves',
-        1,
-        num => 1,
-    ),
-    __npx(
-        'better',
-        '{num} shelf',
-        '{num} shelves',
-        2,
-        num => 2,
+    __p(
+        'c§',
+        'c§ book',
     );
 
-# $Id: 23_gettext_struct_from_dbd_po.pl 156 2009-12-06 06:14:46Z steffenw $
+# $Id: 34_gettext_struct_from_dbd_po_utf-8.pl 237 2009-12-28 08:11:59Z steffenw $
 
 __END__
 
 Output:
 
-Das ist ein Text.
-Steffen programmiert Perl.
-Einzahl
-Mehrzahl
-1 Regal
-2 Regale
-Sehr geehrter Herr
-Sehr geehrter Herr Winkler
-gutes Regal
-gute Regale
-1 gutes Regal
-2 gute Regale
+книга
+§ книга
+§§ книг
+§§ книга
+§§ книги
+c книга
+c§ книга

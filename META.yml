@@ -1,6 +1,6 @@
 ---
 name: Locale-TextDomain-OO
-version: 0.03
+version: 0.04
 author:
   - 'Steffen Winkler <steffenw at cpan.org>'
 abstract: 'Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation'
@@ -8,17 +8,20 @@ license: perl
 resources:
   license: http://dev.perl.org/licenses/
 build_requires:
-  DBD::PO: 2
-  DBI: 0
+  Data::Dumper: 0
   Test::Differences: 0
   Test::Exception: 0
   Test::NoWarnings: 0
   Test::Simple: 0
 requires:
+  Clone: 0
+  DBD::PO: 2.09
+  DBI: 0
   I18N::LangTags: 0
-  Locale::Messages: 1.2
   Perl6::Export::Attrs: 0
   Safe: 0
+  Tie::Sub: 0.09
+  libintl-perl: 1.2
   parent: 0
   perl: 5.006
   version: 0
@@ -30,7 +33,19 @@ configure_requires:
 provides:
   Locale::TextDomain::OO:
     file: lib/Locale/TextDomain/OO.pm
-    version: 0.03
+    version: 0.04
+  Locale::TextDomain::OO::Extract:
+    file: lib/Locale/TextDomain/OO/Extract.pm
+    version: v0.4.0
+  Locale::TextDomain::OO::Extract::JavaScript:
+    file: lib/Locale/TextDomain/OO/Extract/JavaScript.pm
+    version: v0.4.0
+  Locale::TextDomain::OO::Extract::Perl:
+    file: lib/Locale/TextDomain/OO/Extract/Perl.pm
+    version: v0.4.0
+  Locale::TextDomain::OO::Extract::TT:
+    file: lib/Locale/TextDomain/OO/Extract/TT.pm
+    version: v0.4.0
   Locale::TextDomain::OO::FunctionalInterface:
     file: lib/Locale/TextDomain/OO/FunctionalInterface.pm
     version: v0.3.0
@@ -39,6 +54,9 @@ provides:
     version: v0.3.0
   Locale::TextDomain::OO::MessagesStruct:
     file: lib/Locale/TextDomain/OO/MessagesStruct.pm
+    version: v0.3.0
+  Locale::TextDomain::OO::TiedInterface:
+    file: lib/Locale/TextDomain/OO/TiedInterface.pm
     version: v0.3.0
 generated_by: Module::Build version 0.34
 meta-spec:

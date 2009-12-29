@@ -139,7 +139,7 @@ __END__
 
 Locale::TextDomain::OO::MessagesStruct - Perl Interface extension to use gettext and not mo files
 
-$Id: MessagesStruct.pm 164 2009-12-07 21:29:45Z steffenw $
+$Id: MessagesStruct.pm 252 2009-12-29 13:55:33Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO/MessagesStruct.pm $
 
@@ -232,6 +232,8 @@ Error at translating methods.
 none
 
 =head1 DEPENDENCIES
+
+version
 
 Carp
 

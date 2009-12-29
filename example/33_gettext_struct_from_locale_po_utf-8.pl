@@ -15,7 +15,7 @@ require Locale::TextDomain::OO::MessagesStruct;
 use Locale::TextDomain::OO::FunctionalInterface qw(bind_object);
 
 local $ENV{LANGUAGE} = 'ru';
-my $text_domain      = 'test';
+my $text_domain      = 'example';
 
 my $loc = Locale::TextDomain::OO->new(
     gettext_object => Locale::TextDomain::OO::MessagesStruct->new(\my %struct),
@@ -102,7 +102,7 @@ bind_object($loc);
         'c§ book',
     );
 
-# $Id: 26_gettext_struct_from_locale_po_utf-8.pl 94 2009-09-21 07:05:56Z steffenw $
+# $Id: 33_gettext_struct_from_locale_po_utf-8.pl 237 2009-12-28 08:11:59Z steffenw $
 
 __END__
 
