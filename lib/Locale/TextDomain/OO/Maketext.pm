@@ -213,9 +213,9 @@ __END__
 
 Locale::TextDomain::OO::Maketext - An additional maketext interface for Message Translation
 
-$Id: Maketext.pm 255 2009-12-29 14:01:31Z steffenw $
+$Id: Maketext.pm 271 2010-01-16 07:37:06Z steffenw $
 
-$HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO/Maketext.pm $
+$HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/module/trunk/lib/Locale/TextDomain/OO/Maketext.pm $
 
 =head1 VERSION
 

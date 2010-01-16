@@ -86,7 +86,7 @@ my $loc = Locale::TextDomain::OO->new(
         num => 2,
     );
 
-# $Id: 11_gettext_mo.pl 189 2009-12-12 07:13:56Z steffenw $
+# $Id: 11_gettext_mo.pl 277 2010-01-16 08:01:30Z steffenw $
 
 __END__
 

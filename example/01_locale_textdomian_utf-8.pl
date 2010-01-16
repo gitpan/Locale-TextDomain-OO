@@ -57,7 +57,7 @@ binmode STDOUT, ':encoding(utf-8)'
         encode_utf8('c§ book'),
     );
 
-# $Id: 01_locale_textdomian_utf-8.pl 262 2009-12-29 19:02:09Z steffenw $
+# $Id: 01_locale_textdomian_utf-8.pl 277 2010-01-16 08:01:30Z steffenw $
 
 __END__
 

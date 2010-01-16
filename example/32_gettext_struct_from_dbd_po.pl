@@ -149,7 +149,7 @@ bind_object($loc);
         num => 2,
     );
 
-# $Id: 32_gettext_struct_from_dbd_po.pl 189 2009-12-12 07:13:56Z steffenw $
+# $Id: 32_gettext_struct_from_dbd_po.pl 277 2010-01-16 08:01:30Z steffenw $
 
 __END__
 

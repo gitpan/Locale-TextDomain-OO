@@ -102,7 +102,7 @@ bind_object($loc);
         'c§ book',
     );
 
-# $Id: 33_gettext_struct_from_locale_po_utf-8.pl 237 2009-12-28 08:11:59Z steffenw $
+# $Id: 33_gettext_struct_from_locale_po_utf-8.pl 277 2010-01-16 08:01:30Z steffenw $
 
 __END__
 

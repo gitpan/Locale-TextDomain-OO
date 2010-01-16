@@ -3,7 +3,7 @@ package Locale::TextDomain::OO;
 use strict;
 use warnings;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use Carp qw(croak);
 use Cwd qw(abs_path);
@@ -470,13 +470,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 264 2009-12-29 19:41:11Z steffenw $
+$Id: OO.pm 282 2010-01-16 08:51:56Z steffenw $
 
-$HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO.pm $
+$HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-0.04
+0.05
 
 =head1 DESCRIPTION
 
@@ -527,7 +527,7 @@ This is a reason, to use the tied interface.
 
 =head2 How to extract?
 
-Inside this distribution is module L<Locale::TextDomain::OO::Extract>.
+Use module L<Locale::TextDomain::OO::Extract>.
 This is a base class for all source scanner to create pot files.
 Use this base class and give this module the rules
 or use one of the already exteded classes.
@@ -1073,7 +1073,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2009,
+Copyright (c) 2009 - 2010,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

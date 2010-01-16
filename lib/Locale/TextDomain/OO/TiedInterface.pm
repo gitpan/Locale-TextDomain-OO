@@ -56,7 +56,7 @@ sub import {
         }
         (my $method = $import) =~ s{\A (?: (\$) | % )}{}xms
             or croak qq{"$import" is not a hash or a hash reference};
-        my $is_ref = $1; ## no critic (CaptureWithoutTest)
+        my $is_ref = $1;
         exists $method_name{$method}
             or croak qq{Method "$method" is not a translation method};
         {
@@ -102,9 +102,9 @@ __END__
 
 Locale::TextDomain::OO::TiedInterface - Call object methods as tied hash
 
-$Id: TiedInterface.pm 252 2009-12-29 13:55:33Z steffenw $
+$Id: TiedInterface.pm 271 2010-01-16 07:37:06Z steffenw $
 
-$HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/trunk/lib/Locale/TextDomain/OO/TiedInterface.pm $
+$HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/module/trunk/lib/Locale/TextDomain/OO/TiedInterface.pm $
 
 =head1 VERSION
 

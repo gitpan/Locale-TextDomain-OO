@@ -39,7 +39,7 @@ binmode STDOUT, ':encoding(utf-8)'
         '§ book',
     );
 
-# $Id: 12_gettext_mo_utf-8.pl 237 2009-12-28 08:11:59Z steffenw $
+# $Id: 12_gettext_mo_utf-8.pl 277 2010-01-16 08:01:30Z steffenw $
 
 __END__
 

@@ -91,7 +91,7 @@ $loc = Locale::TextDomain::OO->new(
         num => 2,
     ]};
 
-# $Id: 23_gettext_mo_tied_interface.pl 189 2009-12-12 07:13:56Z steffenw $
+# $Id: 23_gettext_mo_tied_interface.pl 277 2010-01-16 08:01:30Z steffenw $
 
 __END__
 

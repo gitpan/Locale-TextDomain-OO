@@ -1,6 +1,6 @@
 ---
 name: Locale-TextDomain-OO
-version: 0.04
+version: 0.05
 author:
   - 'Steffen Winkler <steffenw at cpan.org>'
 abstract: 'Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation'
@@ -9,12 +9,12 @@ resources:
   license: http://dev.perl.org/licenses/
 build_requires:
   Data::Dumper: 0
+  Test::Deep: 0
   Test::Differences: 0
   Test::Exception: 0
   Test::NoWarnings: 0
   Test::Simple: 0
 requires:
-  Clone: 0
   DBD::PO: 2.09
   DBI: 0
   I18N::LangTags: 0
@@ -33,19 +33,7 @@ configure_requires:
 provides:
   Locale::TextDomain::OO:
     file: lib/Locale/TextDomain/OO.pm
-    version: 0.04
-  Locale::TextDomain::OO::Extract:
-    file: lib/Locale/TextDomain/OO/Extract.pm
-    version: v0.4.0
-  Locale::TextDomain::OO::Extract::JavaScript:
-    file: lib/Locale/TextDomain/OO/Extract/JavaScript.pm
-    version: v0.4.0
-  Locale::TextDomain::OO::Extract::Perl:
-    file: lib/Locale/TextDomain/OO/Extract/Perl.pm
-    version: v0.4.0
-  Locale::TextDomain::OO::Extract::TT:
-    file: lib/Locale/TextDomain/OO/Extract/TT.pm
-    version: v0.4.0
+    version: 0.05
   Locale::TextDomain::OO::FunctionalInterface:
     file: lib/Locale/TextDomain/OO/FunctionalInterface.pm
     version: v0.3.0
