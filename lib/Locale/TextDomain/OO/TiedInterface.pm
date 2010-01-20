@@ -102,7 +102,7 @@ __END__
 
 Locale::TextDomain::OO::TiedInterface - Call object methods as tied hash
 
-$Id: TiedInterface.pm 271 2010-01-16 07:37:06Z steffenw $
+$Id: TiedInterface.pm 268 2010-01-11 09:05:18Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/module/trunk/lib/Locale/TextDomain/OO/TiedInterface.pm $
 

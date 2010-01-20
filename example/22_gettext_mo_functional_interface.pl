@@ -89,7 +89,7 @@ bind_object(
         num => 2,
     );
 
-# $Id: 22_gettext_mo_functional_interface.pl 277 2010-01-16 08:01:30Z steffenw $
+# $Id: 22_gettext_mo_functional_interface.pl 295 2010-01-17 16:54:27Z steffenw $
 
 __END__
 

@@ -129,7 +129,7 @@ bind_object($loc);
         num => 2,
     );
 
-# $Id: 31_gettext_struct_from_locale_po.pl 277 2010-01-16 08:01:30Z steffenw $
+# $Id: 31_gettext_struct_from_locale_po.pl 295 2010-01-17 16:54:27Z steffenw $
 
 __END__
 

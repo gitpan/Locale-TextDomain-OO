@@ -37,7 +37,7 @@ binmode STDOUT, ':encoding(utf-8)'
         'This are German umlauts: ä ö ü ß Ä Ö Ü.',
     );
 
-# $Id: 13_gettext_mo_cp1252.pl 277 2010-01-16 08:01:30Z steffenw $
+# $Id: 13_gettext_mo_cp1252.pl 295 2010-01-17 16:54:27Z steffenw $
 
 __END__
 

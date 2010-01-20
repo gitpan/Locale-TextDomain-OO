@@ -63,7 +63,7 @@ __END__
 
 Locale::TextDomain::OO::FunctionalInterface - Call object methods as functions
 
-$Id: FunctionalInterface.pm 271 2010-01-16 07:37:06Z steffenw $
+$Id: FunctionalInterface.pm 252 2009-12-29 13:55:33Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/module/trunk/lib/Locale/TextDomain/OO/FunctionalInterface.pm $
 

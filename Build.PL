@@ -3,7 +3,17 @@ use warnings;
 
 use Module::Build;
 
-my $is_ppm = eval 'require ActivePerl::PPM::Package';
+my $is_ppm
+    = (
+        # install using ppm
+        ! $ENV{AUTHOR_DIST}
+        && eval 'require ActivePerl::PPM::Package'
+    )
+    || (
+        # build ppm and ppd
+        $ENV{AUTHOR_DIST}
+        && $ENV{AUTHOR_DIST} eq 'ppm'
+    );
 
 Module::Build->new(
     module_name       => 'Locale::TextDomain::OO',
@@ -39,7 +49,6 @@ Module::Build->new(
         'Test::Exception'   => 0,
         'Test::Differences' => 0,
         'Test::Deep'        => 0,
-        'Data::Dumper'      => 0,
         $is_ppm
         ? (
             'Test::Simple' => 0,

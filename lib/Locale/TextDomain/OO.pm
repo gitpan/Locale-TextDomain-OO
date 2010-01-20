@@ -3,7 +3,7 @@ package Locale::TextDomain::OO;
 use strict;
 use warnings;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 use Carp qw(croak);
 use Cwd qw(abs_path);
@@ -470,13 +470,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 282 2010-01-16 08:51:56Z steffenw $
+$Id: OO.pm 302 2010-01-20 06:13:01Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-0.05
+0.06
 
 =head1 DESCRIPTION
 

@@ -3,28 +3,33 @@ require 5.006;
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
-          'TESTS' => 't\\*.t t\\.svn\\*.t t\\.svn\\text-base\\*.t t\\.svn\\prop-base\\*.t t\\.svn\\props\\*.t t\\.svn\\tmp\\*.t t\\.svn\\tmp\\text-base\\*.t t\\.svn\\tmp\\prop-base\\*.t t\\.svn\\tmp\\props\\*.t t\\LocaleData\\*.t t\\LocaleData\\.svn\\*.t t\\LocaleData\\.svn\\text-base\\*.t t\\LocaleData\\.svn\\prop-base\\*.t t\\LocaleData\\.svn\\props\\*.t t\\LocaleData\\.svn\\tmp\\*.t t\\LocaleData\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\.svn\\tmp\\props\\*.t t\\LocaleData\\de\\*.t t\\LocaleData\\de\\.svn\\*.t t\\LocaleData\\de\\.svn\\text-base\\*.t t\\LocaleData\\de\\.svn\\prop-base\\*.t t\\LocaleData\\de\\.svn\\props\\*.t t\\LocaleData\\de\\.svn\\tmp\\*.t t\\LocaleData\\de\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\de\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\de\\.svn\\tmp\\props\\*.t t\\LocaleData\\de\\LC_MESSAGES\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\text-base\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\prop-base\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\props\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\tmp\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\tmp\\props\\*.t t\\LocaleData\\ru\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\text-base\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\prop-base\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\props\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\tmp\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\tmp\\props\\*.t t\\LocaleData\\ru\\.svn\\*.t t\\LocaleData\\ru\\.svn\\text-base\\*.t t\\LocaleData\\ru\\.svn\\prop-base\\*.t t\\LocaleData\\ru\\.svn\\props\\*.t t\\LocaleData\\ru\\.svn\\tmp\\*.t t\\LocaleData\\ru\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\ru\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\ru\\.svn\\tmp\\props\\*.t',
+          'TESTS' => 't\\*.t t\\.svn\\*.t t\\.svn\\text-base\\*.t t\\.svn\\prop-base\\*.t t\\.svn\\props\\*.t t\\.svn\\tmp\\*.t t\\.svn\\tmp\\text-base\\*.t t\\.svn\\tmp\\prop-base\\*.t t\\.svn\\tmp\\props\\*.t t\\LocaleData\\*.t t\\LocaleData\\.svn\\*.t t\\LocaleData\\.svn\\text-base\\*.t t\\LocaleData\\.svn\\prop-base\\*.t t\\LocaleData\\.svn\\props\\*.t t\\LocaleData\\.svn\\tmp\\*.t t\\LocaleData\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\.svn\\tmp\\props\\*.t t\\LocaleData\\ru\\*.t t\\LocaleData\\ru\\.svn\\*.t t\\LocaleData\\ru\\.svn\\text-base\\*.t t\\LocaleData\\ru\\.svn\\prop-base\\*.t t\\LocaleData\\ru\\.svn\\props\\*.t t\\LocaleData\\ru\\.svn\\tmp\\*.t t\\LocaleData\\ru\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\ru\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\ru\\.svn\\tmp\\props\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\text-base\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\prop-base\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\props\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\tmp\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\.svn\\tmp\\props\\*.t t\\LocaleData\\de\\*.t t\\LocaleData\\de\\.svn\\*.t t\\LocaleData\\de\\.svn\\text-base\\*.t t\\LocaleData\\de\\.svn\\prop-base\\*.t t\\LocaleData\\de\\.svn\\props\\*.t t\\LocaleData\\de\\.svn\\tmp\\*.t t\\LocaleData\\de\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\de\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\de\\.svn\\tmp\\props\\*.t t\\LocaleData\\de\\LC_MESSAGES\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\text-base\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\prop-base\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\props\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\tmp\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\tmp\\text-base\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\tmp\\prop-base\\*.t t\\LocaleData\\de\\LC_MESSAGES\\.svn\\tmp\\props\\*.t',
           'PL_FILES' => {},
           'INSTALLDIRS' => 'site',
           'NAME' => 'Locale::TextDomain::OO',
           'EXE_FILES' => [],
           'VERSION_FROM' => 'lib/Locale/TextDomain/OO.pm',
           'PREREQ_PM' => {
-                           'Test::Simple' => 0,
+                           'Locale::Messages' => '1.2',
                            'Test::NoWarnings' => 0,
+                           'Encode' => 0,
                            'I18N::LangTags' => 0,
                            'Test::Deep' => 0,
                            'Safe' => 0,
                            'DBI' => 0,
                            'parent' => 0,
                            'Test::Exception' => 0,
+                           'English' => 0,
                            'version' => 0,
                            'Tie::Sub' => '0.09',
-                           'Data::Dumper' => 0,
+                           'DBD::PO::Locale::PO' => 0,
+                           'Carp' => 0,
+                           'Test::More' => 0,
                            'Perl6::Export::Attrs' => 0,
                            'Test::Differences' => 0,
-                           'libintl-perl' => '1.2',
-                           'DBD::PO' => '2.09'
+                           'I18N::LangTags::Detect' => 0,
+                           'DBD::PO' => '2.09',
+                           'Cwd' => 0
                          }
         )
 ;
