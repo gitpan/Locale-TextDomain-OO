@@ -11,6 +11,7 @@ use English qw(-no_match_vars $OS_ERROR);
 use Encode qw(encode decode);
 require Locale::TextDomain::OO;
 
+local $ENV{LANG} = (); # for author test only
 local $ENV{LANGUAGE}
     = Locale::TextDomain::OO
     ->get_default_language_detect()
@@ -37,7 +38,7 @@ binmode STDOUT, ':encoding(utf-8)'
         'This are German umlauts: ä ö ü ß Ä Ö Ü.',
     );
 
-# $Id: 13_gettext_mo_cp1252.pl 295 2010-01-17 16:54:27Z steffenw $
+# $Id: 13_gettext_mo_cp1252.pl 351 2010-05-13 06:18:04Z steffenw $
 
 __END__
 

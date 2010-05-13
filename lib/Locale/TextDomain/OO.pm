@@ -3,7 +3,7 @@ package Locale::TextDomain::OO;
 use strict;
 use warnings;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 use Carp qw(croak);
 use Cwd qw(abs_path);
@@ -105,7 +105,7 @@ sub _set_gettext_package {
     if ( ! $gettext_package ) {
         # Try to load the XS version first.
         my $version_ok = eval <<'EOC';  ## no critic (StringyEval)
-            require 'Locale::gettext_xs';
+            # require 'Locale::gettext_xs'; # is damaged at the moment
             Locale::gettext_xs::__gettext_xs_version() >= 1.20;
 EOC
         $EVAL_ERROR
@@ -470,13 +470,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 302 2010-01-20 06:13:01Z steffenw $
+$Id: OO.pm 354 2010-05-13 08:10:21Z steffenw $
 
 $HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-0.06
+0.07
 
 =head1 DESCRIPTION
 

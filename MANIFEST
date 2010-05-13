@@ -29,9 +29,7 @@ lib/Locale/TextDomain/OO/FunctionalInterface.pm
 lib/Locale/TextDomain/OO/Maketext.pm
 lib/Locale/TextDomain/OO/MessagesStruct.pm
 lib/Locale/TextDomain/OO/TiedInterface.pm
-Locale-Text-Domain-OO.bat
 MANIFEST			This list of files
-MANIFEST.SKIP
 README
 t/01_locale_textdomian_utf-8.t
 t/11_basics.t

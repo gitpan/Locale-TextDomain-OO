@@ -3,9 +3,9 @@
 use strict;
 use warnings;
 
+use Cwd qw(getcwd);
 use File::Find;
 use Test::More;
-use Cwd qw(getcwd);
 
 $ENV{TEST_AUTHOR}
     or plan skip_all => 'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.';
@@ -27,8 +27,11 @@ find(
         untaint         => 1,
         wanted          => sub {
             -d and return;
-            $File::Find::name =~ m{/ \.svn /}xms
-                and return;
+            $File::Find::name =~ m{
+                / \.svn /
+                | / \.git /
+                | / \.gitignore \z
+            }xms and return;
             $File::Find::name =~ m{\. (?: [pm]o )\z}xms
                 and return;
             $File::Find::name =~ m{
@@ -56,7 +59,7 @@ my @ignore_non_ascii = (
 for my $file_name (sort @list) {
     my @lines;
     {
-        open my $file, '<: raw', $file_name
+        open my $file, '< :raw', $file_name
             or die "Cannnot open file $file_name";
         local $/ = ();
         my $text = <$file>;
