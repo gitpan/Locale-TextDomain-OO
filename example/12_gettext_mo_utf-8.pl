@@ -1,49 +1,100 @@
-#!perl -T
+#!perl -T ## no critic (TidyCode)
 
 use strict;
 use warnings;
 use utf8;
+use Carp qw(confess);
+use English qw(-no_match_vars $OS_ERROR);
+use Locale::TextDomain::OO;
+use Locale::TextDomain::OO::Lexicon::File::MO;
 
 our $VERSION = 0;
 
-use Carp qw(croak);
-use English qw(-no_match_vars $OS_ERROR);
-use Encode qw(encode_utf8 decode_utf8);
-require Locale::TextDomain::OO;
-
-local $ENV{LANGUAGE}
-    = Locale::TextDomain::OO
-    ->get_default_language_detect()
-    ->('ru');
-my $text_domain = 'example';
+Locale::TextDomain::OO::Lexicon::File::MO
+    ->new(
+        logger => sub { () = print shift, "\n" },
+    )
+    ->lexicon_ref({
+        search_dirs => [ './LocaleData' ],
+        decode      => 1, # from UTF-8, see header of po/mo file
+        data        => [
+            # map category and domain to q{}
+            '*::' => '*/LC_MESSAGES/example.mo',
+        ],
+    });
 
 my $loc = Locale::TextDomain::OO->new(
-    text_domain => $text_domain,
-    search_dirs => [qw(./LocaleData/)],
-    # input filter
-    input_filter => \&encode_utf8,
-    # output filter
-    filter       => \&decode_utf8,
+    language => 'ru',
+    logger   => sub { () = print shift, "\n" },
+    plugins  => [ qw( Expand::Gettext ) ],
 );
 
 # all unicode chars encode to UTF-8
 binmode STDOUT, ':encoding(utf-8)'
-    or croak "Binmode STDOUT\n$OS_ERROR";
+    or confess "Binmode STDOUT\n$OS_ERROR";
 
-# run all translations
+# run translations
 () = print map {"$_\n"}
     $loc->__(
         'book',
     ),
-    $loc->__(
-        '§ book',
+    $loc->__nx(
+        '{count} book',
+        '{count} books',
+        1,
+        count => 1,
+    ),
+    $loc->__nx(
+        '{count} book',
+        '{count} books',
+        3, ## no critic (MagicNumbers)
+        count => 3,
+    ),
+    $loc->__nx(
+        '{count} book',
+        '{count} books',
+        5, ## no critic (MagicNumbers)
+        count => 5,
+    ),
+    $loc->__p(
+        'appointment',
+        'date',
+    ),
+    $loc->__npx(
+        'appointment',
+        'This is {num} date.',
+        'This are {num} dates.',
+        1,
+        num => 1,
+    ),
+    $loc->__npx(
+        'appointment',
+        'This is {num} date.',
+        'This are {num} dates.',
+        3, ## no critic (MagicNumbers)
+        num => 3,
+    ),
+    $loc->__npx(
+        'appointment',
+        'This is {num} date.',
+        'This are {num} dates.',
+        5, ## no critic (MagicNumbers)
+        num => 5,
     );
 
-# $Id: 12_gettext_mo_utf-8.pl 295 2010-01-17 16:54:27Z steffenw $
+# $Id: 12_gettext_mo_utf-8.pl 433 2013-12-19 15:37:45Z steffenw $
 
 __END__
 
 Output:
 
+Lexicon "de::" loaded from file "LocaleData/de/LC_MESSAGES/example.mo"
+Lexicon "ru::" loaded from file "LocaleData/ru/LC_MESSAGES/example.mo"
 книга
-§ книга
+1 книга
+3 книги
+5 книг
+воссоединение
+Это 1 воссоединение.
+Это 3 воссоединения.
+Эти 5 воссоединения.

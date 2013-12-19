@@ -1,0 +1,154 @@
+{
+   "abstract" : "Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation",
+   "author" : [
+      "Steffen Winkler <steffenw at cpan.org>"
+   ],
+   "dynamic_config" : 1,
+   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.132140",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Locale-TextDomain-OO",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Cwd" : "0",
+            "Test::Deep" : "0",
+            "Test::Differences" : "0",
+            "Test::Exception" : "0",
+            "Test::NoWarnings" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.38"
+         }
+      },
+      "runtime" : {
+         "recommends" : {
+            "Pod::Coverage::Moose" : "0",
+            "Test::Pod" : "1.14",
+            "Test::Pod::Coverage" : "1.04"
+         },
+         "requires" : {
+            "Carp" : "0",
+            "Encode" : "0",
+            "English" : "0",
+            "File::Spec" : "0",
+            "JSON" : "0",
+            "List::MoreUtils" : "0",
+            "Locale::MO::File" : "0",
+            "Locale::Utils::PlaceholderMaketext" : "0",
+            "Locale::Utils::PlaceholderNamed" : "0",
+            "Moo" : "0",
+            "Moo::Role" : "0",
+            "MooX::StrictConstructor" : "0",
+            "MooX::Types::MooseLike::Base" : "0",
+            "Path::Class" : "0",
+            "Path::Class::Rule" : "0",
+            "Safe" : "0",
+            "Tie::Sub" : "0.09",
+            "charnames" : "0",
+            "namespace::autoclean" : "0",
+            "perl" : "5.006"
+         }
+      }
+   },
+   "provides" : {
+      "Locale::TextDomain::OO" : {
+         "file" : "lib/Locale/TextDomain/OO.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::FunctionalInterface" : {
+         "file" : "lib/Locale/TextDomain/OO/FunctionalInterface.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Lexicon::File::MO" : {
+         "file" : "lib/Locale/TextDomain/OO/Lexicon/File/MO.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Lexicon::Hash" : {
+         "file" : "lib/Locale/TextDomain/OO/Lexicon/Hash.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Lexicon::Role::Constants" : {
+         "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/Constants.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Lexicon::Role::ExtractHeader" : {
+         "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/ExtractHeader.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Lexicon::Role::File" : {
+         "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/File.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Lexicon::Role::GettextToMaketext" : {
+         "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/GettextToMaketext.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Lexicon::Role::StoreFile" : {
+         "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/StoreFile.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Lexicon::Role::StoreFilter" : {
+         "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/StoreFilter.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Lexicon::StoreJSON" : {
+         "file" : "lib/Locale/TextDomain/OO/Lexicon/StoreJSON.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Plugin::Expand::Gettext" : {
+         "file" : "lib/Locale/TextDomain/OO/Plugin/Expand/Gettext.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Plugin::Expand::Gettext::DomainAndCategory" : {
+         "file" : "lib/Locale/TextDomain/OO/Plugin/Expand/Gettext/DomainAndCategory.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Plugin::Expand::Maketext" : {
+         "file" : "lib/Locale/TextDomain/OO/Plugin/Expand/Maketext.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Plugin::Expand::Maketext::Loc" : {
+         "file" : "lib/Locale/TextDomain/OO/Plugin/Expand/Maketext/Loc.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Plugin::Expand::Maketext::Localize" : {
+         "file" : "lib/Locale/TextDomain/OO/Plugin/Expand/Maketext/Localize.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Plugin::Language::LanguageOfLanguages" : {
+         "file" : "lib/Locale/TextDomain/OO/Plugin/Language/LanguageOfLanguages.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Role::Logger" : {
+         "file" : "lib/Locale/TextDomain/OO/Role/Logger.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Singleton::Lexicon" : {
+         "file" : "lib/Locale/TextDomain/OO/Singleton/Lexicon.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::TiedInterface" : {
+         "file" : "lib/Locale/TextDomain/OO/TiedInterface.pm",
+         "version" : "1.000"
+      },
+      "Locale::TextDomain::OO::Translator" : {
+         "file" : "lib/Locale/TextDomain/OO/Translator.pm",
+         "version" : "1.000"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "1.000"
+}
