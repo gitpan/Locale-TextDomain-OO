@@ -13,7 +13,7 @@ use Path::Class qw(file);
 use Path::Class::Rule;
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.002';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::ExtractHeader
@@ -116,7 +116,7 @@ sub _my_glob {
         or confess qq{Can not open directory "$left_dir" $OS_ERROR};
     my @inner_dirs = grep {
         ! m{\A [.]{1,2} \z}xms
-        && m{\A $inner_dir_regex \E}xms;
+        && m{\A $inner_dir_regex \z}xms;
     } readdir $dirh;
 
     return map {
@@ -185,13 +185,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::File - Helper role to add lexicon from file
 
-$Id: File.pm 419 2013-10-31 07:02:59Z steffenw $
+$Id: File.pm 445 2013-12-20 08:47:49Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/File.pm $
 
 =head1 VERSION
 
-1.000
+1.002
 
 =head1 DESCRIPTION
 

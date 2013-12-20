@@ -102,7 +102,7 @@ __END__
 
 Locale::TextDomain::OO::Plugin::Expand::Gettext - Additional gettext methods
 
-$Id: Gettext.pm 439 2013-12-19 20:42:34Z steffenw $
+$Id: Gettext.pm 444 2013-12-20 07:28:03Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Gettext.pm $
 
@@ -251,7 +251,7 @@ Use N__ and append this with "n", "p" and/or "x" in alphabetic order.
 =head3 methods N__, N__x, N__n, N__nx, N__p, N__px, N__np, N__npx
 
 The extractor looks for C<__('...>
-and has no problem with C<<$loc->N__('...>>.
+and has no problem with C<< $loc->N__('... >>.
 
 This is the idea of the N-Methods.
 
