@@ -27,7 +27,7 @@ __END__
 
 Locale::TextDomain::OO::Plugin::Expand::Maketext::Localize - Alternative maketext methods
 
-$Id: Localize.pm 419 2013-10-31 07:02:59Z steffenw $
+$Id: Localize.pm 439 2013-12-19 20:42:34Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Maketext/Localize.pm $
 
@@ -51,7 +51,7 @@ This module provides alternative maketext methods.
 
 =head1 SUBROUTINES/METHODS
 
-=head2 method localize, localize_p, Nlocalize, Nlocalize_p
+=head2 methods localize, localize_p, Nlocalize, Nlocalize_p
 
 This methods are aliases to method
 maketext, maketext_p, Nmaketext and Nmaketext_p.

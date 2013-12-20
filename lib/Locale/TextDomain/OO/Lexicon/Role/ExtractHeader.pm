@@ -134,7 +134,7 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::ExtractHeader - Gettext header extractor
 
-$Id: ExtractHeader.pm 433 2013-12-19 15:37:45Z steffenw $
+$Id: ExtractHeader.pm 439 2013-12-19 20:42:34Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/ExtractHeader.pm $
 
@@ -189,9 +189,13 @@ none
 L<Carp|Carp>
 
 L<English|English>
+
 L<Moo::Role|Moo::Role>
+
 L<Safe|Safe>
+
 L<namespace::autoclean|namespace::autoclean>
+
 L<Locale::TextDomain::OO::Lexicon::Role::Constants|Locale::TextDomain::OO::Lexicon::Role::Constants>
 
 =head1 INCOMPATIBILITIES

@@ -64,7 +64,7 @@ __END__
 
 Locale::TextDomain::OO::Plugin::Expand::Maketext - Additional maketext methods
 
-$Id: Maketext.pm 417 2013-10-30 13:52:26Z steffenw $
+$Id: Maketext.pm 439 2013-12-19 20:42:34Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Maketext.pm $
 
@@ -139,7 +139,7 @@ This method includes the expansion as 'quant' or '*'.
         $books,
     );
 
-=head2 method Nmaketext, Nmaketext_p
+=head2 methods Nmaketext, Nmaketext_p
 
 The extractor looks for C<maketext('...>
 and has no problem with C<<$loc->Nmaketext('...>>.

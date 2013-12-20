@@ -18,14 +18,15 @@ WriteMakefile
                    'Locale::Utils::PlaceholderNamed' => 0,
                    'Moo' => 0,
                    'Moo::Role' => 0,
+                   'MooX::Singleton' => 0,
                    'MooX::StrictConstructor' => 0,
                    'MooX::Types::MooseLike::Base' => 0,
                    'Path::Class' => 0,
                    'Path::Class::Rule' => 0,
                    'Safe' => 0,
-                   'Test::Deep' => 0,
-                   'Test::Differences' => 0,
+                   'Test::Differences' => '0.60',
                    'Test::Exception' => 0,
+                   'Test::More' => 0,
                    'Test::NoWarnings' => 0,
                    'Tie::Sub' => '0.09',
                    'charnames' => 0,
@@ -33,9 +34,6 @@ WriteMakefile
                  },
   'INSTALLDIRS' => 'site',
   'EXE_FILES' => [],
-  'PL_FILES' => {},
-  'test' => {
-              'TESTS' => 't\\*.t t\\LocaleData\\*.t t\\LocaleData\\de\\*.t t\\LocaleData\\de\\LC_MESSAGES\\*.t t\\LocaleData\\de\\LC_MULTIPLURAL2\\*.t t\\LocaleData\\ru\\*.t t\\LocaleData\\ru\\LC_MESSAGES\\*.t'
-            }
+  'PL_FILES' => {}
 )
 ;

@@ -52,7 +52,7 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::StoreFile - Role to store a lexicon as file
 
-$Id: StoreFile.pm 433 2013-12-19 15:37:45Z steffenw $
+$Id: StoreFile.pm 439 2013-12-19 20:42:34Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/StoreFile.pm $
 
@@ -86,12 +86,12 @@ If both not set the content itself will be returned.
 
     $content = $self->store_content($content);
 
-=head2 filename
+=head2 method filename
 
     $self->filename('myfile.myext')
     $self->store_content;
 
-=head2 file_handle
+=head2 method file_handle
 
 Set filename also to get a speaking error messages.
 Must not a real filename if the handle is not a real file.

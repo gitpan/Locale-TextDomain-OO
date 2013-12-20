@@ -3,7 +3,7 @@ package Locale::TextDomain::OO; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '1.000';
+our $VERSION = '1.001';
 
 use Locale::TextDomain::OO::Translator;
 
@@ -23,13 +23,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 431 2013-12-16 21:42:20Z steffenw $
+$Id: OO.pm 440 2013-12-20 05:51:56Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-1.000
+1.001
 
 Starting with version 1.000 the interface has changed.
 
@@ -258,7 +258,7 @@ That depends on your project.
     $loc->category($category || q{} );
     $category = $loc->category;
 
-=head2 method domain => (
+=head2 method domain
 
 You are able to ignore or set the domain.
 That depends on your project.

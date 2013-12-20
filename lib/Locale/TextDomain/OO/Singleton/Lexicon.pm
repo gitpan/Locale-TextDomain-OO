@@ -41,7 +41,7 @@ __END__
 
 Locale::TextDomain::OO::Singleton::Lexicon - Provides singleton lexicon access
 
-$Id: Lexicon.pm 428 2013-11-18 10:11:56Z steffenw $
+$Id: Lexicon.pm 439 2013-12-19 20:42:34Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Singleton/Lexicon.pm $
 
@@ -89,6 +89,8 @@ L<Moo|Moo>
 L<MooX::StrictConstructor|MooX::StrictConstructor>
 
 L<namespace::autoclean|namespace::autoclean>
+
+L<Locale::TextDomain::OO::Lexicon::Role::Constants|Locale::TextDomain::OO::Lexicon::Role::Constants>
 
 L<MooX::Singleton|MooX::Singleton>
 
