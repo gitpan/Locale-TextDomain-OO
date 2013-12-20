@@ -61,7 +61,7 @@
    "provides" : {
       "Locale::TextDomain::OO" : {
          "file" : "lib/Locale/TextDomain/OO.pm",
-         "version" : "1.002"
+         "version" : "1.003"
       },
       "Locale::TextDomain::OO::FunctionalInterface" : {
          "file" : "lib/Locale/TextDomain/OO/FunctionalInterface.pm",
@@ -85,7 +85,7 @@
       },
       "Locale::TextDomain::OO::Lexicon::Role::File" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/File.pm",
-         "version" : "1.002"
+         "version" : "1.003"
       },
       "Locale::TextDomain::OO::Lexicon::Role::GettextToMaketext" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/GettextToMaketext.pm",
@@ -150,5 +150,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "1.002"
+   "version" : "1.003"
 }

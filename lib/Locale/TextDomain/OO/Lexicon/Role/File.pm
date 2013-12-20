@@ -13,7 +13,7 @@ use Path::Class qw(file);
 use Path::Class::Rule;
 use namespace::autoclean;
 
-our $VERSION = '1.002';
+our $VERSION = '1.003';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::ExtractHeader
@@ -143,7 +143,8 @@ sub lexicon_ref {
                 = ( $data->[ $index++ ], $data->[ $index++ ] );
             my $file = file( $dir, $lexicon_value );
             my @files = $self->_my_glob($file);
-            for my $filename ( @files ) {
+            for ( @files ) {
+                my $filename = $_->stringify;
                 my $lexicon_language_key = $lexicon_key;
                 my $language = $filename;
                 my @parts = split m{[*]}xms, $file;
@@ -152,7 +153,7 @@ sub lexicon_ref {
                     substr $language, - length $parts[1], length $parts[1], q{};
                     $lexicon_language_key =~s {[*]}{$language}xms;
                 }
-                my $messages = $self->read_messages( $filename->stringify );
+                my $messages = $self->read_messages($filename);
                 my $header_msgstr = $messages->[0]->{msgstr}
                     or confess 'msgstr of header not found';
                 my $header = $messages->[0];
@@ -185,13 +186,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::File - Helper role to add lexicon from file
 
-$Id: File.pm 445 2013-12-20 08:47:49Z steffenw $
+$Id: File.pm 449 2013-12-20 11:59:30Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/File.pm $
 
 =head1 VERSION
 
-1.002
+1.003
 
 =head1 DESCRIPTION
 
