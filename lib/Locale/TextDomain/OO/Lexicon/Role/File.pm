@@ -3,7 +3,7 @@ package Locale::TextDomain::OO::Lexicon::Role::File; ## no critic (TidyCode)
 use strict;
 use warnings;
 use Carp qw(confess);
-use Encode qw(decode decode_utf8);
+use Encode qw(decode FB_CROAK);
 use English qw(-no_match_vars $OS_ERROR);
 use File::Spec;
 use Locale::TextDomain::OO::Singleton::Lexicon;
@@ -13,7 +13,7 @@ use Path::Class qw(file);
 use Path::Class::Rule;
 use namespace::autoclean;
 
-our $VERSION = '1.003';
+our $VERSION = '1.004';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::ExtractHeader
@@ -35,9 +35,7 @@ has decode_code => (
             defined $text
                 or return $text;
 
-            return $charset eq 'utf-8'
-                ? decode_utf8($text)
-                : decode( $charset, $text );
+            return decode( $charset, $text, FB_CROAK );
         };
     },
 );
@@ -186,13 +184,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::File - Helper role to add lexicon from file
 
-$Id: File.pm 449 2013-12-20 11:59:30Z steffenw $
+$Id: File.pm 452 2013-12-21 06:12:01Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/File.pm $
 
 =head1 VERSION
 
-1.003
+1.004
 
 =head1 DESCRIPTION
 
