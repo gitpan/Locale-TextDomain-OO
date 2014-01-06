@@ -48,8 +48,7 @@
             "MooX::Singleton" : "0",
             "MooX::StrictConstructor" : "0",
             "MooX::Types::MooseLike::Base" : "0",
-            "Path::Class" : "0",
-            "Path::Class::Rule" : "0",
+            "Path::Tiny" : "0.051",
             "Safe" : "0",
             "Tie::Sub" : "0.09",
             "charnames" : "0",
@@ -61,7 +60,7 @@
    "provides" : {
       "Locale::TextDomain::OO" : {
          "file" : "lib/Locale/TextDomain/OO.pm",
-         "version" : "1.004"
+         "version" : "1.005"
       },
       "Locale::TextDomain::OO::FunctionalInterface" : {
          "file" : "lib/Locale/TextDomain/OO/FunctionalInterface.pm",
@@ -69,11 +68,11 @@
       },
       "Locale::TextDomain::OO::Lexicon::File::MO" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/File/MO.pm",
-         "version" : "1.000"
+         "version" : "1.005"
       },
       "Locale::TextDomain::OO::Lexicon::Hash" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Hash.pm",
-         "version" : "1.000"
+         "version" : "1.005"
       },
       "Locale::TextDomain::OO::Lexicon::Role::Constants" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/Constants.pm",
@@ -85,7 +84,7 @@
       },
       "Locale::TextDomain::OO::Lexicon::Role::File" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/File.pm",
-         "version" : "1.004"
+         "version" : "1.005"
       },
       "Locale::TextDomain::OO::Lexicon::Role::GettextToMaketext" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/GettextToMaketext.pm",
@@ -129,7 +128,7 @@
       },
       "Locale::TextDomain::OO::Role::Logger" : {
          "file" : "lib/Locale/TextDomain/OO/Role/Logger.pm",
-         "version" : "1.000"
+         "version" : "1.005"
       },
       "Locale::TextDomain::OO::Singleton::Lexicon" : {
          "file" : "lib/Locale/TextDomain/OO/Singleton/Lexicon.pm",
@@ -141,7 +140,7 @@
       },
       "Locale::TextDomain::OO::Translator" : {
          "file" : "lib/Locale/TextDomain/OO/Translator.pm",
-         "version" : "1.000"
+         "version" : "1.005"
       }
    },
    "release_status" : "stable",
@@ -150,5 +149,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "1.004"
+   "version" : "1.005"
 }

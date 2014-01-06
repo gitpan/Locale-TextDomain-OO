@@ -21,14 +21,12 @@ my $loc = Locale::TextDomain::OO->new(
     $loc->__('Hello World 1!'),
     $loc->__('Hello World 2!');
 
-#$Id: 02_filter.pl 433 2013-12-19 15:37:45Z steffenw $
+#$Id: 02_filter.pl 456 2014-01-05 16:29:05Z steffenw $
 
 __END__
 
 Output:
 
-Using lexicon "i-default::". msgstr not found for msgctxt=undef, msgid="Hello World 1!".
-Using lexicon "i-default::". msgstr not found for msgctxt=undef, msgid="Hello World 2!".
 Hello World 1! filter added: i-default
 Hello World 2! filter added: i-default
 

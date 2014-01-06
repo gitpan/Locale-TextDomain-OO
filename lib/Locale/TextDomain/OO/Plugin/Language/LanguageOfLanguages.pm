@@ -42,12 +42,28 @@ sub _trigger_languages { ## no critic (UnusedPrivateSubroutines)
             if ( $key eq $lexicon_key ) {
                $self->language( lc $language );
                $self->logger
-                   and $self->logger->( qq{Language "\l$language" selected.} );
+                    and $self->logger->(
+                        qq{Language "\l$language" selected.},
+                        {
+                            object => $self,
+                            type   => 'info',
+                            event  => 'language,selection',
+                        },
+                    );
                return $self;
             }
         }
     }
     $self->language('i-default');
+    $self->logger
+        and $self->logger->(
+            'Fallback language "i-default" selected.',
+            {
+                object => $self,
+                type   => 'warn',
+                event  => 'language,selection,fallback',
+            },
+        );
 
     return $self;
 }
@@ -60,7 +76,7 @@ __END__
 
 Locale::TextDomain::OO::Plugin::Language::LanguageOfLanguages - Select a language of a list
 
-$Id: LanguageOfLanguages.pm 419 2013-10-31 07:02:59Z steffenw $
+$Id: LanguageOfLanguages.pm 456 2014-01-05 16:29:05Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Language/LanguageOfLanguages.pm $
 

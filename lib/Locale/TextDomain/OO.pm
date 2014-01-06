@@ -3,7 +3,7 @@ package Locale::TextDomain::OO; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '1.004';
+our $VERSION = '1.005';
 
 use Locale::TextDomain::OO::Translator;
 
@@ -23,13 +23,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 450 2013-12-20 12:03:17Z steffenw $
+$Id: OO.pm 457 2014-01-06 13:27:38Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-1.004
+1.005
 
 Starting with version 1.000 the interface has changed.
 
@@ -162,9 +162,9 @@ Run the examples of this distribution (folder example).
  `-----------------------------------------------------------'
                             ^
                             |
- .--------------------------'-------------------.
- | Locale::Text::Domain::OO::Singleton::Lexicon |----------------------.
- `----------------------------------------------'                      |
+ .--------------------------'-----------------.
+ | Locale::TextDomain::OO::Singleton::Lexicon |------------------------.
+ `--------------------------------------------'                        |
                             ^                                          |
                             |                                          |
  .--------------------------'-------------------------------.          |
@@ -225,7 +225,13 @@ Run the examples of this distribution (folder example).
             # encode if needed
             # run a formatter if needed, e.g.
             ${$translation_ref} =~ s{__ ( .+? ) __}{<b>$1</b>}xmsg;
-            return $self;
+            return;
+        },
+        logger   => sub {
+            my ($message, $arg_ref) = @_;
+            my $type = $arg_ref->{type}; # info, warn or error
+            Log::Log4perl->get_logger(...)->$type($message);
+            return;
         },
     );
 
@@ -277,12 +283,32 @@ You are allowed to run code after each translation.
         # manipulate ${$translation_ref}
         # do not undef ${$translation_ref}
 
-        return $self;
+        return;
     } );
 
 Switch off the filter
 
     $loc->filter(undef);
+
+=head2 method logger
+
+Set the logger
+
+    $loc->logger(
+        sub {
+            my ($message, $arg_ref) = @_;
+            my $type = $arg_ref->{type};
+            Log::Log4perl->get_logger(...)->$type($message);
+            return;
+        },
+    );
+
+$arg_ref contains
+
+    object => $loc, # the object itself
+    type   => 'info', # 'warn' or 'error'
+    event  => 'language,selection', # 'language,selection,fallback' 
+                                    # or 'translation,fallback'
 
 =head2 method translate
 
@@ -385,7 +411,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2009 - 2013,
+Copyright (c) 2009 - 2014,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

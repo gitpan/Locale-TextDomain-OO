@@ -8,7 +8,7 @@ use Moo;
 use MooX::StrictConstructor;
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.005';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::ExtractHeader
@@ -42,7 +42,14 @@ sub lexicon_ref {
         $lexicon->data->{$lexicon_key}
             = $self->message_array_to_hash($lexicon_value);
         $self->logger
-            and $self->logger->( qq{Lexicon "$lexicon_key" loaded from hash.} );
+            and $self->logger->(
+                qq{Lexicon "$lexicon_key" loaded from hash.},
+                {
+                    object => $self,
+                    type   => 'info',
+                    event  => 'lexicon,load',
+                },
+            );
     }
 
     return;
@@ -56,13 +63,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Hash - Lexicon from data structure
 
-$Id: Hash.pm 419 2013-10-31 07:02:59Z steffenw $
+$Id: Hash.pm 457 2014-01-06 13:27:38Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Hash.pm $
 
 =head1 VERSION
 
-1.000
+1.005
 
 =head1 DESCRIPTION
 
@@ -72,7 +79,17 @@ This module allows to create a lexicon from data structure.
 
     require Locale::TextDomain::OO::Lexicon::Hash;
 
-    Locale::TextDomain::OO::Lexicon::Hash->new->lexicon_ref({ ... });
+    Locale::TextDomain::OO::Lexicon::Hash
+        ->new(
+            # all parameters are optional
+            logger => sub {
+                my ($message, $arg_ref) = @_;
+                my $type = $arg_ref->{type}; # info, warn or error
+                Log::Log4perl->get_logger(...)->$type($message);
+                return;
+            },
+        )
+        ->lexicon_ref({ ... });
 
 =head1 SUBROUTINES/METHODS
 
@@ -132,6 +149,25 @@ are written as key "msgstr_plural" with an array reference as value.
         ],
     });
 
+=head2 method logger
+
+Set the logger
+
+    $lexicon_hash->logger(
+        sub {
+            my ($message, $arg_ref) = @_;
+            my $type = $arg_ref->{type};
+            Log::Log4perl->get_logger(...)->$type($message);
+            return;
+        },
+    );
+
+$arg_ref contains
+
+    object => $lexicon_hash, # the object itself
+    type   => 'info',
+    event  => 'lexicon,load',
+
 =head1 EXAMPLE
 
 Inside of this distribution is a directory named example.
@@ -179,7 +215,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2013,
+Copyright (c) 2013 - 2014,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

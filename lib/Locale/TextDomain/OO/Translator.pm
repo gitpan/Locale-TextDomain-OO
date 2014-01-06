@@ -9,7 +9,7 @@ use MooX::StrictConstructor;
 use MooX::Types::MooseLike::Base qw(Str);
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.005';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::Constants
@@ -118,17 +118,22 @@ sub translate { ## no critic (ExcessComplexity ManyArgs)
             my $text = $lexicon
                 ? qq{Using lexicon "$lexicon_key".}
                 : qq{Lexicon "$lexicon_key" not found.};
-            $self->logger
-                and $lexicon
-                    ? $self->logger->( qq{Using lexicon "$lexicon_key".} )
-                    : $self->logger->( qq{Lexicon "$lexicon_key" not found.} );
-            $self->logger
+            $self->language ne 'i-default'
+                and $self->logger
                 and $self->logger->(
-                    sprintf
-                        'msgstr_plural not found for for msgctxt=%s, msgid=%s, msgid_plural=%s.',
-                        ( defined $msgctxt      ? qq{"$msgctxt"}      : 'undef' ),
-                        ( defined $msgid        ? qq{"$msgid"}        : 'undef' ),
-                        ( defined $msgid_plural ? qq{"$msgid_plural"} : 'undef' ),
+                    (
+                        sprintf
+                            '%s msgstr_plural not found for for msgctxt=%s, msgid=%s, msgid_plural=%s.',
+                            $text,
+                            ( defined $msgctxt      ? qq{"$msgctxt"}      : 'undef' ),
+                            ( defined $msgid        ? qq{"$msgid"}        : 'undef' ),
+                            ( defined $msgid_plural ? qq{"$msgid_plural"} : 'undef' ),
+                    ),
+                    {
+                        object => $self,
+                        type   => 'warn',
+                        event  => 'translation,fallback',
+                    },
                 );
         }
         return $msgstr_plural;
@@ -141,13 +146,21 @@ sub translate { ## no critic (ExcessComplexity ManyArgs)
         my $text = $lexicon
             ? qq{Using lexicon "$lexicon_key".}
             : qq{Lexicon "$lexicon_key" not found.};
-        $self->logger
+        $self->language ne 'i-default'
+            and $self->logger
             and $self->logger->(
-                sprintf
-                    '%s msgstr not found for msgctxt=%s, msgid=%s.',
-                    $text,
-                    ( defined $msgctxt ? qq{"$msgctxt"} : 'undef' ),
-                    ( defined $msgid   ? qq{"$msgid"}   : 'undef' ),
+                (
+                    sprintf
+                        '%s msgstr not found for msgctxt=%s, msgid=%s.',
+                        $text,
+                        ( defined $msgctxt ? qq{"$msgctxt"} : 'undef' ),
+                        ( defined $msgid   ? qq{"$msgid"}   : 'undef' ),
+                ),
+                {
+                    object => $self,
+                    type  => 'warn',
+                    event => 'translation,fallback',
+                },
             );
     }
 
@@ -174,7 +187,7 @@ __END__
 
 Locale::TextDomain::OO::Translator - Translator class
 
-$Id: Translator.pm 432 2013-12-18 20:32:13Z steffenw $
+$Id: Translator.pm 456 2014-01-05 16:29:05Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Translator.pm $
 
