@@ -37,7 +37,6 @@
             "Carp" : "0",
             "Encode" : "0",
             "English" : "0",
-            "File::Spec" : "0",
             "JSON" : "0",
             "List::MoreUtils" : "0",
             "Locale::MO::File" : "0",
@@ -60,7 +59,7 @@
    "provides" : {
       "Locale::TextDomain::OO" : {
          "file" : "lib/Locale/TextDomain/OO.pm",
-         "version" : "1.005"
+         "version" : "1.006"
       },
       "Locale::TextDomain::OO::FunctionalInterface" : {
          "file" : "lib/Locale/TextDomain/OO/FunctionalInterface.pm",
@@ -68,11 +67,11 @@
       },
       "Locale::TextDomain::OO::Lexicon::File::MO" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/File/MO.pm",
-         "version" : "1.005"
+         "version" : "1.006"
       },
       "Locale::TextDomain::OO::Lexicon::Hash" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Hash.pm",
-         "version" : "1.005"
+         "version" : "1.006"
       },
       "Locale::TextDomain::OO::Lexicon::Role::Constants" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/Constants.pm",
@@ -80,11 +79,11 @@
       },
       "Locale::TextDomain::OO::Lexicon::Role::ExtractHeader" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/ExtractHeader.pm",
-         "version" : "1.000"
+         "version" : "1.006"
       },
       "Locale::TextDomain::OO::Lexicon::Role::File" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/File.pm",
-         "version" : "1.005"
+         "version" : "1.006"
       },
       "Locale::TextDomain::OO::Lexicon::Role::GettextToMaketext" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/GettextToMaketext.pm",
@@ -124,11 +123,11 @@
       },
       "Locale::TextDomain::OO::Plugin::Language::LanguageOfLanguages" : {
          "file" : "lib/Locale/TextDomain/OO/Plugin/Language/LanguageOfLanguages.pm",
-         "version" : "1.000"
+         "version" : "1.006"
       },
       "Locale::TextDomain::OO::Role::Logger" : {
          "file" : "lib/Locale/TextDomain/OO/Role/Logger.pm",
-         "version" : "1.005"
+         "version" : "1.006"
       },
       "Locale::TextDomain::OO::Singleton::Lexicon" : {
          "file" : "lib/Locale/TextDomain/OO/Singleton/Lexicon.pm",
@@ -149,5 +148,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "1.005"
+   "version" : "1.006"
 }

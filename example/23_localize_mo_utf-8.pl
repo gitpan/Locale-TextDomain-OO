@@ -53,14 +53,14 @@ binmode STDOUT, ':encoding(utf-8)'
         'date',
     );
 
-# $Id: 23_localize_mo_utf-8.pl 433 2013-12-19 15:37:45Z steffenw $
+# $Id: 23_localize_mo_utf-8.pl 460 2014-01-06 22:09:01Z steffenw $
 
 __END__
 
 Output:
 
-Lexicon "de::" loaded from file "LocaleData/de/LC_MESSAGES/example.mo"
-Lexicon "ru::" loaded from file "LocaleData/ru/LC_MESSAGES/example.mo"
+Lexicon "de::" loaded from file "LocaleData/de/LC_MESSAGES/example.mo".
+Lexicon "ru::" loaded from file "LocaleData/ru/LC_MESSAGES/example.mo".
 книга
 § книга
 воссоединение

@@ -10,7 +10,6 @@ WriteMakefile
                    'Cwd' => 0,
                    'Encode' => 0,
                    'English' => 0,
-                   'File::Spec' => 0,
                    'JSON' => 0,
                    'List::MoreUtils' => 0,
                    'Locale::MO::File' => 0,

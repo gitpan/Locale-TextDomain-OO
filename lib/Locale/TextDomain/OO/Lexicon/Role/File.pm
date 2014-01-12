@@ -5,14 +5,13 @@ use warnings;
 use Carp qw(confess);
 use Encode qw(decode FB_CROAK);
 use English qw(-no_match_vars $OS_ERROR);
-use File::Spec;
 use Locale::TextDomain::OO::Singleton::Lexicon;
 use Moo::Role;
 use MooX::Types::MooseLike::Base qw(CodeRef);
 use Path::Tiny qw(path);
 use namespace::autoclean;
 
-our $VERSION = '1.005';
+our $VERSION = '1.006';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::ExtractHeader
@@ -66,7 +65,7 @@ sub _decode_messages {
         }
     }
 
-    return $self;
+    return;
 }
 
 sub _my_glob {
@@ -92,29 +91,18 @@ sub _my_glob {
 
     # one * in dir
     # split that dir into left, inner with * and right
-    my @right_dir = File::Spec->splitdir($dirname);
-    my @left_dir;
-    DIR:
-    while ( 1 ) {
-        my $dir = shift @right_dir;
-        defined $dir
-            or last DIR;
-        push @left_dir, $dir;
-        if ( $dir =~ m{ [*] }xms ) {
-            last DIR;
-        }
-    }
-    my $inner_dir_regex = quotemeta pop @left_dir;
-    $inner_dir_regex =~ s{\\[*]}{.*?}xms;
+    my ( $left_dir, $inner_dir, $right_dir )
+        = split qr{( [^/*]* [*] [^/]* )}xms, $dirname;
+    ( my $inner_dir_regex = quotemeta $inner_dir ) =~ s{\\[*]}{.*?}xms;
     my @left_and_inner_dirs
-        = path(@left_dir)->children( qr{\A $inner_dir_regex \z}xms );
+        = path($left_dir)->children( qr{\A $inner_dir_regex \z}xms );
 
     return
         grep {
             $_->is_file;
         }
         map {
-            path($_, @right_dir, $filename);
+            path($_, $right_dir, $filename);
         } @left_and_inner_dirs;
 }
 
@@ -158,10 +146,10 @@ sub lexicon_ref {
                 $lexicon->data->{$lexicon_language_key} = $messages;
                 $self->logger
                     and $self->logger->(
-                        qq{Lexicon "$lexicon_language_key" loaded from file "$filename"},
+                        qq{Lexicon "$lexicon_language_key" loaded from file "$filename".},
                         {
                             object => $self,
-                            type   => 'info',
+                            type   => 'debug',
                             event  => 'lexicon,load',
                         },
                     );
@@ -180,13 +168,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::File - Helper role to add lexicon from file
 
-$Id: File.pm 457 2014-01-06 13:27:38Z steffenw $
+$Id: File.pm 461 2014-01-09 07:57:37Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/File.pm $
 
 =head1 VERSION
 
-1.005
+1.006
 
 =head1 DESCRIPTION
 
@@ -255,8 +243,6 @@ L<Carp|Carp>
 L<Encode|Encode>
 
 L<English|English>
-
-L<File::Spec|File::Spec>
 
 L<Locale::TextDomain::OO::Singleton::Lexicon|Locale::TextDomain::OO::Singleton::Lexicon>
 

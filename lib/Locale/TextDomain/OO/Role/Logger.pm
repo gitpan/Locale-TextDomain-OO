@@ -6,7 +6,7 @@ use Moo::Role;
 use MooX::Types::MooseLike::Base qw(CodeRef);
 use namespace::autoclean;
 
-our $VERSION = '1.005';
+our $VERSION = '1.006';
 
 has logger => (
     is  => 'rw',
@@ -21,13 +21,13 @@ __END__
 
 Locale::TextDomain::OO::Role::Logger - Provides a logger method
 
-$Id: Logger.pm 457 2014-01-06 13:27:38Z steffenw $
+$Id: Logger.pm 461 2014-01-09 07:57:37Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Role/Logger.pm $
 
 =head1 VERSION
 
-1.005
+1.006
 
 =head1 DESCRIPTION
 
@@ -60,7 +60,7 @@ or why the translation process is using a fallback.
 $arg_ref contains
 
     object => $self, # the object itself
-    type   => 'info', # the log category
+    type   => 'debug', # the log category
     event  => 'lexicon,load', # event category
 
 Get back

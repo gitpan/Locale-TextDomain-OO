@@ -39,11 +39,11 @@ binmode STDOUT, ':encoding(utf-8)'
         'This are German umlauts: ä ö ü ß Ä Ö Ü.',
     );
 
-# $Id: 13_gettext_mo_cp1252.pl 433 2013-12-19 15:37:45Z steffenw $
+# $Id: 13_gettext_mo_cp1252.pl 460 2014-01-06 22:09:01Z steffenw $
 
 __END__
 
 Output:
 
-Lexicon "de::" loaded from file "LocaleData/de/LC_MESSAGES/example_cp1252.mo
+Lexicon "de::" loaded from file "LocaleData/de/LC_MESSAGES/example_cp1252.mo".
 Das sind deutsche Umlaute: ä ö ü ß Ä Ö Ü.

@@ -3,7 +3,7 @@ package Locale::TextDomain::OO; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '1.005';
+our $VERSION = '1.006';
 
 use Locale::TextDomain::OO::Translator;
 
@@ -23,13 +23,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 457 2014-01-06 13:27:38Z steffenw $
+$Id: OO.pm 461 2014-01-09 07:57:37Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-1.005
+1.006
 
 Starting with version 1.000 the interface has changed.
 
@@ -229,7 +229,7 @@ Run the examples of this distribution (folder example).
         },
         logger   => sub {
             my ($message, $arg_ref) = @_;
-            my $type = $arg_ref->{type}; # info, warn or error
+            my $type = $arg_ref->{type}; # debug or warn
             Log::Log4perl->get_logger(...)->$type($message);
             return;
         },
@@ -306,7 +306,7 @@ Set the logger
 $arg_ref contains
 
     object => $loc, # the object itself
-    type   => 'info', # 'warn' or 'error'
+    type   => 'debug', # or 'warn'
     event  => 'language,selection', # 'language,selection,fallback' 
                                     # or 'translation,fallback'
 

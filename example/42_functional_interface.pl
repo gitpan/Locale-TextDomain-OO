@@ -130,15 +130,15 @@ Locale::TextDomain::OO::Lexicon::File::MO
     ),
     __end_d && ();
 
-# $Id: 42_functional_interface.pl 433 2013-12-19 15:37:45Z steffenw $
+# $Id: 42_functional_interface.pl 460 2014-01-06 22:09:01Z steffenw $
 
 __END__
 
 Output:
 
-Lexicon "de:LC_MESSAGES:example" loaded from file "LocaleData/de/LC_MESSAGES/example.mo"
-Lexicon "ru:LC_MESSAGES:example" loaded from file "LocaleData/ru/LC_MESSAGES/example.mo"
-Lexicon "de:LC_MESSAGES:example_maketext" loaded from file "LocaleData/de/LC_MESSAGES/example_maketext.mo"
+Lexicon "de:LC_MESSAGES:example" loaded from file "LocaleData/de/LC_MESSAGES/example.mo".
+Lexicon "ru:LC_MESSAGES:example" loaded from file "LocaleData/ru/LC_MESSAGES/example.mo".
+Lexicon "de:LC_MESSAGES:example_maketext" loaded from file "LocaleData/de/LC_MESSAGES/example_maketext.mo".
 Das ist ein Text.
 Das ist 1 Date.
 Das sind 2 Dates.

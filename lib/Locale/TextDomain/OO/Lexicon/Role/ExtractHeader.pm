@@ -8,7 +8,7 @@ use Moo::Role;
 require Safe;
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.006';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::Constants
@@ -19,7 +19,7 @@ sub _perlify_plural_forms_ref {
 
     ${$plural_forms_ref} =~ s{ \b ( nplurals | plural | n ) \b }{\$$1}xmsg;
 
-    return $self;
+    return;
 }
 
 sub _nplurals {
@@ -134,13 +134,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::ExtractHeader - Gettext header extractor
 
-$Id: ExtractHeader.pm 439 2013-12-19 20:42:34Z steffenw $
+$Id: ExtractHeader.pm 461 2014-01-09 07:57:37Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/ExtractHeader.pm $
 
 =head1 VERSION
 
-1.000
+1.006
 
 =head1 DESCRIPTION
 
@@ -216,7 +216,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2013,
+Copyright (c) 2013 - 2014,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

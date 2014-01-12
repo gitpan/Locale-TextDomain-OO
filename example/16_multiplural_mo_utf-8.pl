@@ -51,13 +51,13 @@ for my $books ( 0 .. 2 ) {
     }
 }
 
-# $Id: 16_multiplural_mo_utf-8.pl 433 2013-12-19 15:37:45Z steffenw $
+# $Id: 16_multiplural_mo_utf-8.pl 460 2014-01-06 22:09:01Z steffenw $
 
 __END__
 
 Output:
 
-Lexicon "de:LC_MULTIPLURAL2:" loaded from file "LocaleData/de/LC_MULTIPLURAL2/example_multiplural.mo"
+Lexicon "de:LC_MULTIPLURAL2:" loaded from file "LocaleData/de/LC_MULTIPLURAL2/example_multiplural.mo".
 Dort ist nichts.
 Dort ist 1 Regal.
 Dort sind 2 Regale.

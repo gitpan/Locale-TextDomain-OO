@@ -45,7 +45,7 @@ Locale::TextDomain::OO::Lexicon::Hash
 $loc->languages( [ qw( de-DE de en-US en ) ] );
 () = print $loc->language, "\n";
 
-#$Id: 03_language_of_languages.pl 433 2013-12-19 15:37:45Z steffenw $
+#$Id: 03_language_of_languages.pl 461 2014-01-09 07:57:37Z steffenw $
 
 __END__
 
@@ -53,5 +53,4 @@ Output:
 
 i-default
 Lexicon "de::" loaded from hash.
-Language "de" selected.
 de

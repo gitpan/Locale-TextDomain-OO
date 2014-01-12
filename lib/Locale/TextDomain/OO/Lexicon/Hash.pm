@@ -8,7 +8,7 @@ use Moo;
 use MooX::StrictConstructor;
 use namespace::autoclean;
 
-our $VERSION = '1.005';
+our $VERSION = '1.006';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::ExtractHeader
@@ -46,7 +46,7 @@ sub lexicon_ref {
                 qq{Lexicon "$lexicon_key" loaded from hash.},
                 {
                     object => $self,
-                    type   => 'info',
+                    type   => 'debug',
                     event  => 'lexicon,load',
                 },
             );
@@ -63,13 +63,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Hash - Lexicon from data structure
 
-$Id: Hash.pm 457 2014-01-06 13:27:38Z steffenw $
+$Id: Hash.pm 461 2014-01-09 07:57:37Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Hash.pm $
 
 =head1 VERSION
 
-1.005
+1.006
 
 =head1 DESCRIPTION
 
@@ -84,7 +84,7 @@ This module allows to create a lexicon from data structure.
             # all parameters are optional
             logger => sub {
                 my ($message, $arg_ref) = @_;
-                my $type = $arg_ref->{type}; # info, warn or error
+                my $type = $arg_ref->{type}; # debug
                 Log::Log4perl->get_logger(...)->$type($message);
                 return;
             },
@@ -165,7 +165,7 @@ Set the logger
 $arg_ref contains
 
     object => $lexicon_hash, # the object itself
-    type   => 'info',
+    type   => 'debug',
     event  => 'lexicon,load',
 
 =head1 EXAMPLE

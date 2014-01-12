@@ -7,7 +7,7 @@ use Moo::Role;
 use MooX::Types::MooseLike::Base qw(Str ArrayRef);
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.006';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::Constants
@@ -40,17 +40,8 @@ sub _trigger_languages { ## no critic (UnusedPrivateSubroutines)
                 $self->domain   || q{},
             );
             if ( $key eq $lexicon_key ) {
-               $self->language( lc $language );
-               $self->logger
-                    and $self->logger->(
-                        qq{Language "\l$language" selected.},
-                        {
-                            object => $self,
-                            type   => 'info',
-                            event  => 'language,selection',
-                        },
-                    );
-               return $self;
+                $self->language( lc $language );
+                return;
             }
         }
     }
@@ -65,7 +56,7 @@ sub _trigger_languages { ## no critic (UnusedPrivateSubroutines)
             },
         );
 
-    return $self;
+    return;
 }
 
 1;
@@ -76,13 +67,13 @@ __END__
 
 Locale::TextDomain::OO::Plugin::Language::LanguageOfLanguages - Select a language of a list
 
-$Id: LanguageOfLanguages.pm 456 2014-01-05 16:29:05Z steffenw $
+$Id: LanguageOfLanguages.pm 461 2014-01-09 07:57:37Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Language/LanguageOfLanguages.pm $
 
 =head1 VERSION
 
-1.000
+1.006
 
 =head1 DESCRIPTION
 
@@ -156,7 +147,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2013,
+Copyright (c) 2013 - 2014,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

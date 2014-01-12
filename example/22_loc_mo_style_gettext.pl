@@ -88,13 +88,13 @@ my $loc = Locale::TextDomain::OO->new(
     );
 
 
-# $Id: 22_loc_mo_style_gettext.pl 433 2013-12-19 15:37:45Z steffenw $
+# $Id: 22_loc_mo_style_gettext.pl 460 2014-01-06 22:09:01Z steffenw $
 
 __END__
 
 Output:
 
-Lexicon "de:LC_MESSAGES:example_maketext_style_gettext" loaded from file "LocaleData/de/LC_MESSAGES\example_maketext_style_gettext.mo"
+Lexicon "de:LC_MESSAGES:example_maketext_style_gettext" loaded from file "LocaleData/de/LC_MESSAGES\example_maketext_style_gettext.mo".
 Das ist ein Text.
 § Buch
 Steffen programmiert Perl.
