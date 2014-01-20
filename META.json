@@ -59,7 +59,7 @@
    "provides" : {
       "Locale::TextDomain::OO" : {
          "file" : "lib/Locale/TextDomain/OO.pm",
-         "version" : "1.006"
+         "version" : "1.007"
       },
       "Locale::TextDomain::OO::FunctionalInterface" : {
          "file" : "lib/Locale/TextDomain/OO/FunctionalInterface.pm",
@@ -67,7 +67,7 @@
       },
       "Locale::TextDomain::OO::Lexicon::File::MO" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/File/MO.pm",
-         "version" : "1.006"
+         "version" : "1.007"
       },
       "Locale::TextDomain::OO::Lexicon::Hash" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Hash.pm",
@@ -83,7 +83,7 @@
       },
       "Locale::TextDomain::OO::Lexicon::Role::File" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/File.pm",
-         "version" : "1.006"
+         "version" : "1.007"
       },
       "Locale::TextDomain::OO::Lexicon::Role::GettextToMaketext" : {
          "file" : "lib/Locale/TextDomain/OO/Lexicon/Role/GettextToMaketext.pm",
@@ -131,7 +131,7 @@
       },
       "Locale::TextDomain::OO::Singleton::Lexicon" : {
          "file" : "lib/Locale/TextDomain/OO/Singleton/Lexicon.pm",
-         "version" : "1.000"
+         "version" : "1.007"
       },
       "Locale::TextDomain::OO::TiedInterface" : {
          "file" : "lib/Locale/TextDomain/OO/TiedInterface.pm",
@@ -148,5 +148,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "1.006"
+   "version" : "1.007"
 }

@@ -58,6 +58,8 @@ t/13_gettext_cp1252.t
 t/14_gettext_N.t
 t/15_gettext_exceptions.t
 t/16_multiplural_mo_utf-8.t
+t/17_lexicon_move_copy_delete.t
+t/18_lexicon_merge_utf-8.t
 t/21_maketext_mo_utf-8.t
 t/22_loc_mo_style_gettext.t
 t/23_localize_mo_utf-8.t
@@ -81,6 +83,10 @@ t/LocaleData/de/LC_MESSAGES/test_maketext_style_gettext.mo
 t/LocaleData/de/LC_MESSAGES/test_maketext_style_gettext.po
 t/LocaleData/de/LC_MULTIPLURAL2/test_multiplural.mo
 t/LocaleData/de/LC_MULTIPLURAL2/test_multiplural.po
+'t/LocaleData/foo de bar.mo'
+'t/LocaleData/foo de bar.po'
+'t/LocaleData/foo de-at bar/baz.mo'
+'t/LocaleData/foo de-at bar/baz.po'
 t/LocaleData/ru/LC_MESSAGES/test.mo
 t/LocaleData/ru/LC_MESSAGES/test.po
 t/perl_critic.t

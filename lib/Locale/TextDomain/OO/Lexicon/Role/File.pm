@@ -11,7 +11,7 @@ use MooX::Types::MooseLike::Base qw(CodeRef);
 use Path::Tiny qw(path);
 use namespace::autoclean;
 
-our $VERSION = '1.006';
+our $VERSION = '1.007';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::ExtractHeader
@@ -86,7 +86,9 @@ sub _my_glob {
     # one * in filename
     if ( $file_star_count ) {
         ( my $file_regex = quotemeta $filename ) =~ s{\\[*]}{.*?}xms;
-        return path($dirname)->childreen( qr{$file_regex}xms );
+        return +(
+            sort +path($dirname)->children( qr{$file_regex}xms )
+        );
     }
 
     # one * in dir
@@ -97,27 +99,74 @@ sub _my_glob {
     my @left_and_inner_dirs
         = path($left_dir)->children( qr{\A $inner_dir_regex \z}xms );
 
-    return
+    return +(
+        sort
         grep {
             $_->is_file;
         }
         map {
             path($_, $right_dir, $filename);
-        } @left_and_inner_dirs;
+        } @left_and_inner_dirs
+    );
 }
 
 sub lexicon_ref {
     my ($self, $file_lexicon) = @_;
 
-    my $lexicon = Locale::TextDomain::OO::Singleton::Lexicon->instance;
+    my $instance = Locale::TextDomain::OO::Singleton::Lexicon->instance;
     my $search_dirs = $file_lexicon->{search_dirs}
         or confess 'Hash key "search_dirs" expected';
     my $data = $file_lexicon->{data};
-    for my $dir ( @{ $search_dirs } ) {
-        my $index = 0;
-        while ( $index < @{ $file_lexicon->{data} } ) {
-            my ($lexicon_key, $lexicon_value)
-                = ( $data->[ $index++ ], $data->[ $index++ ] );
+    my $index = 0;
+    DATA:
+    while ( $index < @{ $file_lexicon->{data} } ) {
+        my $identifier = $data->[ $index++ ];
+        if ( $identifier eq 'merge_lexicon' ) {
+            my ( $from1, $from2, $to ) = (
+                $data->[ $index++ ],
+                $data->[ $index++ ],
+                $data->[ $index++ ],
+            );
+            $instance->merge_lexicon( $from1, $from2, $to );
+            $self->logger and $self->logger->(
+                qq{Lexicon "$from1", "$from2" merged to "$to".},
+                {
+                    object => $self,
+                    type   => 'debug',
+                    event  => 'lexicon,merge',
+                },
+            );
+            next DATA;
+        }
+        if ( $identifier eq 'move_lexicon' ) {
+            my ( $from, $to ) = ( $data->[ $index++ ], $data->[ $index++ ] );
+            $instance->move_lexicon( $from, $to );
+            $self->logger and $self->logger->(
+                qq{Lexicon "$from" moved to "$to".},
+                {
+                    object => $self,
+                    type   => 'debug',
+                    event  => 'lexicon,move',
+                },
+            );
+            next DATA;
+        }
+        if ( $identifier eq 'delete_lexicon' ) {
+            my $name = $data->[ $index++ ];
+            $instance->delete_lexicon($name);
+            $self->logger and $self->logger->(
+                qq{Lexicon "$name" deleted.},
+                {
+                    object => $self,
+                    type   => 'debug',
+                    event  => 'lexicon,delete',
+                },
+            );
+            next DATA;
+        }
+        my ( $lexicon_key, $lexicon_value )
+            = ( $identifier, $data->[ $index++ ] );
+        for my $dir ( @{ $search_dirs } ) {
             my $file = path( $dir, $lexicon_value );
             my @files = $self->_my_glob($file);
             for ( @files ) {
@@ -143,16 +192,15 @@ sub lexicon_ref {
                 $file_lexicon->{decode}
                     and $self->_decode_messages($messages);
                 $messages = $self->message_array_to_hash($messages);
-                $lexicon->data->{$lexicon_language_key} = $messages;
-                $self->logger
-                    and $self->logger->(
-                        qq{Lexicon "$lexicon_language_key" loaded from file "$filename".},
-                        {
-                            object => $self,
-                            type   => 'debug',
-                            event  => 'lexicon,load',
-                        },
-                    );
+                $instance->data->{$lexicon_language_key} = $messages;
+                $self->logger and $self->logger->(
+                    qq{Lexicon "$lexicon_language_key" loaded from file "$filename".},
+                    {
+                        object => $self,
+                        type   => 'debug',
+                        event  => 'lexicon,load',
+                    },
+                );
             }
         }
     }
@@ -168,13 +216,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::File - Helper role to add lexicon from file
 
-$Id: File.pm 461 2014-01-09 07:57:37Z steffenw $
+$Id: File.pm 466 2014-01-20 15:45:11Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/File.pm $
 
 =head1 VERSION
 
-1.006
+1.007
 
 =head1 DESCRIPTION
 
@@ -216,10 +264,23 @@ Add a code ref in constructor.
             # search_dir/de.mo
             # search_dir/en.mo
             '*::' => '*.mo',
+
             # e.g. de.mo en.mo read from:
             # search_dir/subdir/de/LC_MESSAGES/domain.mo
             # search_dir/subdir/en/LC_MESSAGES/domain.mo
             '*:LC_MESSAGES:domain' => 'subdir/*/LC_MESSAGES/domain.mo',
+
+            # Merge a region lexicon:
+            # Take the header and messages of the "de::" lexicon,
+            # overwrite the header and messages of the "de-at::" lexicon
+            # and store that as "de-at::" lexicon with all messages now.
+            merge_lexicon => 'de::', 'de-at::' => 'de-at::',
+
+            # Move a lexicon into another domain and/or category:
+            move_lexicon => 'i-default::' => 'i-default:LC_MESSAGES:domain',
+
+            # Delete a lexicon:
+            delete_lexicon => 'i-default::',
         ],
     });
 

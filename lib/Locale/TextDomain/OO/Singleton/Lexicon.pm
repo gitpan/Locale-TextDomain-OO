@@ -2,11 +2,12 @@ package Locale::TextDomain::OO::Singleton::Lexicon; ## no critic (TidyCode)
 
 use strict;
 use warnings;
+use Carp qw(confess);
 use Moo;
 use MooX::StrictConstructor;
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.007';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::Constants
@@ -31,6 +32,50 @@ has data => (
     },
 );
 
+sub move_lexicon {
+    my ( $self, $from, $to ) = @_;
+
+    defined $from
+        or confess 'Undef is not a lexicon name to move from';
+    exists $self->data->{$from}
+        or confess qq{Missing lexicon "$from" to move from};
+    defined $to
+        or confess 'Undef is not a lexicon name to move to';
+    ( my $data_to, $self->data->{$to} ) = delete @{ $self->data }{ $to, $from };
+
+    return $data_to;
+}
+
+sub delete_lexicon {
+    my ( $self, $name ) = @_;
+
+    defined $name
+        or confess 'Undef is not a lexicon name to delete';
+
+    return delete $self->data->{$name};
+}
+
+sub merge_lexicon {
+    my ( $self, $from1, $from2, $to ) = @_;
+    defined $from1
+        or confess 'Undef is not a lexicon name to merge from';
+    defined $from2
+        or confess 'Undef is not a lexicon name to merge from';
+    exists $self->data->{$from1}
+        or confess qq{Missing lexicon "$from1" to merge from};
+    exists $self->data->{$from2}
+        or confess qq{Missing lexicon "$from2" to merge from};
+    defined $to
+        or confess 'Undef is not a lexicon name to merge to';
+
+    $self->data->{$to} = {
+        %{ $self->data->{$from1} },
+        %{ $self->data->{$from2} },
+    };
+
+    return $self;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -41,13 +86,13 @@ __END__
 
 Locale::TextDomain::OO::Singleton::Lexicon - Provides singleton lexicon access
 
-$Id: Lexicon.pm 439 2013-12-19 20:42:34Z steffenw $
+$Id: Lexicon.pm 466 2014-01-20 15:45:11Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Singleton/Lexicon.pm $
 
 =head1 VERSION
 
-1.000
+1.007
 
 =head1 DESCRIPTION
 
@@ -69,6 +114,32 @@ to fill the lexicon or to read from lexicon.
 
     $lexicon_data = Locale::TextDomain::OO::Singleton::Lexicon->instance->data;
 
+=head2 method merge_lexicon
+
+Merge ist mostly used to join data of a language
+to create data for a region with some region different data.
+
+    $instance->merge_lexicon('de::', 'de-at::', 'de-at::');
+
+=head2 method move_lexicon
+
+Move is typical used to move the "i-default::" lexicon
+into your domain and category.
+With that lexicon without messages you are able to translate
+because the header with plural forms is set.
+With no lexicon you would get a missing "plural forms"-error during translation.
+
+    $deleted_lexicon = $instance->move_lexicon(
+        'i-default::',
+        'i-default:LC_MESSAGES:domain',
+    );
+
+=head2 method delete_lexicon
+
+Delete a lexicon from data.
+
+    $deleted_lexicon = $instance->delete_lexicon('de::');
+
 =head1 EXAMPLE
 
 Inside of this distribution is a directory named example.
@@ -76,13 +147,15 @@ Run this *.pl files.
 
 =head1 DIAGNOSTICS
 
-none
+confess
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
 none
 
 =head1 DEPENDENCIES
+
+L<Carp|Carp>
 
 L<Moo|Moo>
 
@@ -112,7 +185,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2013,
+Copyright (c) 2013 - 2014,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.
