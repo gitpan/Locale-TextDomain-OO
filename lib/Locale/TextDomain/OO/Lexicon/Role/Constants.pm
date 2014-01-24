@@ -6,7 +6,7 @@ use Moo::Role;
 use charnames qw(:full);
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.008';
 
 sub lexicon_key_separator {
     return q{:};
@@ -14,6 +14,10 @@ sub lexicon_key_separator {
 
 sub msg_key_separator {
     return "\N{END OF TRANSMISSION}";
+}
+
+sub plural_separator {
+    return "\N{NULL}";
 }
 
 1;
@@ -24,13 +28,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::Constants - Lexicon constants
 
-$Id: Constants.pm 418 2013-10-30 14:19:06Z steffenw $
+$Id: Constants.pm 472 2014-01-21 16:37:44Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/Constants.pm $
 
 =head1 VERSION
 
-1.000
+1.008
 
 =head1 DESCRIPTION
 
@@ -51,6 +55,10 @@ This role provides lexicon constants.
 =head2 method msg_key_separator
 
     $separator = $self->msg_key_separator;
+
+=head2 method plural_separator
+
+    $separator = $self->plural_separator;
 
 =head1 EXAMPLE
 
@@ -91,7 +99,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2013,
+Copyright (c) 2013 - 2014,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

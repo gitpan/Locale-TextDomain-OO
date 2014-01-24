@@ -7,7 +7,7 @@ use Moo;
 use MooX::StrictConstructor;
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.008';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::StoreFile
@@ -21,6 +21,7 @@ sub to_json {
         encode_json(
             $self->data({
                 msg_key_separator => '{MSG_KEY_SEPARATOR}',
+                plural_separator  => '{PLURAL_SEPARATOR}',
             }),
         ),
     );
@@ -36,13 +37,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::StoreJSON - Stores the lexicon for other programming languages
 
-$Id: StoreJSON.pm 433 2013-12-19 15:37:45Z steffenw $
+$Id: StoreJSON.pm 472 2014-01-21 16:37:44Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/StoreJSON.pm $
 
 =head1 VERSION
 
-1.000
+1.008
 
 =head1 DESCRIPTION
 
@@ -179,7 +180,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2013,
+Copyright (c) 2013 - 2014,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

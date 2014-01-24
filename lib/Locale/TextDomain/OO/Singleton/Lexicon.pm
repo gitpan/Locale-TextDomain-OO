@@ -7,10 +7,9 @@ use Moo;
 use MooX::StrictConstructor;
 use namespace::autoclean;
 
-our $VERSION = '1.007';
+our $VERSION = '1.008';
 
 with qw(
-    Locale::TextDomain::OO::Lexicon::Role::Constants
     MooX::Singleton
 );
 
@@ -22,7 +21,7 @@ has data => (
         return {
             # empty lexicon of developer English
             'i-default::' => {
-                $self->msg_key_separator => {
+                q{} => {
                     nplurals    => 2,
                     plural      => 'n != 1',
                     plural_code => sub { return shift != 1 },
@@ -86,13 +85,13 @@ __END__
 
 Locale::TextDomain::OO::Singleton::Lexicon - Provides singleton lexicon access
 
-$Id: Lexicon.pm 466 2014-01-20 15:45:11Z steffenw $
+$Id: Lexicon.pm 472 2014-01-21 16:37:44Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Singleton/Lexicon.pm $
 
 =head1 VERSION
 
-1.007
+1.008
 
 =head1 DESCRIPTION
 

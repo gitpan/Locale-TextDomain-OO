@@ -8,7 +8,7 @@ use Moo::Role;
 require Safe;
 use namespace::autoclean;
 
-our $VERSION = '1.006';
+our $VERSION = '1.008';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::Constants
@@ -112,15 +112,22 @@ sub extract_header_msgstr {
 sub message_array_to_hash {
     my ($self, $messages_ref) = @_;
 
+    my $length_or_empty_list = sub {
+        my $item = shift;
+        defined $item or return;
+        length $item or return;
+        return $item;
+    };
+
     return {
         map { ## no critic (ComplexMappings)
             my ( $msgctxt, $msgid, $msgid_plural )
                 = delete @{$_}{ qw( msgctxt msgid msgid_plural ) };
-            my $msg_key = join $self->msg_key_separator, (
-                ( defined $msgctxt      ? $msgctxt      : q{} ),
-                ( defined $msgid        ? $msgid        : q{} ),
-                ( defined $msgid_plural ? $msgid_plural : ()  ),
-            );
+            my $msg_key = join $self->msg_key_separator,
+                $length_or_empty_list->($msgctxt),
+                join $self->plural_separator,
+                    $length_or_empty_list->($msgid),
+                    $length_or_empty_list->($msgid_plural);
             ( $msg_key => $_ );
         } @{$messages_ref}
     };
@@ -134,13 +141,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::ExtractHeader - Gettext header extractor
 
-$Id: ExtractHeader.pm 461 2014-01-09 07:57:37Z steffenw $
+$Id: ExtractHeader.pm 472 2014-01-21 16:37:44Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/ExtractHeader.pm $
 
 =head1 VERSION
 
-1.006
+1.008
 
 =head1 DESCRIPTION
 
