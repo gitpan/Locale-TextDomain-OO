@@ -6,7 +6,7 @@ use Locale::Utils::PlaceholderMaketext;
 use Moo::Role;
 use namespace::autoclean;
 
-our $VERSION = '1.008';
+our $VERSION = '1.009';
 
 requires qw(
     translate
@@ -69,13 +69,13 @@ __END__
 
 Locale::TextDomain::OO::Plugin::Expand::Maketext - Additional maketext methods
 
-$Id: Maketext.pm 482 2014-01-24 13:51:56Z steffenw $
+$Id: Maketext.pm 487 2014-02-03 14:31:43Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Maketext.pm $
 
 =head1 VERSION
 
-1.008
+1.009
 
 =head1 DESCRIPTION
 

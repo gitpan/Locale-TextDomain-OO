@@ -52,16 +52,16 @@ Locale::TextDomain::OO::Lexicon::File::MO
         2,
     ),
     __nx(
-        '{num} shelf',
-        '{num} shelves',
+        '{shelves :num} shelf',
+        '{shelves :num} shelves',
         1,
-        num => 1,
+        shelves => 1,
     ),
     __nx(
-        '{num} shelf',
-        '{num} shelves',
+        '{shelves :num} shelf',
+        '{shelves :num} shelves',
         2,
-        num => 2,
+        shelves => 2,
     ),
     __p(
         'maskulin',
@@ -86,17 +86,17 @@ Locale::TextDomain::OO::Lexicon::File::MO
     ),
     __npx(
         'appointment',
-        'This is {num} date.',
-        'This are {num} dates.',
+        'This is {dates :num} date.',
+        'This are {dates :num} dates.',
         1,
-        num => 1,
+        dates => 1,
     ),
     __npx(
         'appointment',
-        'This is {num} date.',
-        'This are {num} dates.',
+        'This is {dates :num} date.',
+        'This are {dates :num} dates.',
         2,
-        num => 2,
+        dates => 2,
     ),
     N__('text'),
     N__n('singular', 'plural', 1),
@@ -106,11 +106,11 @@ Locale::TextDomain::OO::Lexicon::File::MO
     __dcnpx(
         'example',
         'appointment',
-        'This is {num} date.',
-        'This are {num} dates.',
+        'This is {dates :num} date.',
+        'This are {dates :num} dates.',
         3, ## no critic (MagicNumbers)
         'LC_MESSAGES',
-        num => 3,
+        dates => 3,
     ),
     ${$loc_ref}->domain,
     ${$loc_ref}->category,
@@ -130,7 +130,7 @@ Locale::TextDomain::OO::Lexicon::File::MO
     ),
     __end_d && ();
 
-# $Id: 42_functional_interface.pl 460 2014-01-06 22:09:01Z steffenw $
+# $Id: 42_functional_interface.pl 487 2014-02-03 14:31:43Z steffenw $
 
 __END__
 

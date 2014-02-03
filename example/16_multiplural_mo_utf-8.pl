@@ -41,8 +41,8 @@ for my $books ( 0 .. 2 ) {
     for my $shelves ( 0 .. 3 ) { ## no critic (MagicNumbers)
         () = print
             $loc->__nx(
-                'There is {books} book and {shelves} shelve.',
-                'There are {books} books and {shelves} shelves.',
+                'There is {books :num} book and {shelves :num} shelve.',
+                'There are {books :num} books and {shelves :num} shelves.',
                 [ $books, $shelves ],
                 books   => $books,
                 shelves => $shelves,
@@ -51,7 +51,7 @@ for my $books ( 0 .. 2 ) {
     }
 }
 
-# $Id: 16_multiplural_mo_utf-8.pl 460 2014-01-06 22:09:01Z steffenw $
+# $Id: 16_multiplural_mo_utf-8.pl 487 2014-02-03 14:31:43Z steffenw $
 
 __END__
 

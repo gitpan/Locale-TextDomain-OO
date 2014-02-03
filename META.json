@@ -59,7 +59,7 @@
    "provides" : {
       "Locale::TextDomain::OO" : {
          "file" : "lib/Locale/TextDomain/OO.pm",
-         "version" : "1.008"
+         "version" : "1.009"
       },
       "Locale::TextDomain::OO::FunctionalInterface" : {
          "file" : "lib/Locale/TextDomain/OO/FunctionalInterface.pm",
@@ -103,7 +103,7 @@
       },
       "Locale::TextDomain::OO::Plugin::Expand::Gettext" : {
          "file" : "lib/Locale/TextDomain/OO/Plugin/Expand/Gettext.pm",
-         "version" : "1.008"
+         "version" : "1.009"
       },
       "Locale::TextDomain::OO::Plugin::Expand::Gettext::DomainAndCategory" : {
          "file" : "lib/Locale/TextDomain/OO/Plugin/Expand/Gettext/DomainAndCategory.pm",
@@ -111,7 +111,7 @@
       },
       "Locale::TextDomain::OO::Plugin::Expand::Maketext" : {
          "file" : "lib/Locale/TextDomain/OO/Plugin/Expand/Maketext.pm",
-         "version" : "1.008"
+         "version" : "1.009"
       },
       "Locale::TextDomain::OO::Plugin::Expand::Maketext::Loc" : {
          "file" : "lib/Locale/TextDomain/OO/Plugin/Expand/Maketext/Loc.pm",
@@ -148,5 +148,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "1.008"
+   "version" : "1.009"
 }

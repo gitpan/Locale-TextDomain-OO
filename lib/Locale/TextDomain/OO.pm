@@ -3,7 +3,7 @@ package Locale::TextDomain::OO; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '1.008';
+our $VERSION = '1.009';
 
 use Locale::TextDomain::OO::Translator;
 
@@ -23,13 +23,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 472 2014-01-21 16:37:44Z steffenw $
+$Id: OO.pm 487 2014-02-03 14:31:43Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-1.008
+1.009
 
 Starting with version 1.000 the interface has changed.
 
@@ -238,6 +238,52 @@ Run the examples of this distribution (folder example).
 This configuration would be use Lexicon "de:LC_MESSAGES:MyDomain".
 That lexicon should be filled with data.
 
+=head2 Attributes handled with plugin Expand::Gettext
+
+This plugin can handle named placeholders like C<{name}>.
+For numeric placeholders add attribute C<:num>.
+That allows easier automatic translation and to localize numbers.
+E.g. write C<{books :num}> to msgid, msgid_plural.
+
+Grammar rules for string placeholders are able to handle affixes.
+The translation office can add attributes,
+e.g. C<{town :accusative}> to msgstr, msgstr[n].
+
+Add the modifier code like that to handle that attributes.
+
+    $loc->expand_gettext->modifier_code(
+        sub {
+            my ( $value, $attribute ) = @_;
+            if ( $loc->language eq 'ru' ) {
+                if ( $attribute eq 'accusative' ) {
+                   ...
+                }
+            }
+            elsif ( $loc->language eq 'de' }xms ) {
+                if ( $attribute eq 'num' ) {
+                    ...
+                    $value =~ tr{.,}{,.};
+                }
+            }
+            return $value;
+        },
+    );
+
+=head2 Localize numbers with plugin Expand::Maketext.
+
+Add the code to localize numbers.
+
+    $loc->expand_maketext->formatter_code(
+        sub {
+            my $value = shift;
+            if ( $loc->language eq 'de' ) {
+                ...
+                $value =~ tr{.,}{,.};
+            }
+            return $value;
+        },
+    );
+
 =head1 SUBROUTINES/METHODS
 
 =head2 method new
@@ -307,7 +353,7 @@ $arg_ref contains
 
     object => $loc, # the object itself
     type   => 'debug', # or 'warn'
-    event  => 'language,selection', # 'language,selection,fallback' 
+    event  => 'language,selection', # 'language,selection,fallback'
                                     # or 'translation,fallback'
 
 =head2 method translate
