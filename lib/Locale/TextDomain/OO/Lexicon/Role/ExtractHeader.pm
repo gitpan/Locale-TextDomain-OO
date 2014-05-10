@@ -8,7 +8,7 @@ use Moo::Role;
 require Safe;
 use namespace::autoclean;
 
-our $VERSION = '1.008';
+our $VERSION = '1.0010';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::Constants
@@ -41,7 +41,7 @@ EOC
 sub _plural {
     my ($self, $plural_forms) = @_;
 
-    return $plural_forms =~ m{ \b plural= ( [^;\n] ) }xms;
+    return $plural_forms =~ m{ \b plural= ( [^;\n]+ ) }xms;
 }
 
 sub _plural_code {
@@ -141,13 +141,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::ExtractHeader - Gettext header extractor
 
-$Id: ExtractHeader.pm 472 2014-01-21 16:37:44Z steffenw $
+$Id: ExtractHeader.pm 490 2014-05-03 16:23:46Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/ExtractHeader.pm $
 
 =head1 VERSION
 
-1.008
+1.010
 
 =head1 DESCRIPTION
 

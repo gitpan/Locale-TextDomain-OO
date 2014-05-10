@@ -20,7 +20,7 @@ name: Locale-TextDomain-OO
 provides:
   Locale::TextDomain::OO:
     file: lib/Locale/TextDomain/OO.pm
-    version: 1.009
+    version: 1.010
   Locale::TextDomain::OO::FunctionalInterface:
     file: lib/Locale/TextDomain/OO/FunctionalInterface.pm
     version: 1.000
@@ -35,7 +35,7 @@ provides:
     version: 1.008
   Locale::TextDomain::OO::Lexicon::Role::ExtractHeader:
     file: lib/Locale/TextDomain/OO/Lexicon/Role/ExtractHeader.pm
-    version: 1.008
+    version: 1.0010
   Locale::TextDomain::OO::Lexicon::Role::File:
     file: lib/Locale/TextDomain/OO/Lexicon/Role/File.pm
     version: 1.008
@@ -75,6 +75,9 @@ provides:
   Locale::TextDomain::OO::Singleton::Lexicon:
     file: lib/Locale/TextDomain/OO/Singleton/Lexicon.pm
     version: 1.008
+  Locale::TextDomain::OO::Singleton::Translator:
+    file: lib/Locale/TextDomain/OO/Singleton/Translator.pm
+    version: 1.010
   Locale::TextDomain::OO::TiedInterface:
     file: lib/Locale/TextDomain/OO/TiedInterface.pm
     version: 1.000
@@ -106,4 +109,4 @@ requires:
   perl: 5.008
 resources:
   license: http://dev.perl.org/licenses/
-version: 1.009
+version: 1.010

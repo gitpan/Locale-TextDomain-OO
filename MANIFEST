@@ -46,6 +46,7 @@ lib/Locale/TextDomain/OO/Plugin/Expand/Maketext/Localize.pm
 lib/Locale/TextDomain/OO/Plugin/Language/LanguageOfLanguages.pm
 lib/Locale/TextDomain/OO/Role/Logger.pm
 lib/Locale/TextDomain/OO/Singleton/Lexicon.pm
+lib/Locale/TextDomain/OO/Singleton/Translator.pm
 lib/Locale/TextDomain/OO/TiedInterface.pm
 lib/Locale/TextDomain/OO/Translator.pm
 MANIFEST			This list of files
@@ -72,6 +73,7 @@ t/32_begin_end_c.t
 t/33_begin_end_dc.t
 t/41_tied_interface.t
 t/42_functional_interface.t
+t/43_singleton_gettext_mo.t
 t/51_test_examples.t
 t/52_test_examples_utf-8.t
 t/chars.t

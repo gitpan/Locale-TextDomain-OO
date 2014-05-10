@@ -1,5 +1,9 @@
 Revision history for Perl extension Locale::TextDomain::OO.
 
+1.010  Sat May 10 20:35:56 2014
+- repaired header plural extract regex used for JavaScript
+- Locale::TextDomain::OO also possible as singleton
+
 1.009  Mon Feb  3 16:33:48 2014
 - working with getext modifier_code
   and maketext formatter_code

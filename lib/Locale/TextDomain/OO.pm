@@ -3,7 +3,7 @@ package Locale::TextDomain::OO; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '1.009';
+our $VERSION = '1.010';
 
 use Locale::TextDomain::OO::Translator;
 
@@ -15,6 +15,19 @@ sub new {
     );
 }
 
+sub instance {
+    my ($class, @args) = @_;
+
+    require Locale::TextDomain::OO::Singleton::Translator;
+    my $instance = Locale::TextDomain::OO::Singleton::Translator->_has_instance; ## no critic (PrivateSubs)
+    $instance
+        and return $instance;
+
+    return Locale::TextDomain::OO::Singleton::Translator->instance(
+        Locale::TextDomain::OO::Singleton::Translator->load_plugins(@args),
+    );
+}
+
 1;
 
 __END__
@@ -23,13 +36,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 487 2014-02-03 14:31:43Z steffenw $
+$Id: OO.pm 492 2014-05-10 15:09:58Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-1.009
+1.010
 
 Starting with version 1.000 the interface has changed.
 
@@ -238,6 +251,16 @@ Run the examples of this distribution (folder example).
 This configuration would be use Lexicon "de:LC_MESSAGES:MyDomain".
 That lexicon should be filled with data.
 
+=head2 as singleton
+
+Instead of method new call method instance to get a singleton.
+
+    my $instance = Locale::TextDomain::OO->instance(
+        # Same parameters like new,
+        # Initialization on first call only.
+    );
+    $same_instance = Locale::TextDomain::OO->instance;
+
 =head2 Attributes handled with plugin Expand::Gettext
 
 This plugin can handle named placeholders like C<{name}>.
@@ -269,7 +292,7 @@ Add the modifier code like that to handle that attributes.
         },
     );
 
-=head2 Localize numbers with plugin Expand::Maketext.
+=head2 Localize numbers with plugin Expand::Maketext
 
 Add the code to localize numbers.
 
@@ -289,6 +312,27 @@ Add the code to localize numbers.
 =head2 method new
 
 see SYNOPSIS
+
+=head2 method instance
+
+When using the singleton mechanism,
+the object need not be transported through all the subroutines.
+
+Instead of
+
+    my $loc = Locale::TextDomain::OO->new(...);
+    ...
+    $loc->any_method(...);
+
+write
+
+    Locale::TextDomain::OO->instance(...);
+    ...
+    my $loc = Locale::TextDomain::OO->instance;
+    $loc->any_method(...);
+
+In case of webserver child or similar,
+set the language for every reqeuest not as parameter of the first instance call.
 
 =head2 method language
 
