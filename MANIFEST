@@ -27,8 +27,13 @@ example/LocaleData/de/LC_MULTIPLURAL2/example_multiplural.po
 example/LocaleData/ru/LC_MESSAGES/example.mo
 example/LocaleData/ru/LC_MESSAGES/example.po
 example/README
+javascript/Example.html
+javascript/Locale/TextDomain/OO.js
+javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext.js
+javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext/DomainAndCategory.js
 lib/Locale/TextDomain/OO.pm
 lib/Locale/TextDomain/OO/FunctionalInterface.pm
+lib/Locale/TextDomain/OO/JavaScript.pm
 lib/Locale/TextDomain/OO/Lexicon/File/MO.pm
 lib/Locale/TextDomain/OO/Lexicon/Hash.pm
 lib/Locale/TextDomain/OO/Lexicon/Role/Constants.pm

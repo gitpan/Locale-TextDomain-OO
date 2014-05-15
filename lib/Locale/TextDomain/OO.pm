@@ -3,7 +3,7 @@ package Locale::TextDomain::OO; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '1.010';
+our $VERSION = '1.011';
 
 use Locale::TextDomain::OO::Translator;
 
@@ -36,13 +36,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 492 2014-05-10 15:09:58Z steffenw $
+$Id: OO.pm 505 2014-05-15 19:52:01Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-1.010
+1.011
 
 Starting with version 1.000 the interface has changed.
 
@@ -94,12 +94,16 @@ This is changable,
 but the developer has to control the plural forms.
 He is not an omniscient translator.
 
+Gettext allows as much as needed plural forms at destination language.
+
 =item *
 
 'quant' inside a phrase is the end of the automatic translation
 because quant is an 'or'-construct.
 
     begin of phrase [quant,_1,singular,plural,zero] end of phrase
+
+Gettext used full qualified sentences.
 
 =item *
 
@@ -115,6 +119,8 @@ A plural form can not be before a number.
     It is 1 book.
     These are 2 books.
 
+Gettext used full qualified sentences.
+
 =item *
 
 There is no plural form without a number in the phrase.
@@ -122,15 +128,23 @@ There is no plural form without a number in the phrase.
     I like this book.
     I like these books.
 
+Gettext used an extra count to select the plural form.
+Placeholders are placeholders not combined things.
+
 =item *
 
 Placeholders are numbered serially.
 It is difficult to translate this
 because the sense of the phrase could be lost.
 
-    [_1] is a [_2] in [_3].
+    Still [_1] [_2] to [_3].
 
-    Erlangen is a town in Bavaria.
+    Still 5 hours to midnight.
+    Still 15 days to Olympics.
+
+Locale::TextDomain::OO used named placeholders like
+
+    Still {count :num} {datetime unit} to {event}.
 
 =item *
 
@@ -197,29 +211,46 @@ Run the examples of this distribution (folder example).
                                   build using        build using       |
                                   gettext tools      gettext tools     |
                                                  (not yet implemented) |
-                              .----------------------------------------'
-                              |
-                              v
+                                  .------------------------------------'
+                                  |
+                                  v
  .------------------------------------------------------------------.
  | build JSON lexicon using Locale::TextDomain::OO::Lexicon::ToJSON |
+ |------------------------------------------------------------------|
+ |      to_json      |      to_javascript      |      to_html       |
  `------------------------------------------------------------------'
-                              |
-                              v
-                      .--------------.
-                      | lexicon.json |
-                      `-------.------'
-                              |
-                              v
- .--- not yet implemented --------.
- | js/loc.js                      |
- | with plugins js/loc/expand/... |
- |--------------------------------|
- | gettext.js                     |
- | gettext/domain_and_category.js |
- | maketext.js                    |
- | maketext/loc.js                |
- | maketext/localize.js           |
- `--------------------------------'
+                                  |
+                                  v
+              .---------------------------------------.
+              | var localeTextDomainOOLexicon = json; |
+              `---------------------------------------'
+                                  ^
+                                  |
+ .--------------------------------'-------------------------------------------.
+ | requires:                                                                  |
+ | - http://jquery.com/                                                       |
+ | - http://xregexp.com/                                                      |
+ | - javascript/Locale/Utils/PlaceholderNamed.js                              |
+ |                                                                            |
+ | implemented:                                                               |
+ | javascript/Locale/TextDomain/OO.js                                         |
+ | javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext.js                   |
+ | javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext/DomainAndCategory.js |
+ |                                                                            |
+ | not implemented:                                                           |
+ | javascript/Locale/TextDomain/OO/Expand/Maketext.js                         |
+ | javascript/Locale/TextDomain/OO/Expand/Maketext/Loc.js                     |
+ | javascript/Locale/TextDomain/OO/Expand/Maketext/Localize.js                |
+ |                                                                            |
+ | Example:                                                                   |
+ | javascript/Example.html                                                    |
+ `----------------------------------------------------------------------------'
+         ^                  ^                  ^
+         |                  |                  |
+ JavaScript calls   JavaScript calls   JavaScript calls
+ gettext methods    getext and         maketext methods
+                    maketext methods   (not implemented)
+                    (not implemented)
 
 =head1 SYNOPSIS
 
@@ -306,6 +337,11 @@ Add the code to localize numbers.
             return $value;
         },
     );
+
+=head1 JAVASCRIPT
+
+How to use the JavaScript framework see
+L<Locale::TextDomain::OO::JavaScript|Locale::TextDomain::OO::JavaScript>.
 
 =head1 SUBROUTINES/METHODS
 

@@ -23,6 +23,12 @@ my @data = (
         result => <<'EOT',
 Lexicon "en-gb:cat:dom" loaded from hash.
 {"en-gb:cat:dom":{"":{"plural":"n != 1","charset":"UTF-8","nplurals":1},"appointment{MSG_KEY_SEPARATOR}date for GBP{PLURAL_SEPARATOR}dates for GBP":{"msgstr":["date for £","dates for £"]}},"i-default::":{"":{"plural":"n != 1","nplurals":2}}}
+
+var localeTextDomainOOLexicon = {"en-gb:cat:dom":{"":{"plural":"n != 1","charset":"UTF-8","nplurals":1},"appointment{MSG_KEY_SEPARATOR}date for GBP{PLURAL_SEPARATOR}dates for GBP":{"msgstr":["date for £","dates for £"]}},"i-default::":{"":{"plural":"n != 1","nplurals":2}}};
+
+<script type="text/javascript"><!--
+var localeTextDomainOOLexicon = {"en-gb:cat:dom":{"":{"plural":"n != 1","charset":"UTF-8","nplurals":1},"appointment{MSG_KEY_SEPARATOR}date for GBP{PLURAL_SEPARATOR}dates for GBP":{"msgstr":["date for £","dates for £"]}},"i-default::":{"":{"plural":"n != 1","nplurals":2}}};
+--></script>
 EOT
     },
     {

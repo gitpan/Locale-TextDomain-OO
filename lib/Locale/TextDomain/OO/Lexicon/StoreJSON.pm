@@ -7,7 +7,7 @@ use Moo;
 use MooX::StrictConstructor;
 use namespace::autoclean;
 
-our $VERSION = '1.008';
+our $VERSION = '1.011';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::StoreFile
@@ -27,6 +27,24 @@ sub to_json {
     );
 }
 
+sub to_javascript {
+   my $self = shift;
+
+   return
+       'var localeTextDomainOOLexicon = '
+       . $self->to_json
+       . ";\n";
+}
+
+sub to_html {
+   my $self = shift;
+
+   return
+        qq{<script type="text/javascript"><!--\n}
+        . $self->to_javascript
+        . qq{--></script>\n};
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -37,13 +55,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::StoreJSON - Stores the lexicon for other programming languages
 
-$Id: StoreJSON.pm 472 2014-01-21 16:37:44Z steffenw $
+$Id: StoreJSON.pm 499 2014-05-12 12:53:39Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/StoreJSON.pm $
 
 =head1 VERSION
 
-1.008
+1.011
 
 =head1 DESCRIPTION
 
@@ -60,7 +78,7 @@ This module stores the lexicon for other programming language e.g. JavaScript.
             filename => 'my_json_file',
             ...
         )
-        ->to_json;
+        ->to_json; # ->to_javascript or ->to_html
 
 =head2 write file by given open file_handle
 
@@ -77,7 +95,7 @@ This module stores the lexicon for other programming language e.g. JavaScript.
             file_handle => file_handle,
             ...
         )
-        ->to_json;
+        ->to_json; # ->to_javascript or ->to_html
     $file_handle->close
         or confess qq{Unable to close file "$filename" $!};
 
@@ -89,7 +107,7 @@ This module stores the lexicon for other programming language e.g. JavaScript.
         ->new(
             ...
         )
-        ->to_json;
+        ->to_json; # ->to_javascript or ->to_html
 
 =head2 optional filter
 
@@ -126,7 +144,7 @@ This module stores the lexicon for other programming language e.g. JavaScript.
                 },
             },
         )
-        ->to_json;
+        ->to_json; # ->to_javascript or ->to_html
 
 =head1 SUBROUTINES/METHODS
 
@@ -134,6 +152,17 @@ This module stores the lexicon for other programming language e.g. JavaScript.
 
 With file parameters it prints a JSON file.
 Otherwise returns a JSON string.
+
+=head2 method to_javascript
+
+Similar to method to_json
+but output wrapped as JavaScript
+with global variable "localeTextDomainOOLexicon".
+
+=head2 method to_html
+
+Similar to method to_javascript
+but output wrapped as HTML with script tag.
 
 =head1 EXAMPLE
 

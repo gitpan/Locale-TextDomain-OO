@@ -8,13 +8,13 @@ use Moo::Role;
 use MooX::Types::MooseLike::Base qw(ArrayRef);
 use namespace::autoclean;
 
-our $VERSION = '1.008';
+our $VERSION = '1.011';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::Constants
 );
 
-has filter_domain => (
+has filter_language => (
     is      => 'ro',
     isa     => ArrayRef,
     lazy    => 1,
@@ -28,28 +28,82 @@ has filter_category => (
     default => sub { [] },
 );
 
-has filter_domain_category => (
+has filter_domain => (
     is      => 'ro',
     isa     => ArrayRef,
     lazy    => 1,
     default => sub { [] },
 );
 
-has _domain_category_regex => (
+has filter_language_category => (
+    is      => 'ro',
+    isa     => ArrayRef,
+    lazy    => 1,
+    default => sub { [] },
+);
+
+has filter_language_domain => (
+    is      => 'ro',
+    isa     => ArrayRef,
+    lazy    => 1,
+    default => sub { [] },
+);
+
+has filter_category_domain => (
+    is      => 'ro',
+    isa     => ArrayRef,
+    lazy    => 1,
+    default => sub { [] },
+);
+
+has filter_language_category_domain => (
+    is      => 'ro',
+    isa     => ArrayRef,
+    lazy    => 1,
+    default => sub { [] },
+);
+
+has _language_category_domain_regex => (
     is      => 'ro',
     lazy    => 1,
     default => sub {
         my $self = shift;
         my $separator = $self->lexicon_key_separator;
-        my $not_separator = sprintf '[^%s]', quotemeta $separator;
+        my $not_separator_regex = sprintf '[^%s]', quotemeta $separator;
         return [
             (
                 map {
                     qr{
                         \A
-                        $not_separator*
+                        \Q$_\E
                         \Q$separator\E
-                        $not_separator*
+                        $not_separator_regex*
+                        \Q$separator\E
+                        $not_separator_regex*
+                        \z
+                    }xms;
+                } @{ $self->filter_language }
+            ),
+            (
+                map {
+                    qr{
+                        \A
+                        $not_separator_regex*
+                        \Q$separator\E
+                        \Q$_\E
+                        \Q$separator\E
+                        $not_separator_regex*
+                        \z
+                    }xms;
+                } @{ $self->filter_category }
+            ),
+            (
+                map {
+                    qr{
+                        \A
+                        $not_separator_regex*
+                        \Q$separator\E
+                        $not_separator_regex*
                         \Q$separator\E
                         \Q$_\E
                         \z
@@ -57,32 +111,65 @@ has _domain_category_regex => (
                 } @{ $self->filter_domain }
             ),
             (
-                map {
+                map { ## no critic (ComplexMappings)
+                    my $language = $_->{language} || q{};
+                    my $category = $_->{category} || q{};
                     qr{
                         \A
-                        $not_separator*
+                        \Q$language\E
                         \Q$separator\E
-                        \Q$_\E
+                        \Q$category\E
                         \Q$separator\E
-                        $not_separator*
+                        $not_separator_regex*
                         \z
                     }xms;
-                } @{ $self->filter_category }
+                } @{ $self->filter_language_category }
             ),
             (
                 map { ## no critic (ComplexMappings)
-                    my $category_domain = join
-                        $separator,
-                        $_->{category} || q{},
-                        $_->{domain} || q{};
+                    my $language = $_->{language} || q{};
+                    my $domain   = $_->{domain}   || q{};
                     qr{
                         \A
-                        $not_separator*
+                        \Q$language\E
                         \Q$separator\E
-                        \Q$category_domain\E
+                        $not_separator_regex*
+                        \Q$separator\E
+                        \Q$domain\E
                         \z
                     }xms;
-                } @{ $self->filter_domain_category }
+                } @{ $self->filter_language_domain }
+            ),
+            (
+                map { ## no critic (ComplexMappings)
+                    my $category = $_->{category} || q{};
+                    my $domain   = $_->{domain}   || q{};
+                    qr{
+                        \A
+                        $not_separator_regex*
+                        \Q$separator\E
+                        \Q$category\E
+                        \Q$separator\E
+                        \Q$domain\E
+                        \z
+                    }xms;
+                } @{ $self->filter_category_domain }
+            ),
+            (
+                map { ## no critic (ComplexMappings)
+                    my $language = $_->{language} || q{};
+                    my $category = $_->{category} || q{};
+                    my $domain   = $_->{domain}   || q{};
+                    qr{
+                        \A
+                        \Q$language\E
+                        \Q$separator\E
+                        \Q$category\E
+                        \Q$separator\E
+                        \Q$domain\E
+                        \z
+                    }xms;
+                } @{ $self->filter_language_category_domain }
             ),
         ],
     },
@@ -92,7 +179,7 @@ sub data {
     my ( $self, $arg_ref ) = @_;
 
     my $data  = Locale::TextDomain::OO::Singleton::Lexicon->instance->data;
-    my $regex = $self->_domain_category_regex;
+    my $regex = $self->_language_category_domain_regex;
     $data = {
         map { ## no critic (ComplexMappings)
             my $lexicon = { %{ $data->{$_} } };
@@ -134,13 +221,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::StoreFilter - Filters the lexicon data before stored
 
-$Id: StoreFilter.pm 472 2014-01-21 16:37:44Z steffenw $
+$Id: StoreFilter.pm 499 2014-05-12 12:53:39Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/StoreFilter.pm $
 
 =head1 VERSION
 
-1.008
+1.011
 
 =head1 DESCRIPTION
 
@@ -148,8 +235,8 @@ This module filters the lexicon date before stored.
 
 The idea is: Not all parts of lexicon are used by other languages.
 
-Implements attributes "filter_domain", "filter_category"
-and "filter_domain_category".
+Implements attributes "filter_language", "filter_category", "filter_domain"
+and combinations of that up to "filter_language_category_domain".
 
 That filter removes also the key "plural_code" from header.
 That is an already prepared Perl code reference
@@ -172,30 +259,77 @@ Usage of that optional filter
         ->new(
             ...
             # all parameters optional
-            filter_domain          => [
-                # this domains and unchecked category
-                qw( domain1 domain2 ),
+            filter_language          => [
+                # this languages and unchecked domain and category
+                qw( language1 language2 ),
             ],
             filter_category        => [
-                # this categories and unchecked domain
+                # this categories and unchecked language and domain
                 qw( category1 category2 ),
             ],
+            filter_domain          => [
+                # this domains and unchecked language and category
+                qw( domain1 domain2 ),
+            ],
+            filter_language_category => [
+                {
+                    # empty language
+                    # empty category
+                    # unchecked domain
+                },
+                {
+                    language => 'language1',
+                    # empty category
+                    # unchecked domain
+                },
+                {
+                    # empty language,
+                    category => 'category1',
+                    # unchecked domain
+                },
+                {
+                    language => 'language1',
+                    category => 'category1',
+                    # unchecked domain
+                },
+            },
+            filter_language_domain => [
+                {
+                    # empty language
+                    # unchecked category
+                    # empty domain
+                },
+                ...
+                {
+                    language => 'language1',
+                    # unchecked category
+                    domain   => 'domain1',
+                },
+            },
             filter_domain_category => [
                 {
-                    # empty domain
+                    # unchecked language
                     # empty category
-                },
-                {
-                    domain => 'domain3',
-                    # empty category
-                },
-                {
                     # empty domain
-                    category => 'category3',
                 },
+                ...
                 {
-                    domain   => 'domain4',
-                    category => 'category4',
+                    # unchecked language
+                    category => 'category1',
+                    domain   => 'domain1',
+                },
+            },
+            filter_language_domain_category => [
+                {
+                    # empty language
+                    # empty category
+                    # empty domain
+                },
+                ...
+                {
+                    language => 'language1',
+                    category => 'category1',
+                    domain   => 'domain1',
                 },
             },
         )

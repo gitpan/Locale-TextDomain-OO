@@ -50,9 +50,14 @@ ${\$instance->data} = sort_hash_ref( $instance->data );
 ## use critic (InterpolationOfLiterals EmptyQuotes NoisyQuotes)
 
 # To see how the filter is working see test "t/04_lexicon_store_JSON.t".
-() = print Locale::TextDomain::OO::Lexicon::StoreJSON->new->to_json, "\n";
+() = print
+    Locale::TextDomain::OO::Lexicon::StoreJSON->new->to_json, "\n",
+    "\n",
+    Locale::TextDomain::OO::Lexicon::StoreJSON->new->to_javascript,
+    "\n",
+    Locale::TextDomain::OO::Lexicon::StoreJSON->new->to_html;
 
-#$Id: 04_lexicon_store_JSON_utf-8.pl 491 2014-05-10 15:08:16Z steffenw $
+#$Id: 04_lexicon_store_JSON_utf-8.pl 499 2014-05-12 12:53:39Z steffenw $
 
 __END__
 
@@ -80,3 +85,9 @@ Lexicon "en-gb:cat:dom" loaded from hash.
     },
   },
 }
+
+var localeTextDomainOOLexicon = { ... same like before ... };
+
+<script type="text/javascript"><!--
+var localeTextDomainOOLexicon = { ... same like before ... };
+--></script>
