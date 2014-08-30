@@ -6,6 +6,7 @@ example/05_expand_gettext_modifier.pl
 example/06_expand_maketext_formatter_code.pl
 example/11_gettext_hash.pl
 example/12_gettext_mo_utf-8.pl
+example/12_gettext_po_utf-8.pl
 example/13_gettext_mo_cp1252.pl
 example/14_gettext_N.pl
 example/16_multiplural_mo_utf-8.pl
@@ -35,6 +36,7 @@ lib/Locale/TextDomain/OO.pm
 lib/Locale/TextDomain/OO/FunctionalInterface.pm
 lib/Locale/TextDomain/OO/JavaScript.pm
 lib/Locale/TextDomain/OO/Lexicon/File/MO.pm
+lib/Locale/TextDomain/OO/Lexicon/File/PO.pm
 lib/Locale/TextDomain/OO/Lexicon/Hash.pm
 lib/Locale/TextDomain/OO/Lexicon/Role/Constants.pm
 lib/Locale/TextDomain/OO/Lexicon/Role/ExtractHeader.pm
@@ -64,6 +66,7 @@ t/05_expand_gettext_modifier.t
 t/06_expand_maketext_formatter_code.t
 t/11_gettext_hash_utf-8.t
 t/12_gettext_mo_utf-8.t
+t/12_gettext_po_utf-8.t
 t/13_gettext_cp1252.t
 t/14_gettext_N.t
 t/15_gettext_exceptions.t

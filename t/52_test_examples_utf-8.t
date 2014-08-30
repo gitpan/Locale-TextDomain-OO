@@ -13,7 +13,7 @@ $ENV{AUTHOR_TESTING} or plan(
     skip_all => 'Set $ENV{AUTHOR_TESTING} to run this test.'
 );
 
-plan(tests => 6);
+plan(tests => 7);
 
 my @data = (
     {
@@ -38,6 +38,26 @@ EOT
         result => <<'EOT',
 debug: Lexicon "de::" loaded from file "LocaleData/de/LC_MESSAGES/example.mo".
 debug: Lexicon "ru::" loaded from file "LocaleData/ru/LC_MESSAGES/example.mo".
+Using lexicon "ru::". msgstr not found for msgctxt=undef, msgid="not existing text".
+not existing text
+книга
+Он живет в Москве.
+1 книга
+3 книги
+5 книг
+воссоединение
+Это 1 воссоединение.
+Это 3 воссоединения.
+Эти 5 воссоединения.
+EOT
+    },
+    {
+        test   => '12_gettext_po_utf-8',
+        path   => 'example',
+        script => '-I../lib -T 12_gettext_po_utf-8.pl',
+        result => <<'EOT',
+debug: Lexicon "de::" loaded from file "LocaleData/de/LC_MESSAGES/example.po".
+debug: Lexicon "ru::" loaded from file "LocaleData/ru/LC_MESSAGES/example.po".
 Using lexicon "ru::". msgstr not found for msgctxt=undef, msgid="not existing text".
 not existing text
 книга

@@ -20,7 +20,7 @@ name: Locale-TextDomain-OO
 provides:
   Locale::TextDomain::OO:
     file: lib/Locale/TextDomain/OO.pm
-    version: 1.011
+    version: 1.012
   Locale::TextDomain::OO::FunctionalInterface:
     file: lib/Locale/TextDomain/OO/FunctionalInterface.pm
     version: 1.000
@@ -30,6 +30,9 @@ provides:
   Locale::TextDomain::OO::Lexicon::File::MO:
     file: lib/Locale/TextDomain/OO/Lexicon/File/MO.pm
     version: 1.007
+  Locale::TextDomain::OO::Lexicon::File::PO:
+    file: lib/Locale/TextDomain/OO/Lexicon/File/PO.pm
+    version: 1.012
   Locale::TextDomain::OO::Lexicon::Hash:
     file: lib/Locale/TextDomain/OO/Lexicon/Hash.pm
     version: 1.006
@@ -97,6 +100,7 @@ requires:
   JSON: 0
   List::MoreUtils: 0
   Locale::MO::File: 0
+  Locale::PO: 0.24
   Locale::Utils::PlaceholderMaketext: 0.004
   Locale::Utils::PlaceholderNamed: 0.005
   Moo: 1.003001
@@ -112,4 +116,4 @@ requires:
   perl: 5.008
 resources:
   license: http://dev.perl.org/licenses/
-version: 1.011
+version: 1.012

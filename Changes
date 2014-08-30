@@ -1,5 +1,8 @@
 Revision history for Perl extension Locale::TextDomain::OO.
 
+1.012  Sat Aug 30 20:44:39 2014
+- allow PO files as lexicon
+
 1.011  Thu May 15 21:52:39 2014
 - JavaScript things
   - new store format to_javascript and to_html
