@@ -1,5 +1,8 @@
 Revision history for Perl extension Locale::TextDomain::OO.
 
+1.013  Tue Sep  2 07:49:52 2014
+- repaired Pod
+
 1.012  Sat Aug 30 20:44:39 2014
 - allow PO files as lexicon
 

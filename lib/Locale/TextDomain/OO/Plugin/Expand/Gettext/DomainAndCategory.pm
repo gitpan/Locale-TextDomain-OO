@@ -7,7 +7,7 @@ use Locale::Utils::PlaceholderNamed;
 use Moo::Role;
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.013';
 
 with qw(
     Locale::TextDomain::OO::Plugin::Expand::Gettext
@@ -285,7 +285,7 @@ $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk
 
 =head1 VERSION
 
-1.000
+1.013
 
 =head1 DESCRIPTION
 
@@ -375,6 +375,18 @@ Other methods are similar extended.
 The domain is the 1st parameter.
 The category is the last parameter
 but before the placeholder replacement hash/hash_ref.
+
+=head3 methods N__d, N__dn, N__dp, N__dnp, N__dx, N__dnx, N__dpx, N__dnpx
+
+none translating methods with domain
+
+=head3 methods N__c, N__cn, N__cp, N__cnp, N__cx, N__cnx, N__cpx, N__cnpx
+
+none translating methods with category
+
+=head3 methods N__dc, N__dcn, N__dcp, N__dcnp, N__dcx, N__dcnx, N__dcpx, N__dcnpx
+
+none translating methods with domain and category
 
 =head1 EXAMPLE
 

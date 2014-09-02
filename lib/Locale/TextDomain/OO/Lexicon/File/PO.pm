@@ -58,7 +58,7 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::File::PO - Gettext po file as lexicon
 
-$Id: PO.pm 467 2014-01-20 15:56:22Z steffenw $
+$Id: PO.pm 508 2014-08-30 18:52:57Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/File/PO.pm $
 
