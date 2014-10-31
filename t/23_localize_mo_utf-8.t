@@ -43,12 +43,12 @@ is
     '§ книга',
     'localize, umlaut';
 is
-    $loc->localize_p(
+    $loc->localize_mp(
         'appointment',
         'date',
     ),
     'воссоединение',
-    'localize_p';
+    'localize_mp';
 is
     $loc->Nlocalize(
         'book',
@@ -57,7 +57,7 @@ is
     'Nlocalize';
 eq_or_diff
     [
-        $loc->Nlocalize_p(
+        $loc->Nlocalize_mp(
             'appointment',
             'date',
         ),
@@ -66,10 +66,10 @@ eq_or_diff
         'appointment',
         'date',
     ],
-    'Nlocalize_p';
+    'Nlocalize_mp';
 eq_or_diff
     [
-        $loc->Nlocalize_p(
+        $loc->Nlocalize_mp(
             'not existing context',
             'book',
         ),
@@ -78,4 +78,4 @@ eq_or_diff
         'not existing context',
         'book',
     ],
-    'Nlocalize_p (not in lexicon)';
+    'Nlocalize_mp (not in lexicon)';

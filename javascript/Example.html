@@ -21,11 +21,11 @@
             localeTextDomainOOLexicon['de:mycategory:mydomain'] = { '' : { 'plural' : 'n != 1' } };
         </script>
         <script type="text/javascript" src="/static/ext/Locale/TextDomain/OO.js"></script>
-        <script type="text/javascript" src="/static/ext/Locale/TextDomain/OO/Plugin/Expand/Gettext.js"></script>
-        <script type="text/javascript" src="/static/ext/Locale/TextDomain/OO/Plugin/Expand/Gettext/DomainAndCategory.js"></script>
+        <script type="text/javascript" src="/static/ext/Locale/TextDomain/OO/Plugin/Expand/Gettext/Loc.js"></script>
+        <script type="text/javascript" src="/static/ext/Locale/TextDomain/OO/Plugin/Expand/Gettext/Loc/DomainAndCategory.js"></script>
         <script type="text/javascript">
             var ltdoo = new localeTextDomainOO({
-                plugins  : [ 'localeTextDomainOOExpandGettextDomainAndCategory' ],
+                plugins  : [ 'localeTextDomainOOExpandGettextLocDomainAndCategory' ],
                 language : '@{[ $language_tag ]}', // from Perl
                 filter   : function(translation) { // optional filter
                     return 'filtered: ' + translation;
@@ -38,19 +38,21 @@
         </script>
     </head>
     <body>
+        <h1>version 1.014</h1>
         <script type="text/javascript">
             var gettext = [
-                '__: '      + ltdoo.__('JS translation test'),
-                '__n 1: '   + ltdoo.__n('JS translation test', 'JS translation tests', 1),
-                '__n 2: '   + ltdoo.__n('JS translation test', 'JS translation tests', 2),
-                '__np 1: '  + ltdoo.__np('myctxt', 'JS translation test', 'JS translation tests', 1),
-                '__np 2: '  + ltdoo.__np('myctxt', 'JS translation test', 'JS translation tests', 2),
-                '__px: '    + ltdoo.__x('JS translation test with {digit :num} and {str}', {digit : 0, str : 'Ä'}),
-                '__px: '    + ltdoo.__px('myctxt', 'JS translation test with {digit :num} and {str}', {digit : 0, str : 'Ä'}),
-                '__nx 1: '  + ltdoo.__nx('JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}),
-                '__nx 2: '  + ltdoo.__nx('JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}),
-                '__npx 1: ' + ltdoo.__npx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}),
-                '__npx 2: ' + ltdoo.__npx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2})
+                'loc_: '      + ltdoo.loc_('JS translation test'),
+                'loc_n 1: '   + ltdoo.loc_n('JS translation test', 'JS translation tests', 1),
+                'loc_n 2: '   + ltdoo.loc_n('JS translation test', 'JS translation tests', 2),
+                'loc_p: '     + ltdoo.loc_p('myctxt', 'JS translation test'),
+                'loc_np 1: '  + ltdoo.loc_np('myctxt', 'JS translation test', 'JS translation tests', 1),
+                'loc_np 2: '  + ltdoo.loc_np('myctxt', 'JS translation test', 'JS translation tests', 2),
+                'loc_x: '     + ltdoo.loc_x('JS translation test with {digit :num} and {char}', {digit : 0, char : 'Ä'}),
+                'loc_nx 1: '  + ltdoo.loc_nx('JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}),
+                'loc_nx 2: '  + ltdoo.loc_nx('JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}),
+                'loc_px: '    + ltdoo.loc_px('myctxt', 'JS translation test with {digit :num} and {char}', {digit : 0, char : 'Ä'}),
+                'loc_npx 1: ' + ltdoo.loc_npx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}),
+                'loc_npx 2: ' + ltdoo.loc_npx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2})
             ];
             document.writeln('<h1>Gettext, client side, filter puts "filtered: " in front</h1><p>');
             jQuery.each(
@@ -62,17 +64,18 @@
             document.writeln('</p>');
 
             var gettextN = [
-                [ 'N__: ',      [ ltdoo.N__('JS translation test') ] ],
-                [ 'N__n 1: ',   [ ltdoo.N__n('JS translation test', 'JS translation tests', 1) ] ],
-                [ 'N__n 2: ',   [ ltdoo.N__n('JS translation test', 'JS translation tests', 2) ] ],
-                [ 'N__np 1: ',  [ ltdoo.N__np('myctxt', 'JS translation test', 'JS translation tests', 1) ] ],
-                [ 'N__np 2: ',  [ ltdoo.N__np('myctxt', 'JS translation test', 'JS translation tests', 2) ] ],
-                [ 'N__x: ',     [ ltdoo.N__x('JS translation test with {digit :num} and {str}', {digit : 0, str : 'Ä'}) ] ],
-                [ 'N__px: ',    [ ltdoo.N__px('myctxt', 'JS translation test with {digit :num} and {str}', {digit : 0, str : 'Ä'}) ] ],
-                [ 'N__nx 1: ',  [ ltdoo.N__nx('JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}) ] ],
-                [ 'N__nx 2: ',  [ ltdoo.N__nx('JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}) ] ],
-                [ 'N__npx 1: ', [ ltdoo.N__npx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}) ] ],
-                [ 'N__npx 2: ', [ ltdoo.N__npx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}) ] ]
+                [ 'Nloc_: ',      [ ltdoo.Nloc_('JS translation test') ] ],
+                [ 'Nloc_n 1: ',   [ ltdoo.Nloc_n('JS translation test', 'JS translation tests', 1) ] ],
+                [ 'Nloc_n 2: ',   [ ltdoo.Nloc_n('JS translation test', 'JS translation tests', 2) ] ],
+                [ 'Nloc_p: ',     [ ltdoo.Nloc_p('myctxt', 'JS translation test') ] ],
+                [ 'Nloc_np 1: ',  [ ltdoo.Nloc_np('myctxt', 'JS translation test', 'JS translation tests', 1) ] ],
+                [ 'Nloc_np 2: ',  [ ltdoo.Nloc_np('myctxt', 'JS translation test', 'JS translation tests', 2) ] ],
+                [ 'Nloc_x: ',     [ ltdoo.Nloc_x('JS translation test with {digit :num} and {char}', {digit : 0, char : 'Ä'}) ] ],
+                [ 'Nloc_nx 1: ',  [ ltdoo.Nloc_nx('JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}) ] ],
+                [ 'Nloc_nx 2: ',  [ ltdoo.Nloc_nx('JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}) ] ],
+                [ 'Nloc_px: ',    [ ltdoo.Nloc_px('myctxt', 'JS translation test with {digit :num} and {char}', {digit : 0, char : 'Ä'}) ] ],
+                [ 'Nloc_npx 1: ', [ ltdoo.Nloc_npx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}) ] ],
+                [ 'Nloc_npx 2: ', [ ltdoo.Nloc_npx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}) ] ]
             ];
             document.writeln('<h1>Gettext, client side, no translation</h1><p>');
             jQuery.each(
@@ -84,17 +87,18 @@
             document.writeln('</p>');
 
             var gettextDomain = [
-                '__: '      + ltdoo.__d('mydomain', 'JS translation test'),
-                '__n 1: '   + ltdoo.__dn('mydomain', 'JS translation test', 'JS translation tests', 1),
-                '__n 2: '   + ltdoo.__dn('mydomain', 'JS translation test', 'JS translation tests', 2),
-                '__np 1: '  + ltdoo.__dnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 1),
-                '__np 2: '  + ltdoo.__dnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 2),
-                '__px: '    + ltdoo.__dx('mydomain', 'JS translation test with {digit :num} and {str}', {digit : 0, str : 'Ä'}),
-                '__px: '    + ltdoo.__dpx('mydomain', 'myctxt', 'JS translation test with {digit :num} and {str}', {digit : 0, str : 'Ä'}),
-                '__nx 1: '  + ltdoo.__dnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}),
-                '__nx 2: '  + ltdoo.__dnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}),
-                '__npx 1: ' + ltdoo.__dnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}),
-                '__npx 2: ' + ltdoo.__dnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2})
+                'loc_d: '      + ltdoo.loc_d('mydomain', 'JS translation test'),
+                'loc_dn 1: '   + ltdoo.loc_dn('mydomain', 'JS translation test', 'JS translation tests', 1),
+                'loc_dn 2: '   + ltdoo.loc_dn('mydomain', 'JS translation test', 'JS translation tests', 2),
+                'loc_dp: '     + ltdoo.loc_dp('mydomain', 'myctxt', 'JS translation test'),
+                'loc_dnp 1: '  + ltdoo.loc_dnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 1),
+                'loc_dnp 2: '  + ltdoo.loc_dnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 2),
+                'loc_dx: '     + ltdoo.loc_dx('mydomain', 'JS translation test with {digit :num} and {char}', {digit : 0, char : 'Ä'}),
+                'loc_dnx 1: '  + ltdoo.loc_dnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}),
+                'loc_dnx 2: '  + ltdoo.loc_dnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}),
+                'loc_dpx: '    + ltdoo.loc_dpx('mydomain', 'myctxt', 'JS translation test with {digit :num} and {char}', {digit : 0, char : 'Ä'}),
+                'loc_dnpx 1: ' + ltdoo.loc_dnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}),
+                'loc_dnpx 2: ' + ltdoo.loc_dnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2})
             ];
             document.writeln('<h1>Gettext, client side, for mydomain, filter puts "filtered: " in front</h1><p>');
             jQuery.each(
@@ -106,17 +110,18 @@
             document.writeln('</p>');
 
             var gettextDomainN = [
-                [ 'N__: ',      [ ltdoo.N__d('mydomain', 'JS translation test') ] ],
-                [ 'N__n 1: ',   [ ltdoo.N__dn('mydomain', 'JS translation test', 'JS translation tests', 1) ] ],
-                [ 'N__n 2: ',   [ ltdoo.N__dn('mydomain', 'JS translation test', 'JS translation tests', 2) ] ],
-                [ 'N__np 1: ',  [ ltdoo.N__dnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 1) ] ],
-                [ 'N__np 2: ',  [ ltdoo.N__dnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 2) ] ],
-                [ 'N__x: ',     [ ltdoo.N__dx('mydomain', 'JS translation test with {digit :num} and {str}', {digit : 0, str : 'Ä'}) ] ],
-                [ 'N__px: ',    [ ltdoo.N__dpx('mydomain', 'myctxt', 'JS translation test with {digit :num} and {str}', {digit : 0, str : 'Ä'}) ] ],
-                [ 'N__nx 1: ',  [ ltdoo.N__dnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}) ] ],
-                [ 'N__nx 2: ',  [ ltdoo.N__dnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}) ] ],
-                [ 'N__npx 1: ', [ ltdoo.N__dnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}) ] ],
-                [ 'N__npx 2: ', [ ltdoo.N__dnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}) ] ]
+                [ 'Nloc_d: ',      [ ltdoo.Nloc_d('mydomain', 'JS translation test') ] ],
+                [ 'Nloc_dn 1: ',   [ ltdoo.Nloc_dn('mydomain', 'JS translation test', 'JS translation tests', 1) ] ],
+                [ 'Nloc_dn 2: ',   [ ltdoo.Nloc_dn('mydomain', 'JS translation test', 'JS translation tests', 2) ] ],
+                [ 'Nloc_dp: ',     [ ltdoo.Nloc_dp('mydomain', 'myctxt', 'JS translation test') ] ],
+                [ 'Nloc_dnp 1: ',  [ ltdoo.Nloc_dnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 1) ] ],
+                [ 'Nloc_dnp 2: ',  [ ltdoo.Nloc_dnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 2) ] ],
+                [ 'Nloc_dx: ',     [ ltdoo.Nloc_dx('mydomain', 'JS translation test with {digit :num} and {char}', {digit : 0, char : 'Ä'}) ] ],
+                [ 'Nloc_dnx 1: ',  [ ltdoo.Nloc_dnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}) ] ],
+                [ 'Nloc_dnx 2: ',  [ ltdoo.Nloc_dnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}) ] ],
+                [ 'Nloc_dpx: ',    [ ltdoo.Nloc_dpx('mydomain', 'myctxt', 'JS translation test with {digit :num} and {char}', {digit : 0, char : 'Ä'}) ] ],
+                [ 'Nloc_dnpx 1: ', [ ltdoo.Nloc_dnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, {n : 1}) ] ],
+                [ 'Nloc_dnpx 2: ', [ ltdoo.Nloc_dnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, {n : 2}) ] ]
             ];
             document.writeln('<h1>Gettext, client side, for mydomain, no translation</h1><p>');
             jQuery.each(
@@ -128,17 +133,18 @@
             document.writeln('</p>');
 
             var gettextCategory = [
-                '__: '      + ltdoo.__c('JS translation test', 'mycategory'),
-                '__n 1: '   + ltdoo.__cn('JS translation test', 'JS translation tests', 1, 'mycategory'),
-                '__n 2: '   + ltdoo.__cn('JS translation test', 'JS translation tests', 2, 'mycategory'),
-                '__np 1: '  + ltdoo.__cnp('myctxt', 'JS translation test', 'JS translation tests', 1, 'mycategory'),
-                '__np 2: '  + ltdoo.__cnp('myctxt', 'JS translation test', 'JS translation tests', 2, 'mycategory'),
-                '__px: '    + ltdoo.__cx('JS translation test with {digit :num} and {str}', 'mycategory', {digit : 0, str : 'Ä'}),
-                '__px: '    + ltdoo.__cpx('myctxt', 'JS translation test with {digit :num} and {str}', 'mycategory', {digit : 0, str : 'Ä'}),
-                '__nx 1: '  + ltdoo.__cnx('JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}),
-                '__nx 2: '  + ltdoo.__cnx('JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}),
-                '__npx 1: ' + ltdoo.__cnpx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}),
-                '__npx 2: ' + ltdoo.__cnpx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2})
+                'loc_c: '      + ltdoo.loc_c('JS translation test', 'mycategory'),
+                'loc_cn 1: '   + ltdoo.loc_cn('JS translation test', 'JS translation tests', 1, 'mycategory'),
+                'loc_cn 2: '   + ltdoo.loc_cn('JS translation test', 'JS translation tests', 2, 'mycategory'),
+                'loc_cp: '     + ltdoo.loc_cp('myctxt', 'JS translation test', 'mycategory'),
+                'loc_cnp 1: '  + ltdoo.loc_cnp('myctxt', 'JS translation test', 'JS translation tests', 1, 'mycategory'),
+                'loc_cnp 2: '  + ltdoo.loc_cnp('myctxt', 'JS translation test', 'JS translation tests', 2, 'mycategory'),
+                'loc_cx: '     + ltdoo.loc_cx('JS translation test with {digit :num} and {char}', 'mycategory', {digit : 0, char : 'Ä'}),
+                'loc_cnx 1: '  + ltdoo.loc_cnx('JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}),
+                'loc_cnx 2: '  + ltdoo.loc_cnx('JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}),
+                'loc_cpx: '    + ltdoo.loc_cpx('myctxt', 'JS translation test with {digit :num} and {char}', 'mycategory', {digit : 0, char : 'Ä'}),
+                'loc_cnpx 1: ' + ltdoo.loc_cnpx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}),
+                'loc_cnpx 2: ' + ltdoo.loc_cnpx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2})
             ];
             document.writeln('<h1>Gettext, client side, for mycategory, filter puts "filtered: " in front</h1><p>');
             jQuery.each(
@@ -150,17 +156,18 @@
             document.writeln('</p>');
 
             var gettextCategoryN = [
-                [ 'N__: ',      [ ltdoo.N__c('JS translation test', 'mycategory') ] ],
-                [ 'N__n 1: ',   [ ltdoo.N__cn('JS translation test', 'JS translation tests', 1, 'mycategory') ] ],
-                [ 'N__n 2: ',   [ ltdoo.N__cn('JS translation test', 'JS translation tests', 2, 'mycategory') ] ],
-                [ 'N__np 1: ',  [ ltdoo.N__cnp('myctxt', 'JS translation test', 'JS translation tests', 1, 'mycategory') ] ],
-                [ 'N__np 2: ',  [ ltdoo.N__cnp('myctxt', 'JS translation test', 'JS translation tests', 2, 'mycategory') ] ],
-                [ 'N__x: ',     [ ltdoo.N__cx('JS translation test with {digit :num} and {str}', 'mycategory', {digit : 0, str : 'Ä'}) ] ],
-                [ 'N__px: ',    [ ltdoo.N__cpx('myctxt', 'JS translation test with {digit :num} and {str}', 'mycategory', {digit : 0, str : 'Ä'}) ] ],
-                [ 'N__nx 1: ',  [ ltdoo.N__cnx('JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}) ] ],
-                [ 'N__nx 2: ',  [ ltdoo.N__cnx('JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}) ] ],
-                [ 'N__npx 1: ', [ ltdoo.N__cnpx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}) ] ],
-                [ 'N__npx 2: ', [ ltdoo.N__cnpx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}) ] ]
+                [ 'Nloc_c: ',      [ ltdoo.Nloc_c('JS translation test', 'mycategory') ] ],
+                [ 'Nloc_cn 1: ',   [ ltdoo.Nloc_cn('JS translation test', 'JS translation tests', 1, 'mycategory') ] ],
+                [ 'Nloc_cn 2: ',   [ ltdoo.Nloc_cn('JS translation test', 'JS translation tests', 2, 'mycategory') ] ],
+                [ 'Nloc_cp: ',     [ ltdoo.Nloc_cp('myctxt', 'JS translation test', 'mycategory') ] ],
+                [ 'Nloc_cnp 1: ',  [ ltdoo.Nloc_cnp('myctxt', 'JS translation test', 'JS translation tests', 1, 'mycategory') ] ],
+                [ 'Nloc_cnp 2: ',  [ ltdoo.Nloc_cnp('myctxt', 'JS translation test', 'JS translation tests', 2, 'mycategory') ] ],
+                [ 'Nloc_cx: ',     [ ltdoo.Nloc_cx('JS translation test with {digit :num} and {char}', 'mycategory', {digit : 0, char : 'Ä'}) ] ],
+                [ 'Nloc_cnx 1: ',  [ ltdoo.Nloc_cnx('JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}) ] ],
+                [ 'Nloc_cnx 2: ',  [ ltdoo.Nloc_cnx('JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}) ] ],
+                [ 'Nloc_cpx: ',    [ ltdoo.Nloc_cpx('myctxt', 'JS translation test with {digit :num} and {char}', 'mycategory', {digit : 0, char : 'Ä'}) ] ],
+                [ 'Nloc_cnpx 1: ', [ ltdoo.Nloc_cnpx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}) ] ],
+                [ 'Nloc_cnpx 2: ', [ ltdoo.Nloc_cnpx('myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}) ] ]
             ];
             document.writeln('<h1>Gettext, client side, for mycategory, no translation</h1><p>');
             jQuery.each(
@@ -172,17 +179,18 @@
             document.writeln('</p>');
 
             var gettextDomainCategory = [
-                '__: '      + ltdoo.__dc('mydomain', 'JS translation test', 'mycategory'),
-                '__n 1: '   + ltdoo.__dcn('mydomain', 'JS translation test', 'JS translation tests', 1, 'mycategory'),
-                '__n 2: '   + ltdoo.__dcn('mydomain', 'JS translation test', 'JS translation tests', 2, 'mycategory'),
-                '__np 1: '  + ltdoo.__dcnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 1, 'mycategory'),
-                '__np 2: '  + ltdoo.__dcnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 2, 'mycategory'),
-                '__px: '    + ltdoo.__dcx('mydomain', 'JS translation test with {digit :num} and {str}', 'mycategory', {digit : 0, str : 'Ä'}),
-                '__px: '    + ltdoo.__dcpx('mydomain', 'myctxt', 'JS translation test with {digit :num} and {str}', 'mycategory', {digit : 0, str : 'Ä'}),
-                '__nx 1: '  + ltdoo.__dcnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}),
-                '__nx 2: '  + ltdoo.__dcnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}),
-                '__npx 1: ' + ltdoo.__dcnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}),
-                '__npx 2: ' + ltdoo.__dcnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2})
+                'loc_dc: '      + ltdoo.loc_dc('mydomain', 'JS translation test', 'mycategory'),
+                'loc_dcn 1: '   + ltdoo.loc_dcn('mydomain', 'JS translation test', 'JS translation tests', 1, 'mycategory'),
+                'loc_dcn 2: '   + ltdoo.loc_dcn('mydomain', 'JS translation test', 'JS translation tests', 2, 'mycategory'),
+                'loc_dcp 1: '   + ltdoo.loc_dcp('mydomain', 'myctxt', 'JS translation test', 'mycategory'),
+                'loc_dcnp 1: '  + ltdoo.loc_dcnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 1, 'mycategory'),
+                'loc_dcnp 2: '  + ltdoo.loc_dcnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 2, 'mycategory'),
+                'loc_dcx: '     + ltdoo.loc_dcx('mydomain', 'JS translation test with {digit :num} and {char}', 'mycategory', {digit : 0, char : 'Ä'}),
+                'loc_dcnx 1: '  + ltdoo.loc_dcnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}),
+                'loc_dcnx 2: '  + ltdoo.loc_dcnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}),
+                'loc_dcpx: '    + ltdoo.loc_dcpx('mydomain', 'myctxt', 'JS translation test with {digit :num} and {char}', 'mycategory', {digit : 0, char : 'Ä'}),
+                'loc_dcnpx 1: ' + ltdoo.loc_dcnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}),
+                'loc_dcnpx 2: ' + ltdoo.loc_dcnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2})
             ];
             document.writeln('<h1>Gettext, client side, for mydomain and my category, filter puts "filtered: " in front</h1><p>');
             jQuery.each(
@@ -194,17 +202,18 @@
             document.writeln('</p>');
 
             var gettextDomainCategoryN = [
-                [ 'N__: ',      [ ltdoo.N__dc('mydomain', 'JS translation test', 'mycategory') ] ],
-                [ 'N__n 1: ',   [ ltdoo.N__dcn('mydomain', 'JS translation test', 'JS translation tests', 1, 'mycategory') ] ],
-                [ 'N__n 2: ',   [ ltdoo.N__dcn('mydomain', 'JS translation test', 'JS translation tests', 2, 'mycategory') ] ],
-                [ 'N__np 1: ',  [ ltdoo.N__dcnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 1, 'mycategory') ] ],
-                [ 'N__np 2: ',  [ ltdoo.N__dcnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 2, 'mycategory') ] ],
-                [ 'N__x: ',     [ ltdoo.N__dcx('mydomain', 'JS translation test with {digit :num} and {str}', 'mycategory', {digit : 0, str : 'Ä'}) ] ],
-                [ 'N__px: ',    [ ltdoo.N__dcpx('mydomain', 'myctxt', 'JS translation test with {digit :num} and {str}', 'mycategory', {digit : 0, str : 'Ä'}) ] ],
-                [ 'N__nx 1: ',  [ ltdoo.N__dcnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}) ] ],
-                [ 'N__nx 2: ',  [ ltdoo.N__dcnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}) ] ],
-                [ 'N__npx 1: ', [ ltdoo.N__dcnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}) ] ],
-                [ 'N__npx 2: ', [ ltdoo.N__dcnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}) ] ]
+                [ 'Nloc_dc: ',      [ ltdoo.Nloc_dc('mydomain', 'JS translation test', 'mycategory') ] ],
+                [ 'Nloc_dcn 1: ',   [ ltdoo.Nloc_dcn('mydomain', 'JS translation test', 'JS translation tests', 1, 'mycategory') ] ],
+                [ 'Nloc_dcn 2: ',   [ ltdoo.Nloc_dcn('mydomain', 'JS translation test', 'JS translation tests', 2, 'mycategory') ] ],
+                [ 'Nloc_dcp 1: ',   [ ltdoo.Nloc_dcnp('mydomain', 'myctxt', 'JS translation test', 'mycategory') ] ],
+                [ 'Nloc_dcnp 1: ',  [ ltdoo.Nloc_dcnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 1, 'mycategory') ] ],
+                [ 'Nloc_dcnp 2: ',  [ ltdoo.Nloc_dcnp('mydomain', 'myctxt', 'JS translation test', 'JS translation tests', 2, 'mycategory') ] ],
+                [ 'Nloc_dcx: ',     [ ltdoo.Nloc_dcx('mydomain', 'JS translation test with {digit :num} and {char}', 'mycategory', {digit : 0, char : 'Ä'}) ] ],
+                [ 'Nloc_dcnx 1: ',  [ ltdoo.Nloc_dcnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}) ] ],
+                [ 'Nloc_dcnx 2: ',  [ ltdoo.Nloc_dcnx('mydomain', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}) ] ],
+                [ 'Nloc_dcpx: ',    [ ltdoo.Nloc_dcpx('mydomain', 'myctxt', 'JS translation test with {digit :num} and {char}', 'mycategory', {digit : 0, char : 'Ä'}) ] ],
+                [ 'Nloc_dcnpx 1: ', [ ltdoo.Nloc_dcnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 1, 'mycategory', {n : 1}) ] ],
+                [ 'Nloc_dcnpx 2: ', [ ltdoo.Nloc_dcnpx('mydomain', 'myctxt', 'JS translation {n :num} test', 'JS translation {n :num} tests', 2, 'mycategory', {n : 2}) ] ]
             ];
             document.writeln('<h1>Gettext, client side, for mydomain and category, no translation</h1><p>');
             jQuery.each(

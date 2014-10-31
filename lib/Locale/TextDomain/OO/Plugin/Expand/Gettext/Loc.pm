@@ -1,4 +1,4 @@
-package Locale::TextDomain::OO::Plugin::Expand::Gettext; ## no critic (TidyCode)
+package Locale::TextDomain::OO::Plugin::Expand::Gettext::Loc; ## no critic (TidyCode)
 
 use strict;
 use warnings;
@@ -14,18 +14,18 @@ requires qw(
     run_filter
 );
 
-has expand_gettext => (
+has expand_gettext_loc => (
     is      => 'rw',
     default => sub {
         return Locale::Utils::PlaceholderNamed->new;
     },
 );
 
-sub __x {
+sub loc_x {
     my ($self, $msgid, @args) = @_;
 
     my $translation = $self->translate(undef, $msgid);
-    @args and $translation = $self->expand_gettext->expand_named(
+    @args and $translation = $self->expand_gettext_loc->expand_named(
         $translation,
         @args == 1 ? %{ $args[0] } : @args,
     );
@@ -35,11 +35,11 @@ sub __x {
     return $translation;
 }
 
-sub __nx {
+sub loc_nx {
     my ($self, $msgid, $msgid_plural, $count, @args) = @_;
 
     my $translation = $self->translate(undef, $msgid, $msgid_plural, $count, 1);
-    @args and $translation = $self->expand_gettext->expand_named(
+    @args and $translation = $self->expand_gettext_loc->expand_named(
         $translation,
         @args == 1 ? %{ $args[0] } : @args,
     );
@@ -49,11 +49,11 @@ sub __nx {
     return $translation;
 }
 
-sub __px {
+sub loc_px {
     my ($self, $msgctxt, $msgid, @args) = @_;
 
     my $translation = $self->translate($msgctxt, $msgid);
-    @args and $translation = $self->expand_gettext->expand_named(
+    @args and $translation = $self->expand_gettext_loc->expand_named(
         $translation,
         @args == 1 ? %{ $args[0] } : @args,
     );
@@ -63,11 +63,11 @@ sub __px {
     return $translation;
 }
 
-sub __npx { ## no critic (ManyArgs)
+sub loc_npx { ## no critic (ManyArgs)
     my ($self, $msgctxt, $msgid, $msgid_plural, $count, @args) = @_;
 
     my $translation = $self->translate($msgctxt, $msgid, $msgid_plural, $count, 1);
-    @args and $translation = $self->expand_gettext->expand_named(
+    @args and $translation = $self->expand_gettext_loc->expand_named(
         $translation,
         @args == 1 ? %{ $args[0] } : @args,
     );
@@ -79,24 +79,24 @@ sub __npx { ## no critic (ManyArgs)
 
 BEGIN {
     no warnings qw(redefine); ## no critic (NoWarnings)
-    *__   = \&__x;
-    *__n  = \&__nx;
-    *__p  = \&__px;
-    *__np = \&__npx;
+    *loc_   = \&loc_x;
+    *loc_n  = \&loc_nx;
+    *loc_p  = \&loc_px;
+    *loc_np = \&loc_npx;
 
     # Dummy methods for string marking.
     my $dummy = sub {
         my (undef, @more) = @_;
         return wantarray ? @more : $more[0];
     };
-    *N__    = $dummy;
-    *N__x   = $dummy;
-    *N__n   = $dummy;
-    *N__nx  = $dummy;
-    *N__p   = $dummy;
-    *N__px  = $dummy;
-    *N__np  = $dummy;
-    *N__npx = $dummy;
+    *Nloc_    = $dummy;
+    *Nloc_x   = $dummy;
+    *Nloc_n   = $dummy;
+    *Nloc_nx  = $dummy;
+    *Nloc_p   = $dummy;
+    *Nloc_px  = $dummy;
+    *Nloc_np  = $dummy;
+    *Nloc_npx = $dummy;
 }
 
 1;
@@ -105,11 +105,11 @@ __END__
 
 =head1 NAME
 
-Locale::TextDomain::OO::Plugin::Expand::Gettext - Additional gettext methods, prefixed with __
+Locale::TextDomain::OO::Plugin::Expand::Gettext::Loc - Additional gettext methods, prefixed with loc_
 
-$Id: Gettext.pm 545 2014-10-30 13:23:00Z steffenw $
+$Id: Loc.pm 545 2014-10-30 13:23:00Z steffenw $
 
-$HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Gettext.pm $
+$HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Gettext/Loc.pm $
 
 =head1 VERSION
 
@@ -124,7 +124,7 @@ for static domain and category handling.
 
     my $loc = Locale::Text::TextDomain::OO->new(
         plugins => [ qw (
-            Expand::Gettext
+            Expand::Gettext::Loc
             ...
         )],
         ...
@@ -134,20 +134,20 @@ Optional type formatting or grammar stuff see
 L<Locale::Utils::PlaceholderNamed|Locale::Utils::PlaceholderNamed>
 for possible methods.
 
-    $loc->expand_gettext->modifier_code($code_ref);
+    $loc->expand_gettext_loc->modifier_code($code_ref);
 
 =head1 SUBROUTINES/METHODS
 
-=head2 method expand_gettext
+=head2 method expand_gettext_loc
 
 Returns the Locale::Utils::PlaceholderNamed object
 to be able to set some options.
 
-    my $expander_object = $self->expand_gettext;
+    my $expander_object = $self->expand_gettext_loc;
 
 e.g.
 
-    $self->expand_gettext->modifier_code(
+    $self->expand_gettext_loc->modifier_code(
         sub {
             my ( $value, $attribute ) = @_;
             if ( $attribute eq 'numf' ) {
@@ -171,61 +171,61 @@ e.g.
 
 How to build the method name?
 
-Use __ and append this with "n", "p" and/or "x" in alphabetic order.
+Use loc_ and append this with "n", "p" and/or "x" in alphabetic order.
 
  .------------------------------------------------------------------------.
  | Snippet | Description                                                  |
  |---------+--------------------------------------------------------------|
- | __      | Special marked for extraction.                               |
+ | loc_    | Special marked for extraction.                               |
  | n       | Using plural forms.                                          |
  | p       | Context is the first parameter.                              |
  | x       | Last parameters as hash/hash_ref are for named placeholders. |
  '------------------------------------------------------------------------'
 
-=head3 method __
+=head3 method loc_
 
 Translate only
 
-    print $loc->__(
+    print $loc->loc_(
         'Hello World!',
     );
 
-=head3 method __x
+=head3 method loc_x
 
 Expand named placeholders
 
-    print $loc->__x(
+    print $loc->loc_x(
         'Hello {name}!',
         # hash or hash_ref
         name => 'Steffen',
     );
 
-=head3 method __n
+=head3 method loc_n
 
 Plural
 
-    print $loc->__n(
+    print $loc->loc_n(
         'one file read',       # Singular
         'a lot of files read', # Plural
         $file_count,           # number to select the right plural form
     );
 
-=head3 method __nx
+=head3 method loc_nx
 
 Plural and expand named placeholders
 
-    print $loc->__nx(
-        '{count:num} file read',
-        '{count:num} files read',
+    print $loc->loc_nx(
+        '{count:numf} file read',
+        '{count:numf} files read',
         $file_count,
         # hash or hash_ref
         count => $file_count,
     );
 
-=head3 What is the meaning of C<{count:num}> or alternative C<{count :num}>?
+=head3 What is the meaning of C<{count:numf}> or alternative C<{count :numf}>?
 
 That is a attribute.
-If there is such an attribute like C<:num>
+If there is such an attribute like C<:numf>
 and the modifier_code is set,
 the placeholder value will be modified before replacement.
 
@@ -239,25 +239,25 @@ and tag all numeric placeholders.
 You are allowed to set multiple attributes like C<{count :num :numf}>
 The resulting attribute string is then C<num :numf>.
 
-=head3 method __p
+=head3 method loc_p
 
 Context
 
-    print $loc->__p(
+    print $loc->loc_p(
         'time', # Context
         'to',
     );
 
-    print $loc->__p(
+    print $loc->loc_p(
         'destination', # Context
         'to',
     );
 
-=head3 method __px
+=head3 method loc_px
 
 Context and expand named placeholders
 
-    print $loc->__px(
+    print $loc->loc_px(
         'destination',
         'from {town_from} to {town_to}',
         # hash or hash_ref
@@ -265,22 +265,22 @@ Context and expand named placeholders
         town_to   => 'Erlangen',
     );
 
-=head3 method __np
+=head3 method loc_np
 
 Context and plural
 
-    print $loc->__np(
+    print $loc->loc_np(
         'maskulin',
         'Dear friend',
         'Dear friends',
         $friends,
     );
 
-=head3 method __npx
+=head3 method loc_npx
 
 Context, plural and expand named placeholders
 
-    print $loc->__npx(
+    print $loc->loc_npx(
         'maskulin',
         'Mr. {name} has {count:num} book.',
         'Mr. {name} has {count:num} books.',
@@ -295,26 +295,26 @@ Context, plural and expand named placeholders
 
 How to build the method name?
 
-Use N__ and append this with "n", "p" and/or "x" in alphabetic order.
+Use Nloc_ and append this with "n", "p" and/or "x" in alphabetic order.
 
  .------------------------------------------------------------------------.
  | Snippet | Description                                                  |
  |---------+--------------------------------------------------------------|
- | __      | Special marked for extraction.                               |
+ | loc_    | Special marked for extraction.                               |
  | n       | Using plural forms.                                          |
  | p       | Context is the first parameter.                              |
  | x       | Last parameters as hash/hash_ref are for named placeholders. |
  '------------------------------------------------------------------------'
 
-=head3 methods N__, N__x, N__n, N__nx, N__p, N__px, N__np, N__npx
+=head3 methods Nloc_, Nloc_x, Nloc_n, Nloc_nx, Nloc_p, Nloc_px, Nloc_np, Nloc_npx
 
-The extractor looks for C<__('...>
-and has no problem with C<< $loc->N__('... >>.
+The extractor looks for C<loc_('...>
+and has no problem with C<< $loc->Nloc_('... >>.
 
 This is the idea of the N-Methods.
 
-    $loc->N__('...');
-    $loc->N__x('...', ...);
+    $loc->Nloc_('...');
+    $loc->Nloc_x('...', ...);
     ...
 
 =head1 EXAMPLE

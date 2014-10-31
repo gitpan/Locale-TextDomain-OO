@@ -4,14 +4,15 @@ use strict;
 use warnings;
 use Carp qw(confess);
 use Locale::TextDomain::OO::Singleton::Lexicon;
+use Locale::TextDomain::OO::Util::ExtractHeader;
+use Locale::TextDomain::OO::Util::JoinSplitLexiconKeys;
 use Moo;
 use MooX::StrictConstructor;
 use namespace::autoclean;
 
-our $VERSION = '1.006';
+our $VERSION = '1.014';
 
 with qw(
-    Locale::TextDomain::OO::Lexicon::Role::ExtractHeader
     Locale::TextDomain::OO::Role::Logger
 );
 
@@ -20,15 +21,26 @@ sub lexicon_ref {
 
     ref $hash_lexicon eq 'HASH'
         or confess 'The given lexicon should be a hash reference';
-    my $lexicon = Locale::TextDomain::OO::Singleton::Lexicon->instance;
+    my $lexicon  = Locale::TextDomain::OO::Singleton::Lexicon->instance->data;
+    my $key_util = Locale::TextDomain::OO::Util::JoinSplitLexiconKeys->instance;
     while ( my ($lexicon_key, $lexicon_value) = each %{$hash_lexicon} ) {
         my $header = $lexicon_value->[0];
         my $header_msgstr = $header->{msgstr}
             or confess 'msgstr of header not found';
-        $lexicon_value->[0] = $self->extract_header_msgstr($header_msgstr);
+        $lexicon_value->[0] = Locale::TextDomain::OO::Util::ExtractHeader
+            ->instance
+            ->extract_header_msgstr($header_msgstr);
         my $nplurals = $lexicon_value->[0]->{nplurals};
         VALUE:
         for my $value ( @{$lexicon_value} ) {
+            # move to lexicon
+            my $msg_key = $key_util->join_message_key({
+                msgctxt      => delete $value->{msgctxt},
+                msgid        => my $msgid        = delete $value->{msgid},
+                msgid_plural => my $msgid_plural = delete $value->{msgid_plural},
+            });
+            $lexicon->{$lexicon_key}->{$msg_key} = $value;
+            # structure faults
             exists $value->{msgstr_plural}
                 or next VALUE;
             my $plural_count = @{ $value->{msgstr_plural} };
@@ -36,11 +48,9 @@ sub lexicon_ref {
                 'Count of msgstr_plural=%s but nplurals=%s for msgid="%s" msgid_plural="%s"',
                 $plural_count,
                 $nplurals,
-                ( exists $value->{msgid}        ? $value->{msgid}        : q{} ),
-                ( exists $value->{msgid_plural} ? $value->{msgid_plural} : q{} );
+                ( defined $msgid        ? $msgid        : q{} ),
+                ( defined $msgid_plural ? $msgid_plural : q{} );
         }
-        $lexicon->data->{$lexicon_key}
-            = $self->message_array_to_hash($lexicon_value);
         $self->logger
             and $self->logger->(
                 qq{Lexicon "$lexicon_key" loaded from hash.},
@@ -63,13 +73,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Hash - Lexicon from data structure
 
-$Id: Hash.pm 461 2014-01-09 07:57:37Z steffenw $
+$Id: Hash.pm 546 2014-10-31 09:35:19Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Hash.pm $
 
 =head1 VERSION
 
-1.006
+1.014
 
 =head1 DESCRIPTION
 
@@ -108,7 +118,7 @@ Except the keys "msgstr_plural[0]", "msgstr_plural[1]", ... "msgstr_plural[N]"
 are written as key "msgstr_plural" with an array reference as value.
 
     $self->lexicon_ref({
-        'de:MyCategory:MyDomain' => [
+        'de:MyCategory:MyDomain' . ':OptionalProject' => [
             # header in a very minimalistic form
             {
                 msgid  => "",
@@ -187,13 +197,15 @@ L<Carp|Carp>
 
 L<Locale::TextDomain::OO::Singleton::Lexicon|Locale::TextDomain::OO::Singleton::Lexicon>
 
+L<Locale::TextDomain::OO::Util::ExtractHeader|Locale::TextDomain::OO::Util::ExtractHeader>
+
+L<Locale::TextDomain::OO::Util::JoinSplitLexiconKeys|Locale::TextDomain::OO::Util::JoinSplitLexiconKeys>
+
 L<Moo|Moo>
 
 L<MooX::StrictConstructor|MooX::StrictConstructor>
 
 L<namespace::autoclean|namespace::autoclean>
-
-L<Locale::TextDomain::OO::Lexicon::Role::ExtractHeader|Locale::TextDomain::OO::Lexicon::Role::ExtractHeader>
 
 L<Locale::TextDomain::OO::Role::Logger|Locale::TextDomain::OO::Role::Logger>
 

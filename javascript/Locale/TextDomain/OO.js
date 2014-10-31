@@ -1,112 +1,105 @@
 /*
+version 1.014
+
 requires:
 http://jquery.com/
+localeTextDomainOOExpandGettext (if plugged)
+localeTextDomainOOExpandGettextDomainAndCategory (if plugged)
+localeTextDomainOOExpandGettextLoc (if plugged)
+localeTextDomainOOExpandGettextLocDomainAndCategory (if plugged)
+localeTextDomainOOUtilJoinSplitLexiconKeys
 */
-
-jQuery.map(
-    Object.keys(localeTextDomainOOLexicon),
-    function (language, index) {
-        var header = localeTextDomainOOLexicon[language][''];
-        var plural = XRegExp.replace(
-            header['plural'],
-            XRegExp('\\s or \\s', 'xmsg'),
-            ' || '
-        );
-        var code = 'return parseInt( +(' + plural + ') );';
-        header['plural_code'] = new Function('n', code);
-
-        return;
-    }
-);
 
 // constructor
 function localeTextDomainOO(argMap) {
     this.plugins  = argMap['plugins'];
     this.language = argMap['language'];
-    this.domian   = argMap['domain']   === undefined ? '' : argMap['domain'];
+    this.domain   = argMap['domain']   === undefined ? '' : argMap['domain'];
     this.category = argMap['category'] === undefined ? '' : argMap['category'];
+    this.project  = argMap['project'];
     this.filter   = argMap['filter'];
     this.logger   = argMap['logger'];
+    this.lexicon  = argMap['lexicon'] || {};
 
-    this.lexiconKeySeparator = ':';
-    this.pluralSeparator     = '{PLURAL_SEPARATOR}';
-    this.msgKeySeparator     = '{MSG_KEY_SEPARATOR}';
+    var self = this;
+    jQuery.map(
+        jQuery.map(
+            self.lexicon,
+            function (element,index) { return index }
+        ),
+        function (language, index) {
+            var header = self.lexicon[language][''];
+            var pluralFormula = header['plural'].replace(/\sor\s/g, ' || ');
+            var code = 'return +(' + pluralFormula + ');';
+            header['plural_code'] = new Function('n', code);
+        }
+    );
 
-    if (this.plugins) {
+    if ( this.plugins ) {
         jQuery.each(
             this.plugins,
             function (index, plugin) {
-                if (plugin === 'localeTextDomainOOExpandGettext') {
+                // N? __ d? c? n? p? x?
+                if ( plugin === 'localeTextDomainOOExpandGettext' ) {
                     this.localeUtilsPlaceholderNamed = new localeUtilsPlaceholderNamed();
                     localeTextDomainOOExpandGettext(this);
                 }
-                if (plugin === 'localeTextDomainOOExpandGettextDomainAndCategory') {
+                if ( plugin === 'localeTextDomainOOExpandGettextDomainAndCategory' ) {
                     this.localeUtilsPlaceholderNamed = new localeUtilsPlaceholderNamed();
                     localeTextDomainOOExpandGettext(this);
                     localeTextDomainOOExpandGettextDomainAndCategory(this);
                 }
+                // N? loc_ d? c? n? p? x?
+                if ( plugin === 'localeTextDomainOOExpandGettextLoc' ) {
+                    this.localeUtilsPlaceholderNamed = new localeUtilsPlaceholderNamed();
+                    localeTextDomainOOExpandGettextLoc(this);
+                }
+                if ( plugin === 'localeTextDomainOOExpandGettextLocDomainAndCategory' ) {
+                    this.localeUtilsPlaceholderNamed = new localeUtilsPlaceholderNamed();
+                    localeTextDomainOOExpandGettextLoc(this);
+                    localeTextDomainOOExpandGettextLocDomainAndCategory(this);
+                }
             }
-        )
+        );
     }
 
-    var sprintf = function (template, args) {
-        var placeholderRegex = XRegExp(
-            '[%] (?<format> [s] )',
-            'xmsg'
-        );
-
-        return XRegExp.replace(
-            template,
-            placeholderRegex,
-            function (match) {
-                var format = match.format;
-                if (format === 's') {
-                    return args.shift();
-                }
-                return '';
+    var sprintf = function(template, args) {
+        return template.replace(
+            /%s/g,
+            function() {
+                return args.shift();
             }
         );
     }
 
     // method
-    this.translate = function (msgctxt, msgid, msgid_plural, count, is_n) {
-        var lexiconKey = [
-            this.language,
-            this.category,
-            this.domain
-        ].join(this.lexiconKeySeparator);
-        var lexicon = localeTextDomainOOLexicon[lexiconKey]
-            ? localeTextDomainOOLexicon[lexiconKey]
-            : {};
+    this.translate = function(msgctxt, msgid, msgid_plural, count, is_n) {
+        var keyUtil = new localeTextDomainOOUtilJoinSplitLexiconKeys();
+        var lexiconKey = keyUtil.joinLexiconKey({
+            'language' : this.language,
+            'domain'   : this.domain,
+            'category' : this.category,
+            'project'  : this.project
+        });
+        var lexicon = this.lexicon[lexiconKey] || {};
 
-        var lengthOrEmptyList = function (item) {
-            if (item === undefined) {
-                return;
-            }
-            if (! item.lenght) {
-                return;
-            }
-            return item;
-        };
-        var msgKey = [
-            lengthOrEmptyList(msgctxt),
-            [
-                lengthOrEmptyList(msgid),
-                lengthOrEmptyList(msgid_plural)
-            ].join( this.pluralSeparator )
-        ].join(this.msgKeySeparator);
+        var msgKey = keyUtil.joinMessageKey({
+            'msgctxt'      : msgctxt,
+            'msgid'        : msgid,
+            'msgid_plural' : msgid_plural
+        });
         if (is_n) {
             var plural_code = lexicon['']
                 ? lexicon['']['plural_code']
                 : undefined;
-            if (! plural_code) {
+            if ( ! plural_code ) {
                 throw 'Plural-Forms not found in lexicon "' + lexiconKey + '"';
             }
             var index = plural_code(count);
             var msgstr_plural = lexicon[msgKey] && lexicon[msgKey]['msgstr_plural']
                 ? lexicon[msgKey]['msgstr_plural'][index]
                 : undefined;
-            if (msgstr_plural === undefined) { // fallback
+            if ( msgstr_plural === undefined ) { // fallback
                 msgstr_plural = index
                     ? msgid_plural
                     : msgid;
@@ -134,6 +127,7 @@ function localeTextDomainOO(argMap) {
             }
             return msgstr_plural;
         }
+
         var msgstr = lexicon[msgKey]
             ? lexicon[msgKey]['msgstr']
             : undefined;
@@ -149,8 +143,8 @@ function localeTextDomainOO(argMap) {
                         '%s msgstr not found for msgctxt=%s, msgid=%s.',
                         [
                             text,
-                            ( msgctxt === undefined ? 'undefinded' : '"' + msgctxt + '"' ),
-                            ( msgid   === undefined ? 'undefinded' : '"' + msgid + '"' )
+                            ( msgctxt === undefined ? 'undefined' : '"' + msgctxt + '"' ),
+                            ( msgid   === undefined ? 'undefined' : '"' + msgid + '"' )
                         ]
                     ),
                     {
@@ -160,7 +154,6 @@ function localeTextDomainOO(argMap) {
                     }
                 );
         }
-
         return msgstr;
     };
 

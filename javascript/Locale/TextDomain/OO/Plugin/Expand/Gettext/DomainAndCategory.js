@@ -1,9 +1,16 @@
-function localeTextDomainOOExpandGettextDomainAndCategory (ltdoo) {
+/*
+version 1.014
+
+requires:
+localeTextDomainOO
+*/
+
+function localeTextDomainOOExpandGettextDomainAndCategory(ltdoo) {
     var shadowDomains    = [];
     var shadowCategories = [];
 
-    localeTextDomainOO.prototype.__begin_d = function (domain) {
-        if (domain === undefined) {
+    localeTextDomainOO.prototype.__begin_d = function(domain) {
+        if ( domain === undefined ) {
             throw 'Domain is not defined';
         }
         shadowDomains.push(this.domain);
@@ -11,8 +18,8 @@ function localeTextDomainOOExpandGettextDomainAndCategory (ltdoo) {
 
         return;
     };
-    localeTextDomainOO.prototype.__begin_c = function (category) {
-        if (category === undefined) {
+    localeTextDomainOO.prototype.__begin_c = function(category) {
+        if ( category === undefined ) {
             throw 'Category is not defined';
         }
         shadowCategories.push(this.category);
@@ -20,14 +27,14 @@ function localeTextDomainOOExpandGettextDomainAndCategory (ltdoo) {
 
         return;
     };
-    localeTextDomainOO.prototype.__begin_dc = function (domain, category) {
+    localeTextDomainOO.prototype.__begin_dc = function(domain, category) {
         this.__begin_d(domain);
         this.__begin_c(category);
 
         return;
     };
 
-    localeTextDomainOO.prototype.__end_d = function () {
+    localeTextDomainOO.prototype.__end_d = function() {
         if ( ! shadowDomains.length ) {
             throw 'Tried to get the domain from stack but no domain is not stored';
         }
@@ -35,7 +42,7 @@ function localeTextDomainOOExpandGettextDomainAndCategory (ltdoo) {
 
         return;
     };
-    localeTextDomainOO.prototype.__end_c = function () {
+    localeTextDomainOO.prototype.__end_c = function() {
         if ( ! shadowCategories.length ) {
             throw 'Tried to get the category from stack but no category is stored';
         }
@@ -43,28 +50,28 @@ function localeTextDomainOOExpandGettextDomainAndCategory (ltdoo) {
 
         return;
     };
-    localeTextDomainOO.prototype.__end_dc = function () {
+    localeTextDomainOO.prototype.__end_dc = function() {
         this.__end_d();
         this.__end_c();
 
         return;
     };
 
-    localeTextDomainOO.prototype.__dx = function (domain, msgid, argMap) {
+    localeTextDomainOO.prototype.__dx = function(domain, msgid, argMap) {
         this.__begin_d(domain);
         var translation = this.__x(msgid, argMap);
         this.__end_d();
 
         return translation;
     };
-    localeTextDomainOO.prototype.__cx = function (msgid, category, argMap) {
+    localeTextDomainOO.prototype.__cx = function(msgid, category, argMap) {
         this.__begin_c(category);
         var translation = this.__x(msgid, argMap);
         this.__end_c();
 
         return translation;
     };
-    localeTextDomainOO.prototype.__dcx = function (domain, msgid, category, argMap) {
+    localeTextDomainOO.prototype.__dcx = function(domain, msgid, category, argMap) {
         this.__begin_d(domain);
         var translation = this.__cx(msgid, category, argMap);
         this.__end_d();
@@ -72,21 +79,21 @@ function localeTextDomainOOExpandGettextDomainAndCategory (ltdoo) {
         return translation;
     };
 
-    localeTextDomainOO.prototype.__dnx = function (domain, msgid, msgid_plural, count, argMap) {
+    localeTextDomainOO.prototype.__dnx = function(domain, msgid, msgid_plural, count, argMap) {
         this.__begin_d(domain);
         var translation = this.__nx(msgid, msgid_plural, count, argMap);
         this.__end_d();
 
         return translation;
     };
-    localeTextDomainOO.prototype.__cnx = function (msgid, msgid_plural, count, category, argMap) {
+    localeTextDomainOO.prototype.__cnx = function(msgid, msgid_plural, count, category, argMap) {
         this.__begin_c(category);
         var translation = this.__nx(msgid, msgid_plural, count, argMap);
         this.__end_c();
 
         return translation;
     };
-    localeTextDomainOO.prototype.__dcnx = function (domain, msgid, msgid_plural, count, category, argMap) {
+    localeTextDomainOO.prototype.__dcnx = function(domain, msgid, msgid_plural, count, category, argMap) {
         this.__begin_d(domain);
         var translation = this.__cnx(msgid, msgid_plural, count, category, argMap);
         this.__end_d();
@@ -94,21 +101,21 @@ function localeTextDomainOOExpandGettextDomainAndCategory (ltdoo) {
         return translation;
     };
 
-    localeTextDomainOO.prototype.__dpx = function (domain, msgctxt, msgid, argMap) {
+    localeTextDomainOO.prototype.__dpx = function(domain, msgctxt, msgid, argMap) {
         this.__begin_d(domain);
         var translation = this.__px(msgctxt, msgid, argMap);
         this.__end_d();
 
         return translation;
     };
-    localeTextDomainOO.prototype.__cpx = function (msgctxt, msgid, category, argMap) {
+    localeTextDomainOO.prototype.__cpx = function(msgctxt, msgid, category, argMap) {
         this.__begin_c(category);
         var translation = this.__px(msgctxt, msgid, argMap);
         this.__end_c();
 
         return translation;
     };
-    localeTextDomainOO.prototype.__dcpx = function (domain, msgctxt, msgid, category, argMap) {
+    localeTextDomainOO.prototype.__dcpx = function(domain, msgctxt, msgid, category, argMap) {
         this.__begin_d(domain);
         var translation = this.__cpx(msgctxt, msgid, category, argMap);
         this.__end_d();
@@ -116,21 +123,21 @@ function localeTextDomainOOExpandGettextDomainAndCategory (ltdoo) {
         return translation;
     };
 
-    localeTextDomainOO.prototype.__dnpx = function (domain, msgctxt, msgid, msgid_plural, count, argMap) {
+    localeTextDomainOO.prototype.__dnpx = function(domain, msgctxt, msgid, msgid_plural, count, argMap) {
         this.__begin_d(domain);
         var translation = this.__npx(msgctxt, msgid, msgid_plural, count, argMap);
         this.__end_d();
 
         return translation;
     };
-    localeTextDomainOO.prototype.__cnpx = function (msgctxt, msgid, msgid_plural, count, category, argMap) {
+    localeTextDomainOO.prototype.__cnpx = function(msgctxt, msgid, msgid_plural, count, category, argMap) {
         this.__begin_c(category);
         var translation = this.__npx(msgctxt, msgid, msgid_plural, count, argMap);
         this.__end_c();
 
         return translation;
     };
-    localeTextDomainOO.prototype.__dcnpx = function (domain, msgctxt, msgid, msgid_plural, count, category, argMap) {
+    localeTextDomainOO.prototype.__dcnpx = function(domain, msgctxt, msgid, msgid_plural, count, category, argMap) {
         this.__begin_d(domain);
         var translation = this.__cnpx(msgctxt, msgid, msgid_plural, count, category, argMap);
         this.__end_d();

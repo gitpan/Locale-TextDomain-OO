@@ -37,7 +37,7 @@ $loc->expand_maketext->formatter_code(
     },
     $loc->maketext('[*,_1,EUR]', '12345678.90');
 
-# $Id$
+# $Id: 06_expand_maketext_formatter_code.pl 546 2014-10-31 09:35:19Z steffenw $
 
 __END__
 

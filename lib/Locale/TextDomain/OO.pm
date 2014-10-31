@@ -3,7 +3,7 @@ package Locale::TextDomain::OO; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '1.013';
+our $VERSION = '1.014';
 
 use Locale::TextDomain::OO::Translator;
 
@@ -36,13 +36,13 @@ __END__
 
 Locale::TextDomain::OO - Perl OO Interface to Uniforum Message Translation
 
-$Id: OO.pm 508 2014-08-30 18:52:57Z steffenw $
+$Id: OO.pm 546 2014-10-31 09:35:19Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO.pm $
 
 =head1 VERSION
 
-1.013
+1.014
 
 Starting with version 1.000 the interface has changed.
 
@@ -173,20 +173,22 @@ Run the examples of this distribution (folder example).
 
 =head2 Overview
 
- Application calls   Application calls   Application calls
- gettext methods     getext and          maketext methods
-         |           maketext methods            |
-         |                         |             |
-         v                         v             v
- .-----------------------------------------------------------.
- | Locale::TextDomain::OO                                    |
- | with plugin LanguageOfLanguages                           |
- | with plugins Locale::TextDomain::OO::Plugin::Expand::...  |
- |-----------------------------------------------------------|
- | Gettext                    |\       /| Maketext           |
- | Gettext::DomainAndCategory | > and < | Maketext::Loc      |
- |                            |/       \| Maketext::Localize |
- `-----------------------------------------------------------'
+ Application calls         Application calls   Application calls
+ gettext methods           getext and          maketext methods
+ (hint: select this)       maketext methods            |
+         |                               |             |
+         v                               v             v
+ .-----------------------------------------------------------------.
+ | Locale::TextDomain::OO                                          |
+ | with plugin LanguageOfLanguages                                 |
+ | with plugins Locale::TextDomain::OO::Plugin::Expand::...        |
+ |-----------------------------------------------------------------|
+ | Gettext                          |\       /| Maketext           |
+ | Gettext::DomainAndCategory       | |     | | Maketext::Loc      |
+ | Gettext::Loc (hint: select this) | > and < | Maketext::Localise |
+ | Gettext::Loc::DomainAndCategory  | |     | | Maketext::Localize |
+ | Gettext::Named                   |/       \|                    |
+ `-----------------------------------------------------------------'
                             ^
                             |
  .--------------------------'-----------------.
@@ -226,31 +228,35 @@ Run the examples of this distribution (folder example).
               `---------------------------------------'
                                   ^
                                   |
- .--------------------------------'-------------------------------------------.
- | requires:                                                                  |
- | - http://jquery.com/                                                       |
- | - http://xregexp.com/                                                      |
- | - javascript/Locale/Utils/PlaceholderNamed.js                              |
- |                                                                            |
- | implemented:                                                               |
- | javascript/Locale/TextDomain/OO.js                                         |
- | javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext.js                   |
- | javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext/DomainAndCategory.js |
- |                                                                            |
- | not implemented:                                                           |
- | javascript/Locale/TextDomain/OO/Expand/Maketext.js                         |
- | javascript/Locale/TextDomain/OO/Expand/Maketext/Loc.js                     |
- | javascript/Locale/TextDomain/OO/Expand/Maketext/Localize.js                |
- |                                                                            |
- | Example:                                                                   |
- | javascript/Example.html                                                    |
- `----------------------------------------------------------------------------'
-         ^                  ^                  ^
-         |                  |                  |
- JavaScript calls   JavaScript calls   JavaScript calls
- gettext methods    getext and         maketext methods
-                    maketext methods   (not implemented)
-                    (not implemented)
+ .--------------------------------'-------------------------------------------------.
+ | requires:                                                                        |
+ | - http://jquery.com/                                                             |
+ | - javascript/Locale/TextDomain/OO/Util/Constants.js                              |
+ | - javascript/Locale/TextDomain/OO/Util/JoinSplitLexiconKeys.js                   |
+ | - javascript/Locale/Utils/PlaceholderNamed.js                                    |
+ |                                                                                  |
+ | implemented:                                                                     |
+ | javascript/Locale/TextDomain/OO.js                                               |
+ | javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext.js                         |
+ | javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext/DomainAndCategory.js       |
+ | javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext/Loc.js (hint: select this) |
+ | javascript/Locale/TextDomain/OO/Plugin/Expand/Gettext/Loc/DomainAndCategory.js   |
+ |                                                                                  |
+ | not implemented:                                                                 |
+ | javascript/Locale/TextDomain/OO/Expand/Maketext.js                               |
+ | javascript/Locale/TextDomain/OO/Expand/Maketext/Loc.js                           |
+ | javascript/Locale/TextDomain/OO/Expand/Maketext/Localise.js                      |
+ | javascript/Locale/TextDomain/OO/Expand/Maketext/Localize.js                      |
+ |                                                                                  |
+ | Example:                                                                         |
+ | javascript/Example.html                                                          |
+ `----------------------------------------------------------------------------------'
+         ^                     ^                  ^
+         |                     |                  |
+ JavaScript calls      JavaScript calls   JavaScript calls
+ gettext methods       getext and         maketext methods
+ (hint: select this)   maketext methods   (not implemented)
+                       (not implemented)
 
 =head1 SYNOPSIS
 
@@ -258,7 +264,7 @@ Run the examples of this distribution (folder example).
     my $loc = Locale::TextDomain::OO->new(
         # all parameters are optional
         plugins  => [ qw(
-            Expand::Gettext
+            Expand::Gettext::Loc
             +My::Special::Plugin
         ) ],
         language => 'de',          # default is i-default
@@ -314,7 +320,7 @@ Add the modifier code like that to handle that attributes.
                 }
             }
             elsif ( $loc->language eq 'de' }xms ) {
-                if ( $attribute eq 'num' ) {
+                if ( $attribute eq 'numf' ) {
                     ...
                     $value =~ tr{.,}{,.};
                 }
@@ -322,6 +328,26 @@ Add the modifier code like that to handle that attributes.
             return $value;
         },
     );
+
+=head2 Attributes handled with plugin Expand::Gettext::Loc
+
+Like before but a little difference. Instead of
+
+    $loc->expand_gettext->modifier_code(...
+
+write
+
+    $loc->expand_gettext_loc->modifier_code(...
+
+=head2 Attributes handled with plugin Expand::Gettext::Loc
+
+Like before but a little difference. Instead of
+
+    $loc->expand_gettext->modifier_code(...
+
+write
+
+    $loc->expand_gettext_named->modifier_code(...
 
 =head2 Localize numbers with plugin Expand::Maketext
 

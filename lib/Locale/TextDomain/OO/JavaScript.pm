@@ -3,7 +3,7 @@ package Locale::TextDomain::OO::JavaScript; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '1.011';
+our $VERSION = '1.014';
 
 1;
 
@@ -13,13 +13,13 @@ __END__
 
 Locale::TextDomain::OO::JavaScript - How to use the JavaScript part
 
-$Id: OO.pm 502 2014-05-12 20:19:51Z steffenw $
+$Id: JavaScript.pm 546 2014-10-31 09:35:19Z steffenw $
 
-$HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO.pm $
+$HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/JavaScript.pm $
 
 =head1 VERSION
 
-1.011
+1.014
 
 =head1 DESCRIPTION
 
@@ -50,15 +50,18 @@ is a extension for Javacript from *.js files and so on.
 Inside of this distribution is a directory named javascript.
 Copy this files into your project.
 Do the same with javascript files of
-L<Locale::Utils::PlaceholderNamed|Locale::Utils::PlaceholderNamed>.
+L<Locale::TextDomain::OO::Util::Constants|Locale::TextDomain::OO::Util::Constants>,
+L<Locale::TextDomain::OO::Util::JoinSplitLexiconKeys|Locale::TextDomain::OO::Util::JoinSplitLexiconKeys>
+and L<Locale::Utils::PlaceholderNamed|Locale::Utils::PlaceholderNamed>.
 
-This scripts depending on L<http://jquery.com/> and L<http://xregexp.com/>.
+This scripts depending on L<http://jquery.com/>.
 
 Watch also the javascript/Example.html how to use.
 
     <!-- depends on -->
     <script type="text/javascript" src=".../jquery-...js"></script>
-    <script type="text/javascript" src=".../xregexp-min.js"></script>
+    <script type="text/javascript" src=".../Locale/TextDomain/OO/Util/Constants.js"></script>
+    <script type="text/javascript" src=".../Locale/TextDomain/OO/Util/JoinSplitLexiconKeys.js"></script>
     <script type="text/javascript" src=".../Locale/Utils/PlaceholderNamed.js"></script>
 
     <!-- stores the lexicon into var localeTextDomainOOLexicon -->
@@ -195,7 +198,9 @@ none
 
 L<http://jquery.com/>
 
-L<http://xregexp.com/>
+L<Locale::TextDomain::OO::Util::Constants|Locale::TextDomain::OO::Util::Constants>
+
+L<Locale::TextDomain::OO::Util::JoinSplitLexiconKeys|Locale::TextDomain::OO::Util::JoinSplitLexiconKeys>
 
 L<Locale::Utils::PlaceholderNamed|Locale::Utils::PlaceholderNamed>
 

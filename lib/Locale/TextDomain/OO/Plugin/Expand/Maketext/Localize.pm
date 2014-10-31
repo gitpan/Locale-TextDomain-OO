@@ -5,7 +5,7 @@ use warnings;
 use Moo::Role;
 use namespace::autoclean;
 
-our $VERSION = '1.000';
+our $VERSION = '1.014';
 
 with qw(
     Locale::TextDomain::OO::Plugin::Expand::Maketext
@@ -13,10 +13,12 @@ with qw(
 
 {
     no warnings qw(redefine); ## no critic (NoWarnings)
-    *localize    = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext;
-    *localize_p  = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext_p;
-    *Nlocalize   = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext;
-    *Nlocalize_p = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext_p;
+    *localize     = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext;
+    *localize_m   = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext;
+    *localize_mp  = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext_p;
+    *Nlocalize    = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext;
+    *Nlocalize_m  = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext;
+    *Nlocalize_mp = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext_p;
 }
 
 1;
@@ -27,13 +29,13 @@ __END__
 
 Locale::TextDomain::OO::Plugin::Expand::Maketext::Localize - Alternative maketext methods
 
-$Id: Localize.pm 439 2013-12-19 20:42:34Z steffenw $
+$Id: Localize.pm 545 2014-10-30 13:23:00Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Maketext/Localize.pm $
 
 =head1 VERSION
 
-1.000
+1.014
 
 =head1 DESCRIPTION
 
@@ -51,10 +53,11 @@ This module provides alternative maketext methods.
 
 =head1 SUBROUTINES/METHODS
 
-=head2 methods localize, localize_p, Nlocalize, Nlocalize_p
+=head2 methods localize, localize_m, localize_mp, Nlocalize, Nlocalize_m, Nlocalize_mp
 
 This methods are aliases to method
-maketext, maketext_p, Nmaketext and Nmaketext_p.
+maketext, maketext, maketext_p,
+Nmaketext, Nmaketext and Nmaketext_p.
 
 =head1 EXAMPLE
 
@@ -95,7 +98,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2013,
+Copyright (c) 2013 - 2014,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

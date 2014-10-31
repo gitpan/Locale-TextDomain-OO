@@ -3,14 +3,14 @@ package Locale::TextDomain::OO::Plugin::Language::LanguageOfLanguages; ## no cri
 use strict;
 use warnings;
 use Locale::TextDomain::OO::Singleton::Lexicon;
+use Locale::TextDomain::OO::Util::JoinSplitLexiconKeys;
 use Moo::Role;
 use MooX::Types::MooseLike::Base qw(Str ArrayRef);
 use namespace::autoclean;
 
-our $VERSION = '1.006';
+our $VERSION = '1.014';
 
 with qw(
-    Locale::TextDomain::OO::Lexicon::Role::Constants
     Locale::TextDomain::OO::Role::Logger
 );
 
@@ -18,6 +18,7 @@ requires qw(
     language
     category
     domain
+    project
 );
 
 has languages => (
@@ -34,11 +35,14 @@ sub _trigger_languages { ## no critic (UnusedPrivateSubroutines)
     my $lexicon = Locale::TextDomain::OO::Singleton::Lexicon->instance->data;
     for my $language ( @{$languages} ) {
         for my $key ( keys %{$lexicon} ) {
-            my $lexicon_key = join $self->lexicon_key_separator, (
-                lc $language,
-                $self->category || q{},
-                $self->domain   || q{},
-            );
+            my $lexicon_key = Locale::TextDomain::OO::Util::JoinSplitLexiconKeys
+                ->instance
+                ->join_lexicon_key({
+                    language => lc $language,
+                    category => $self->category,
+                    domain   => $self->domain,
+                    project  => $self->project,
+                });
             if ( $key eq $lexicon_key ) {
                 $self->language( lc $language );
                 return;
@@ -67,13 +71,13 @@ __END__
 
 Locale::TextDomain::OO::Plugin::Language::LanguageOfLanguages - Select a language of a list
 
-$Id: LanguageOfLanguages.pm 461 2014-01-09 07:57:37Z steffenw $
+$Id: LanguageOfLanguages.pm 546 2014-10-31 09:35:19Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Language/LanguageOfLanguages.pm $
 
 =head1 VERSION
 
-1.006
+1.014
 
 =head1 DESCRIPTION
 
@@ -121,13 +125,13 @@ none
 
 L<Locale::TextDomain::OO::Singleton::Lexicon|Locale::TextDomain::OO::Singleton::Lexicon>
 
+L<Locale::TextDomain::OO::Util::JoinSplitLexiconKeys|Locale::TextDomain::OO::Util::JoinSplitLexiconKeys>
+
 L<Moo::Role|Moo::Role>
 
 L<MooX::Types::MooseLike::Base|MooX::Types::MooseLike::Base>
 
 L<namespace::autoclean|namespace::autoclean>
-
-L<Locale::TextDomain::OO::Lexicon::Role::Constants|Locale::TextDomain::OO::Lexicon::Role::Constants>
 
 =head1 INCOMPATIBILITIES
 

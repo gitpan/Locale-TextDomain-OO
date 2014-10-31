@@ -73,36 +73,36 @@ is
     '2 Regale',
     'loc, quant 2';
 is
-    $loc->loc_p(
+    $loc->loc_mp(
         'maskulin',
         'Dear',
     ),
     'Sehr geehrter',
-    'loc_p';
+    'loc_mp';
 is
-    $loc->loc_p(
+    $loc->loc_mp(
         'maskulin',
         'Dear [_1]',
         'Steffen Winkler',
     ),
     'Sehr geehrter Steffen Winkler',
-    'loc_p, placeholder';
+    'loc_mp, placeholder';
 is
-    $loc->loc_p(
+    $loc->loc_mp(
         'appointment',
         'This is/are [*,_1,date,dates].',
         1,
     ),
     'Das ist/sind 1 Date.',
-    'loc_p, * 1';
+    'loc_mp, * 1';
 is
-    $loc->loc_p(
+    $loc->loc_mp(
         'appointment',
         'This is/are [*,_1,date,dates].',
         2,
     ),
     'Das ist/sind 2 Dates.',
-    'loc_p, * 2';
+    'loc_mp, * 2';
 is
     $loc->loc(
         '[*,_1,shelf,shelves,no shelf]',
@@ -132,7 +132,7 @@ is
     'Nloc';
 eq_or_diff
     [
-        $loc->Nloc_p(
+        $loc->Nloc_mp(
             'appointment',
             'date',
         ),
@@ -141,10 +141,10 @@ eq_or_diff
         'appointment',
         'date',
     ],
-    'Nloc_p';
+    'Nloc_mp';
 eq_or_diff
     [
-        $loc->Nloc_p(
+        $loc->Nloc_mp(
             'not existing context',
             'book',
         ),
@@ -153,4 +153,4 @@ eq_or_diff
         'not existing context',
         'book',
     ],
-    'Nloc_p (not in lexicon)';
+    'Nloc_mp (not in lexicon)';

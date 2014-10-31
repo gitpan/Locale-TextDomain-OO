@@ -2,215 +2,125 @@ package Locale::TextDomain::OO::Lexicon::Role::StoreFilter; ## no critic (TidyCo
 
 use strict;
 use warnings;
-use List::MoreUtils qw(any);
+use Carp qw(confess);
+use Clone qw(clone);
 use Locale::TextDomain::OO::Singleton::Lexicon;
+use Locale::TextDomain::OO::Util::JoinSplitLexiconKeys;
 use Moo::Role;
-use MooX::Types::MooseLike::Base qw(ArrayRef);
+use MooX::Types::MooseLike::Base qw(HashRef);
 use namespace::autoclean;
 
-our $VERSION = '1.011';
+our $VERSION = '1.014';
 
-with qw(
-    Locale::TextDomain::OO::Lexicon::Role::Constants
-);
+for my $name ( qw( language category domain project ) ) {
+    has "filter_$name" => (
+        is  => 'rw',
+        isa => sub {
+            my $value = shift;
+            defined $value
+                or return;
+            my $ref = ref $value;
+            $ref eq 'Regexp'
+                and return;
+            $ref eq 'CODE'
+                and return;
+            $ref
+                and confess 'Undef, Str, RegexpRef or CodeRef expected';
+        },
+    );
+}
 
-has filter_language => (
+sub clear_filter {
+    my $self = shift;
+
+    $self->filter_language(undef);
+    $self->filter_category(undef);
+    $self->filter_domain(undef);
+    $self->filter_project(undef);
+
+    return $self;
+};
+
+has data => (
     is      => 'ro',
-    isa     => ArrayRef,
+    isa     => HashRef,
     lazy    => 1,
-    default => sub { [] },
+    default => sub { {} },
 );
 
-has filter_category => (
-    is      => 'ro',
-    isa     => ArrayRef,
-    lazy    => 1,
-    default => sub { [] },
-);
+my $is_expected_lexicon_key = sub {
+    my ( $self, $lexicon_key ) = @_;
 
-has filter_domain => (
-    is      => 'ro',
-    isa     => ArrayRef,
-    lazy    => 1,
-    default => sub { [] },
-);
-
-has filter_language_category => (
-    is      => 'ro',
-    isa     => ArrayRef,
-    lazy    => 1,
-    default => sub { [] },
-);
-
-has filter_language_domain => (
-    is      => 'ro',
-    isa     => ArrayRef,
-    lazy    => 1,
-    default => sub { [] },
-);
-
-has filter_category_domain => (
-    is      => 'ro',
-    isa     => ArrayRef,
-    lazy    => 1,
-    default => sub { [] },
-);
-
-has filter_language_category_domain => (
-    is      => 'ro',
-    isa     => ArrayRef,
-    lazy    => 1,
-    default => sub { [] },
-);
-
-has _language_category_domain_regex => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
-        my $self = shift;
-        my $separator = $self->lexicon_key_separator;
-        my $not_separator_regex = sprintf '[^%s]', quotemeta $separator;
-        return [
-            (
-                map {
-                    qr{
-                        \A
-                        \Q$_\E
-                        \Q$separator\E
-                        $not_separator_regex*
-                        \Q$separator\E
-                        $not_separator_regex*
-                        \z
-                    }xms;
-                } @{ $self->filter_language }
-            ),
-            (
-                map {
-                    qr{
-                        \A
-                        $not_separator_regex*
-                        \Q$separator\E
-                        \Q$_\E
-                        \Q$separator\E
-                        $not_separator_regex*
-                        \z
-                    }xms;
-                } @{ $self->filter_category }
-            ),
-            (
-                map {
-                    qr{
-                        \A
-                        $not_separator_regex*
-                        \Q$separator\E
-                        $not_separator_regex*
-                        \Q$separator\E
-                        \Q$_\E
-                        \z
-                    }xms;
-                } @{ $self->filter_domain }
-            ),
-            (
-                map { ## no critic (ComplexMappings)
-                    my $language = $_->{language} || q{};
-                    my $category = $_->{category} || q{};
-                    qr{
-                        \A
-                        \Q$language\E
-                        \Q$separator\E
-                        \Q$category\E
-                        \Q$separator\E
-                        $not_separator_regex*
-                        \z
-                    }xms;
-                } @{ $self->filter_language_category }
-            ),
-            (
-                map { ## no critic (ComplexMappings)
-                    my $language = $_->{language} || q{};
-                    my $domain   = $_->{domain}   || q{};
-                    qr{
-                        \A
-                        \Q$language\E
-                        \Q$separator\E
-                        $not_separator_regex*
-                        \Q$separator\E
-                        \Q$domain\E
-                        \z
-                    }xms;
-                } @{ $self->filter_language_domain }
-            ),
-            (
-                map { ## no critic (ComplexMappings)
-                    my $category = $_->{category} || q{};
-                    my $domain   = $_->{domain}   || q{};
-                    qr{
-                        \A
-                        $not_separator_regex*
-                        \Q$separator\E
-                        \Q$category\E
-                        \Q$separator\E
-                        \Q$domain\E
-                        \z
-                    }xms;
-                } @{ $self->filter_category_domain }
-            ),
-            (
-                map { ## no critic (ComplexMappings)
-                    my $language = $_->{language} || q{};
-                    my $category = $_->{category} || q{};
-                    my $domain   = $_->{domain}   || q{};
-                    qr{
-                        \A
-                        \Q$language\E
-                        \Q$separator\E
-                        \Q$category\E
-                        \Q$separator\E
-                        \Q$domain\E
-                        \z
-                    }xms;
-                } @{ $self->filter_language_category_domain }
-            ),
-        ],
-    },
-);
-
-sub data {
-    my ( $self, $arg_ref ) = @_;
-
-    my $data  = Locale::TextDomain::OO::Singleton::Lexicon->instance->data;
-    my $regex = $self->_language_category_domain_regex;
-    $data = {
-        map { ## no critic (ComplexMappings)
-            my $lexicon = { %{ $data->{$_} } };
-            # not able to serialize code references
-            delete $lexicon->{ q{} }->{plural_code};
-            SEPARATOR_NAME:
-            for my $separator_name ( qw( msg_key_separator plural_separator ) ) {
-                my $text_separator_name = $arg_ref->{$separator_name}
-                    or next SEPARATOR_NAME;
-                my $binary_separator = $self->$separator_name;
-                for my $lexicon_key ( keys %{$lexicon} ) {
-                    my $new_key = $lexicon_key;
-                    $new_key =~ s{
-                        \Q$binary_separator\E
-                    }{$text_separator_name}xmsg;
-                    $lexicon->{$new_key}
-                        = delete $lexicon->{$lexicon_key};
-                }
-            }
-            $_ => $lexicon;
+    my $key_ref = Locale::TextDomain::OO::Util::JoinSplitLexiconKeys
+        ->instance
+        ->split_lexicon_key($lexicon_key);
+    NAME:
+    for my $name ( qw( language category domain project ) ) {
+        defined $key_ref->{$name}
+            or $key_ref->{$name} = q{};
+        my $method = "filter_$name";
+        my $filter = $self->$method;
+        if ( defined $filter ) {
+            local $_ = $key_ref->{$name};
+            my $ref = ref $filter;
+            $ref eq 'Regexp'
+                ? $_ =~ $filter
+                : $ref eq 'CODE'
+                ? $filter->($method)
+                : $_ eq $filter
+                or return;
         }
-        grep {
-            my $lexicon_name = $_;
-            @{$regex}
-                ? any { $lexicon_name =~ $_ } @{$regex}
-                : 1;
-        }
-        keys %{$data}
-    };
+    }
 
-    return $data;
+    return 1;
+};
+
+my $prepare_lexicon = sub {
+    my ( $self, $lexicon_ref ) = @_;
+
+    $lexicon_ref = clone($lexicon_ref);
+
+    # not able to serialize code references
+    delete $lexicon_ref->{ q{} }->{plural_code};
+
+    my $key_util = Locale::TextDomain::OO::Util::JoinSplitLexiconKeys->instance;
+    MESSAGE_KEY:
+    for my $message_key ( keys %{$lexicon_ref} ) {
+        length $message_key
+            or next MESSAGE_KEY;
+        my $new_message_key = $key_util->join_message_key({(
+            %{ $key_util->split_message_key($message_key) },
+            format => 'JSON',
+        )});
+        $lexicon_ref->{$new_message_key} = delete $lexicon_ref->{$message_key};
+    }
+
+    return $lexicon_ref;
+};
+
+sub copy {
+    my $self = shift;
+
+    my $data = Locale::TextDomain::OO::Singleton::Lexicon->instance->data;
+    for my $lexicon_key ( keys %{$data} ) {
+        $self->$is_expected_lexicon_key($lexicon_key)
+            and $self->data->{$lexicon_key}
+                = $self->$prepare_lexicon( $data->{$lexicon_key} );
+    }
+
+    return $self;
+}
+
+sub remove {
+    my $self = shift;
+
+    my $data = $self->data;
+    for my $lexicon_key ( keys %{$data} ) {
+        $self->$is_expected_lexicon_key($lexicon_key)
+            and delete $data->{$lexicon_key};
+    }
+
+    return $self;
 }
 
 1;
@@ -221,22 +131,27 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::StoreFilter - Filters the lexicon data before stored
 
-$Id: StoreFilter.pm 499 2014-05-12 12:53:39Z steffenw $
+$Id: StoreFilter.pm 546 2014-10-31 09:35:19Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/StoreFilter.pm $
 
 =head1 VERSION
 
-1.011
+1.014
 
 =head1 DESCRIPTION
 
-This module filters the lexicon date before stored.
+This module filters the lexicon data before stored.
 
-The idea is: Not all parts of lexicon are used by other languages.
+The idea is: Not all parts of lexicon are used by other programming languages.
 
-Implements attributes "filter_language", "filter_category", "filter_domain"
-and combinations of that up to "filter_language_category_domain".
+Implements attributes
+"filter_language", "filter_category", "filter_domain" and "filter_project".
+There it is possible to store
+undef for ignore filter,
+a string to check equal,
+a regex reference to match
+or a code reference to do some more complicate things.
 
 That filter removes also the key "plural_code" from header.
 That is an already prepared Perl code reference
@@ -255,100 +170,55 @@ Usage of that optional filter
 
     use Locale::TextDomain::OO::Lexicon::Store...;
 
-    my $json = Locale::TextDomain::OO::Lexicon::Store...
-        ->new(
-            ...
-            # all parameters optional
-            filter_language          => [
-                # this languages and unchecked domain and category
-                qw( language1 language2 ),
-            ],
-            filter_category        => [
-                # this categories and unchecked language and domain
-                qw( category1 category2 ),
-            ],
-            filter_domain          => [
-                # this domains and unchecked language and category
-                qw( domain1 domain2 ),
-            ],
-            filter_language_category => [
-                {
-                    # empty language
-                    # empty category
-                    # unchecked domain
-                },
-                {
-                    language => 'language1',
-                    # empty category
-                    # unchecked domain
-                },
-                {
-                    # empty language,
-                    category => 'category1',
-                    # unchecked domain
-                },
-                {
-                    language => 'language1',
-                    category => 'category1',
-                    # unchecked domain
-                },
-            },
-            filter_language_domain => [
-                {
-                    # empty language
-                    # unchecked category
-                    # empty domain
-                },
-                ...
-                {
-                    language => 'language1',
-                    # unchecked category
-                    domain   => 'domain1',
-                },
-            },
-            filter_domain_category => [
-                {
-                    # unchecked language
-                    # empty category
-                    # empty domain
-                },
-                ...
-                {
-                    # unchecked language
-                    category => 'category1',
-                    domain   => 'domain1',
-                },
-            },
-            filter_language_domain_category => [
-                {
-                    # empty language
-                    # empty category
-                    # empty domain
-                },
-                ...
-                {
-                    language => 'language1',
-                    category => 'category1',
-                    domain   => 'domain1',
-                },
-            },
-        )
-        ->to_...;
+    my $obj = Locale::TextDomain::OO::Lexicon::Store...->new(
+        ...
+        # all parameters optional
+        filter_language => undef,
+        filter_category => 'cat1',
+        filter_domain   => qr{ \A dom }xms,
+        filter_project  => sub {
+            my $filter_name = shift;   # $filter_name eq 'filter_project'
+            return $_ eq 'my project'; # $_ contains the value
+        },
+    );
+    $obj->copy;
+    $obj->clear_filter;
+    $obj->filter_language('en');
+    $obj->remove;
+    $obj->to_...;
 
 =head1 SUBROUTINES/METHODS
+
+=head2 method filter_language, filter_category, filter_domain, filter_project
+
+Set a filter as undef, string, regex or code reference.
+
+=head2 method clear_filter
+
+Set filter_language, filter_category, filter_domain, filter_project
+to undef.
+
+    $obj->clear_filter;
+
+=head2 method copy
+
+Copies lexicon entries with matching filter
+from singleton lexicon to data (new lexicon).
+
+    $obj->copy;
+
+=head2 method remove
+
+Removes lexicon entries with matching filter
+from data (new lexicon).
+
+    $obj->remove;
 
 =head2 method data
 
 Get back that filtered lexicon data.
 
-    $data = $self->data;
-
-or for special cases without control chars
-
-    $data = $self->data({
-        msg_key_separator => '{MSG_KEY_SEPARATOR}',
-        plural_separator  => '{PLURAL_SEPARATOR}',
-    });
+    $data = $obj->data;
 
 =head1 EXAMPLE
 
@@ -365,17 +235,19 @@ none
 
 =head1 DEPENDENCIES
 
-L<List::MoreUtils|List::MoreUtils>
+L<Carp|Carp>
+
+L<Clone|Clone>
 
 L<Locale::TextDomain::OO::Singleton::Lexicon|Locale::TextDomain::OO::Singleton::Lexicon>
+
+L<Locale::TextDomain::OO::Util::JoinSplitLexiconKeys|Locale::TextDomain::OO::Util::JoinSplitLexiconKeys>
 
 L<Moo::Role|Moo::Role>
 
 L<MooX::Types::MooseLike::Base|MooX::Types::MooseLike::Base>
 
 L<namespace::autoclean|namespace::autoclean>
-
-L<Locale::TextDomain::OO::Lexicon::Role::Constants|Locale::TextDomain::OO::Lexicon::Role::Constants>
 
 =head1 INCOMPATIBILITIES
 

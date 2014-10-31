@@ -1,4 +1,4 @@
-Locale-TextDomain-OO version 1.013
+Locale-TextDomain-OO version 1.014
 ==================================
 
 Perl OO Interface to Uniforum Message Translation
@@ -19,10 +19,11 @@ This module requires these other modules and libraries:
     charnames
     namespace::autoclean
     Carp
+    Clone
     Encode
     English
+    Hash::Util
     JSON
-    List::MoreUtils
     Locale::MO::File
     Locale::PO
     Locale::Utils::PlaceholderMaketext
@@ -35,6 +36,7 @@ This module requires these other modules and libraries:
     Path::Tiny
     Safe
     Tie::Sub
+    Try::Tiny
 
 COPYRIGHT AND LICENCE
 

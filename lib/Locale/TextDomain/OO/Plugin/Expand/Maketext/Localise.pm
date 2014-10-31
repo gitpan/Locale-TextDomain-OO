@@ -1,4 +1,4 @@
-package Locale::TextDomain::OO::Plugin::Expand::Maketext::Loc; ## no critic (TidyCode)
+package Locale::TextDomain::OO::Plugin::Expand::Maketext::Localise; ## no critic (TidyCode)
 
 use strict;
 use warnings;
@@ -13,12 +13,12 @@ with qw(
 
 {
     no warnings qw(redefine); ## no critic (NoWarnings)
-    *loc     = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext;
-    *loc_m   = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext;
-    *loc_mp  = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext_p;
-    *Nloc    = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext;
-    *Nloc_m  = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext;
-    *Nloc_mp = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext_p;
+    *localise     = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext;
+    *localise_m   = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext;
+    *localise_mp  = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::maketext_p;
+    *Nlocalise    = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext;
+    *Nlocalise_m  = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext;
+    *Nlocalise_mp = \&Locale::TextDomain::OO::Plugin::Expand::Maketext::Nmaketext_p;
 }
 
 1;
@@ -27,11 +27,11 @@ __END__
 
 =head1 NAME
 
-Locale::TextDomain::OO::Plugin::Expand::Maketext::Loc - Alternative maketext methods
+Locale::TextDomain::OO::Plugin::Expand::Maketext::Localise - Alternative maketext methods
 
-$Id: Loc.pm 545 2014-10-30 13:23:00Z steffenw $
+$Id: Localise.pm 547 2014-10-31 09:56:41Z steffenw $
 
-$HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Maketext/Loc.pm $
+$HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Maketext/Localise.pm $
 
 =head1 VERSION
 
@@ -45,7 +45,7 @@ This module provides alternative maketext methods.
 
     my $loc = Locale::TextDomain::OO->new(
         plugins => [ qw(
-            Expand::Maketext::Loc
+            Expand::Maketext::Localise
             ...
         ) ],
         ...
@@ -53,11 +53,10 @@ This module provides alternative maketext methods.
 
 =head1 SUBROUTINES/METHODS
 
-=head2 methods loc, loc_m, loc_mp, Nloc, Nloc_m, Nloc_mp
+=head2 methods localise, localise_m, localise_mp, Nlocalise, Nlocalise_m, Nlocalise_mp
 
 This methods are aliases to method
-maketext, maketext, maketext_p,
-Nmaketext, Nmaketext and Nmaketext_p.
+maketext, maketext, maketext_p, Nmaketext, Nmaketext and Nmaketext_p.
 
 =head1 EXAMPLE
 

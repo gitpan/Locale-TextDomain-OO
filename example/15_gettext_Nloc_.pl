@@ -8,63 +8,63 @@ our $VERSION = 0;
 
 my $loc = Locale::TextDomain::OO->new(
     language => 'i-default',
-    plugins  => [ qw( Expand::Gettext ) ],
+    plugins  => [ qw( Expand::Gettext::Loc ) ],
 );
 
 # Put all data for the translation into a structure
 # and do not run the translation.
 # That allows the extractor to find all the phrases.
 my @extractable_data = (
-    __ => [
-        $loc->N__(
+    loc_ => [
+        $loc->Nloc_(
             'This is a text.',
         )
     ],
-    __x => [
-        $loc->N__x(
+    loc_x => [
+        $loc->Nloc_x(
             '{name} is programming {language}.',
             name     => 'Steffen',
             language => 'Perl',
         )
     ],
-    __n => [
-        $loc->N__n(
+    loc_n => [
+        $loc->Nloc_n(
             'Singular',
             'Plural',
             1,
         )
     ],
-    __nx => [
-        $loc->N__nx(
+    loc_nx => [
+        $loc->Nloc_nx(
             '{num} shelf',
             '{num} shelves',
             1,
             num => 1,
         )
     ],
-    __p => [
-        $loc->N__p(
+    loc_p => [
+        $loc->Nloc_p(
             'maskulin',
             'Dear',
         )
     ],
-    __px => [
-        $loc->N__px(
+    loc_px => [
+        $loc->Nloc_px(
             'maskulin',
             'Dear {full name}',
             'full name' => 'Steffen Winkler',
         )
     ],
-    __np => [
-        $loc->N__np(
+    loc_np => [
+        $loc->Nloc_np(
             'appointment',
             'date',
             'dates',
             1,
         )
     ],
-    __npx => [
-        $loc->N__npx(
+    loc_npx => [
+        $loc->Nloc_npx(
             'appointment',
             '{num} date',
             '{num} dates',
@@ -83,17 +83,17 @@ while ( my ($method_name, $array_ref) = splice @extractable_data, 0, 2 ) {
         "\n";
 }
 
-# $Id: 14_gettext_N.pl 433 2013-12-19 15:37:45Z steffenw $
+# $Id: 15_gettext_Nloc_.pl 546 2014-10-31 09:35:19Z steffenw $
 
 __END__
 
 Output:
 
-__: This is a text.
-__x: Steffen is programming Perl.
-__n: Singular
-__nx: 1 shelf
-__p: Dear
-__px: Dear Steffen Winkler
-__np: date
-__npx: 1 date
+loc_: This is a text.
+loc_x: Steffen is programming Perl.
+loc_n: Singular
+loc_nx: 1 shelf
+loc_p: Dear
+loc_px: Dear Steffen Winkler
+loc_np: date
+loc_npx: 1 date

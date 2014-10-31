@@ -7,7 +7,7 @@ use Moo;
 use MooX::StrictConstructor;
 use namespace::autoclean;
 
-our $VERSION = '1.011';
+our $VERSION = '1.014';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::StoreFile
@@ -18,12 +18,7 @@ sub to_json {
     my $self = shift;
 
     return $self->store_content(
-        encode_json(
-            $self->data({
-                msg_key_separator => '{MSG_KEY_SEPARATOR}',
-                plural_separator  => '{PLURAL_SEPARATOR}',
-            }),
-        ),
+        encode_json( $self->data ),
     );
 }
 
@@ -55,13 +50,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::StoreJSON - Stores the lexicon for other programming languages
 
-$Id: StoreJSON.pm 499 2014-05-12 12:53:39Z steffenw $
+$Id: StoreJSON.pm 546 2014-10-31 09:35:19Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/StoreJSON.pm $
 
 =head1 VERSION
 
-1.011
+1.014
 
 =head1 DESCRIPTION
 
@@ -113,38 +108,33 @@ This module stores the lexicon for other programming language e.g. JavaScript.
 
     use Locale::TextDomain::OO::Lexicon::StoreJSON;
 
-    my $json = Locale::TextDomain::OO::Lexicon::StoreJSON
-        ->new(
-            ...
-            # all parameters optional
-            filter_domain          => [
-                # this domains and unchecked category
-                qw( domain1 domain2 ),
-            ],
-            filter_category        => [
-                # this categories and unchecked domain
-                qw( category1 category2 ),
-            ],
-            filter_domain_category => [
-                {
-                    # empty domain
-                    # empty category
-                },
-                {
-                    domain => 'domain3',
-                    # empty category
-                },
-                {
-                    # empty domain
-                    category => 'category3',
-                },
-                {
-                    domain   => 'domain4',
-                    category => 'category4',
-                },
-            },
-        )
-        ->to_json; # ->to_javascript or ->to_html
+    my $json = Locale::TextDomain::OO::Lexicon::StoreJSON->new(
+        ...
+        # all parameters optional
+        # with all type examples for filter_... attributes
+        filter_language => undef,                       # default, means all
+        filter_domain   => 'my domain',                 # string
+        filter_category => qr{ \A \Qmy category\E }xms, # regex
+        filter_project  => sub {                        # code reference
+            my $filter_name = shift;   # is 'filter_project'
+            return $_ eq 'my project'; # boolean return
+        },
+    );
+    # from lexicon to data
+    # method to_json will use data to output
+    $json->copy;
+    $json->clear_filter; # set all filter_... to undef
+    $json->filter_domain( qr{ \A dom }xms );
+    $json->copy;
+    $json->clear_filter;
+    $json->filter_category( sub { return $_ eq 'cat1' } );
+    $json->copy;
+    $json->clear_filter;
+    $json->filter_domain('dom1');
+    $json->filter_category('cat1');
+    # remove all lexicons with dom1 and cat1 from data
+    $json->remove;
+    $json->to_json; # ->to_javascript or ->to_html
 
 =head1 SUBROUTINES/METHODS
 

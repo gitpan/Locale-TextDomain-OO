@@ -9,11 +9,8 @@ use Test::Differences;
 use Cwd qw(getcwd chdir);
 use Encode qw(decode_utf8);
 
-$ENV{AUTHOR_TESTING} or plan(
-    skip_all => 'Set $ENV{AUTHOR_TESTING} to run this test.'
-);
-
-plan(tests => 7);
+$ENV{AUTHOR_TESTING}
+    or plan skip_all => 'Set $ENV{AUTHOR_TESTING} to run this test.';
 
 my @data = (
     {
@@ -22,12 +19,12 @@ my @data = (
         script => '-I../lib -T 04_lexicon_store_JSON_utf-8.pl',
         result => <<'EOT',
 Lexicon "en-gb:cat:dom" loaded from hash.
-{"en-gb:cat:dom":{"":{"plural":"n != 1","charset":"UTF-8","nplurals":1},"appointment{MSG_KEY_SEPARATOR}date for GBP{PLURAL_SEPARATOR}dates for GBP":{"msgstr":["date for £","dates for £"]}},"i-default::":{"":{"plural":"n != 1","nplurals":2}}}
+{"en-gb:cat:dom":{"date for GBP{PLURAL_SEPARATOR}dates for GBP{MSG_KEY_SEPARATOR}appointment":{"msgstr":["date for £","dates for £"]},"":{"plural":"n != 1","charset":"UTF-8","nplurals":1}},"i-default::":{"":{"plural":"n != 1","nplurals":2}}}
 
-var localeTextDomainOOLexicon = {"en-gb:cat:dom":{"":{"plural":"n != 1","charset":"UTF-8","nplurals":1},"appointment{MSG_KEY_SEPARATOR}date for GBP{PLURAL_SEPARATOR}dates for GBP":{"msgstr":["date for £","dates for £"]}},"i-default::":{"":{"plural":"n != 1","nplurals":2}}};
+var localeTextDomainOOLexicon = {"en-gb:cat:dom":{"date for GBP{PLURAL_SEPARATOR}dates for GBP{MSG_KEY_SEPARATOR}appointment":{"msgstr":["date for £","dates for £"]},"":{"plural":"n != 1","charset":"UTF-8","nplurals":1}},"i-default::":{"":{"plural":"n != 1","nplurals":2}}};
 
 <script type="text/javascript"><!--
-var localeTextDomainOOLexicon = {"en-gb:cat:dom":{"":{"plural":"n != 1","charset":"UTF-8","nplurals":1},"appointment{MSG_KEY_SEPARATOR}date for GBP{PLURAL_SEPARATOR}dates for GBP":{"msgstr":["date for £","dates for £"]}},"i-default::":{"":{"plural":"n != 1","nplurals":2}}};
+var localeTextDomainOOLexicon = {"en-gb:cat:dom":{"date for GBP{PLURAL_SEPARATOR}dates for GBP{MSG_KEY_SEPARATOR}appointment":{"msgstr":["date for £","dates for £"]},"":{"plural":"n != 1","charset":"UTF-8","nplurals":1}},"i-default::":{"":{"plural":"n != 1","nplurals":2}}};
 --></script>
 EOT
     },
@@ -52,9 +49,9 @@ not existing text
 EOT
     },
     {
-        test   => '12_gettext_po_utf-8',
+        test   => '13_gettext_po_utf-8',
         path   => 'example',
-        script => '-I../lib -T 12_gettext_po_utf-8.pl',
+        script => '-I../lib -T 13_gettext_po_utf-8.pl',
         result => <<'EOT',
 debug: Lexicon "de::" loaded from file "LocaleData/de/LC_MESSAGES/example.po".
 debug: Lexicon "ru::" loaded from file "LocaleData/ru/LC_MESSAGES/example.po".
@@ -72,18 +69,18 @@ not existing text
 EOT
     },
     {
-        test   => '13_gettext_mo_cp1252',
+        test   => '14_gettext_mo_cp1252',
         path   => 'example',
-        script => '-I../lib -T 13_gettext_mo_cp1252.pl',
+        script => '-I../lib -T 14_gettext_mo_cp1252.pl',
         result => <<'EOT',
 Lexicon "de::" loaded from file "LocaleData/de/LC_MESSAGES/example_cp1252.mo".
 Das sind deutsche Umlaute: ä ö ü ß Ä Ö Ü.
 EOT
     },
     {
-        test   => '16_multiplural_mo_utf-8',
+        test   => '17_multiplural_mo_utf-8',
         path   => 'example',
-        script => '-I../lib -T 16_multiplural_mo_utf-8.pl',
+        script => '-I../lib -T 17_multiplural_mo_utf-8.pl',
         result => <<'EOT',
 Lexicon "de:LC_MULTIPLURAL2:" loaded from file "LocaleData/de/LC_MULTIPLURAL2/example_multiplural.mo".
 Dort ist nichts.
@@ -140,8 +137,10 @@ EOT
     },
 );
 
+plan tests => 0 + @data;
+
 for my $data (@data) {
-    my $dir = getcwd();
+    my $dir = getcwd;
     chdir("$dir/$data->{path}");
     my $result = decode_utf8( qx{perl $data->{script} 2>&3} );
     chdir($dir);

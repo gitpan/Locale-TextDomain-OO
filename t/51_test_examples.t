@@ -86,9 +86,55 @@ Das sind 2 Dates.
 EOT
     },
     {
-        test   => '14_gettext_N',
+        test   => '11_gettext_loc_hash',
         path   => 'example',
-        script => '-I../lib -T 14_gettext_N.pl',
+        script => '-I../lib -T 11_gettext_loc_hash.pl',
+        result => <<'EOT',
+debug: Lexicon "de:LC_MESSAGES:example" loaded from hash.
+warn: Using lexicon "de:LC_MESSAGES:example". msgstr not found for msgctxt=undef, msgid="not existing text".
+not existing text
+Das ist ein Text.
+Steffen programmiert Perl.
+Steffen programmiert {language}.
+Einzahl
+Mehrzahl
+1 Regal
+2 Regale
+Sehr geehrter
+Sehr geehrter Steffen Winkler
+Date
+Dates
+Das ist 1 Date.
+Das sind 2 Dates.
+EOT
+    },
+    {
+        test   => '11_gettext_named_hash',
+        path   => 'example',
+        script => '-I../lib -T 11_gettext_named_hash.pl',
+        result => <<'EOT',
+debug: Lexicon "de:LC_MESSAGES:example" loaded from hash.
+warn: Using lexicon "de:LC_MESSAGES:example". msgstr not found for msgctxt=undef, msgid="not existing text".
+not existing text
+Das ist ein Text.
+Steffen programmiert Perl.
+Steffen programmiert {language}.
+Einzahl
+Mehrzahl
+1 Regal
+2 Regale
+Sehr geehrter
+Sehr geehrter Steffen Winkler
+Date
+Dates
+Das ist 1 Date.
+Das sind 2 Dates.
+EOT
+    },
+    {
+        test   => '15_gettext_N__',
+        path   => 'example',
+        script => '-I../lib -T 15_gettext_N__.pl',
         result => <<'EOT',
 __: This is a text.
 __x: Steffen is programming Perl.
@@ -98,6 +144,21 @@ __p: Dear
 __px: Dear Steffen Winkler
 __np: date
 __npx: 1 date
+EOT
+    },
+    {
+        test   => '15_gettext_Nloc_',
+        path   => 'example',
+        script => '-I../lib -T 15_gettext_Nloc_.pl',
+        result => <<'EOT',
+loc_: This is a text.
+loc_x: Steffen is programming Perl.
+loc_n: Singular
+loc_nx: 1 shelf
+loc_p: Dear
+loc_px: Dear Steffen Winkler
+loc_np: date
+loc_npx: 1 date
 EOT
     },
     {
@@ -212,7 +273,7 @@ EOT
 plan tests => 0 + @data;
 
 for my $data (@data) {
-    my $dir = getcwd();
+    my $dir = getcwd;
     chdir("$dir/$data->{path}");
     my $result = qx{perl $data->{script} 2>&3};
     chdir($dir);

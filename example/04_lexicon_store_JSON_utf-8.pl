@@ -51,13 +51,13 @@ ${\$instance->data} = sort_hash_ref( $instance->data );
 
 # To see how the filter is working see test "t/04_lexicon_store_JSON.t".
 () = print
-    Locale::TextDomain::OO::Lexicon::StoreJSON->new->to_json, "\n",
+    Locale::TextDomain::OO::Lexicon::StoreJSON->new->copy->to_json,
+    "\n\n",
+    Locale::TextDomain::OO::Lexicon::StoreJSON->new->copy->to_javascript,
     "\n",
-    Locale::TextDomain::OO::Lexicon::StoreJSON->new->to_javascript,
-    "\n",
-    Locale::TextDomain::OO::Lexicon::StoreJSON->new->to_html;
+    Locale::TextDomain::OO::Lexicon::StoreJSON->new->copy->to_html;
 
-#$Id: 04_lexicon_store_JSON_utf-8.pl 499 2014-05-12 12:53:39Z steffenw $
+#$Id: 04_lexicon_store_JSON_utf-8.pl 546 2014-10-31 09:35:19Z steffenw $
 
 __END__
 
@@ -65,25 +65,25 @@ Output with all lexicons "en-gb:cat:dom" and the default "i-default::":
 
 Lexicon "en-gb:cat:dom" loaded from hash.
 {
-  'en-gb:cat:dom' => {
-    '' => {
-      'charset' => 'UTF-8',
-      'nplurals' => 1,
-      'plural' => 'n != 1',
+    "en-gb:cat:dom" : {
+        "date for GBP{PLURAL_SEPARATOR}dates for GBP{MSG_KEY_SEPARATOR}appointment" : {
+            "msgstr" : [
+                "date for £",
+                "dates for £"
+            ]
+        },
+        "" : {
+            "plural"   : "n != 1",
+            "charset"  : "UTF-8",
+            "nplurals" : 1
+        }
     },
-    'appointment{MSG_KEY_SEPARATOR}date for GBP{PLURAL_SEPARATOR}dates for GBP' => {
-      'msgstr' => [
-          "date for \xc2\xa3", # "\xc2\xa3" is £ as UTF-8
-          "dates for \xc2\xa3",
-      ],
-    },
-  },
-  'i-default::' => {
-    '' => {
-      'nplurals' => 2,
-      'plural' => 'n != 1',
-    },
-  },
+    "i-default::" : {
+        "" : {
+            "plural"   :"n != 1",
+            "nplurals" : 2
+        }
+    }
 }
 
 var localeTextDomainOOLexicon = { ... same like before ... };

@@ -1,4 +1,4 @@
-package Locale::TextDomain::OO::Plugin::Expand::Gettext::DomainAndCategory; ## no critic (TidyCode)
+package Locale::TextDomain::OO::Plugin::Expand::Gettext::Loc::DomainAndCategory; ## no critic (TidyCode)
 
 use strict;
 use warnings;
@@ -10,7 +10,7 @@ use namespace::autoclean;
 our $VERSION = '1.014';
 
 with qw(
-    Locale::TextDomain::OO::Plugin::Expand::Gettext
+    Locale::TextDomain::OO::Plugin::Expand::Gettext::Loc
 );
 
 requires qw(
@@ -28,7 +28,7 @@ has _shadow_categories => (
     default => sub { [] },
 );
 
-sub __begin_d {
+sub loc_begin_d {
     my ($self, $domain) = @_;
 
     defined $domain
@@ -41,7 +41,7 @@ sub __begin_d {
     return $self;
 }
 
-sub __begin_c {
+sub loc_begin_c {
     my ($self, $category) = @_;
 
     defined $category
@@ -54,16 +54,16 @@ sub __begin_c {
     return $self;
 }
 
-sub __begin_dc { ## no critic (UnusedPrivateSubroutines)
+sub loc_begin_dc {
     my ($self, $domain, $category) = @_;
 
-    $self->__begin_d($domain);
-    $self->__begin_c($category);
+    $self->loc_begin_d($domain);
+    $self->loc_begin_c($category);
 
     return $self;
 }
 
-sub __end_d {
+sub loc_end_d {
     my $self = shift;
 
     if ( ! @{ $self->_shadow_domains } ) {
@@ -75,7 +75,7 @@ sub __end_d {
     return $self;
 }
 
-sub __end_c {
+sub loc_end_c {
     my $self = shift;
 
     if ( ! @{ $self->_shadow_categories } ) {
@@ -87,131 +87,131 @@ sub __end_c {
     return $self;
 }
 
-sub __end_dc { ## no critic (UnusedPrivateSubroutines)
+sub loc_end_dc {
     my $self = shift;
 
-    $self->__end_d;
-    $self->__end_c;
+    $self->loc_end_d;
+    $self->loc_end_c;
 
     return $self;
 }
 
-sub __dx {
+sub loc_dx {
     my ( $self, $domain, @more ) = @_;
 
-    $self->__begin_d($domain);
-    my $translation = $self->__x(@more);
-    $self->__end_d;
+    $self->loc_begin_d($domain);
+    my $translation = $self->loc_x(@more);
+    $self->loc_end_d;
 
     return $translation;
 }
 
-sub __cx {
+sub loc_cx {
     my ($self, @more) = @_;
 
-    $self->__begin_c( splice @more, 1, 1 );
-    my $translation = $self->__x(@more);
-    $self->__end_c;
+    $self->loc_begin_c( splice @more, 1, 1 );
+    my $translation = $self->loc_x(@more);
+    $self->loc_end_c;
 
     return $translation;
 }
 
-sub __dcx {
+sub loc_dcx {
     my ( $self, $domain, @more ) = @_;
 
-    $self->__begin_d($domain);
-    my $translation = $self->__cx(@more);
-    $self->__end_d;
+    $self->loc_begin_d($domain);
+    my $translation = $self->loc_cx(@more);
+    $self->loc_end_d;
 
     return $translation;
 }
 
-sub __dnx {
+sub loc_dnx {
     my ( $self, $domain, @more ) = @_;
 
-    $self->__begin_d($domain);
-    my $translation = $self->__nx(@more);
-    $self->__end_d;
+    $self->loc_begin_d($domain);
+    my $translation = $self->loc_nx(@more);
+    $self->loc_end_d;
 
     return $translation;
 }
 
-sub __cnx {
+sub loc_cnx {
     my ( $self, @more ) = @_;
 
-    $self->__begin_c( splice @more, 3, 1 ); ## no critic (MagicNumbers)
-    my $translation = $self->__nx(@more);
-    $self->__end_c;
+    $self->loc_begin_c( splice @more, 3, 1 ); ## no critic (MagicNumbers)
+    my $translation = $self->loc_nx(@more);
+    $self->loc_end_c;
 
     return $translation;
 }
 
-sub __dcnx {
+sub loc_dcnx {
     my ( $self, $domain, @more ) = @_;
 
-    $self->__begin_d($domain);
-    my $translation = $self->__cnx(@more);
-    $self->__end_d;
+    $self->loc_begin_d($domain);
+    my $translation = $self->loc_cnx(@more);
+    $self->loc_end_d;
 
     return $translation;
 }
 
-sub __dpx {
+sub loc_dpx {
     my ( $self, $domain, @more ) = @_;
 
-    $self->__begin_d($domain);
-    my $translation = $self->__px(@more);
-    $self->__end_d;
+    $self->loc_begin_d($domain);
+    my $translation = $self->loc_px(@more);
+    $self->loc_end_d;
 
     return $translation;
 }
 
-sub __cpx {
+sub loc_cpx {
     my ( $self, @more ) = @_;
 
-    $self->__begin_c( splice @more, 2, 1 );
-    my $translation = $self->__px(@more);
-    $self->__end_c;
+    $self->loc_begin_c( splice @more, 2, 1 );
+    my $translation = $self->loc_px(@more);
+    $self->loc_end_c;
 
     return $translation;
 }
 
-sub __dcpx {
+sub loc_dcpx {
     my ( $self, $domain, @more ) = @_;
 
-    $self->__begin_d($domain);
-    my $translation = $self->__cpx(@more);
-    $self->__end_d;
+    $self->loc_begin_d($domain);
+    my $translation = $self->loc_cpx(@more);
+    $self->loc_end_d;
 
     return $translation;
 }
 
-sub __dnpx {
+sub loc_dnpx {
     my ( $self, $domain, @more ) = @_;
 
-    $self->__begin_d($domain);
-    my $translation = $self->__npx(@more);
-    $self->__end_d;
+    $self->loc_begin_d($domain);
+    my $translation = $self->loc_npx(@more);
+    $self->loc_end_d;
 
     return $translation;
 }
 
-sub __cnpx {
+sub loc_cnpx {
     my ($self, @more) = @_;
 
-    $self->__begin_c( splice @more, 4, 1 ); ## no critic (MagicNumbers)
-    my $translation = $self->__npx(@more);
-    $self->__end_c;
+    $self->loc_begin_c( splice @more, 4, 1 ); ## no critic (MagicNumbers)
+    my $translation = $self->loc_npx(@more);
+    $self->loc_end_c;
 
     return $translation;
 }
 
-sub __dcnpx {
+sub loc_dcnpx {
     my ( $self, $domain, @more ) = @_;
 
-    $self->__begin_d($domain);
-    my $translation = $self->__cnpx(@more);
-    $self->__end_d;
+    $self->loc_begin_d($domain);
+    my $translation = $self->loc_cnpx(@more);
+    $self->loc_end_d;
 
     return $translation;
 }
@@ -225,50 +225,50 @@ BEGIN {
         return wantarray ? @more : $more[0];
     };
 
-    *__d   = \&__dx;
-    *__dn  = \&__dnx;
-    *__dp  = \&__dpx;
-    *__dnp = \&__dnpx;
+    *loc_d   = \&loc_dx;
+    *loc_dn  = \&loc_dnx;
+    *loc_dp  = \&loc_dpx;
+    *loc_dnp = \&loc_dnpx;
 
-    *__c   = \&__cx;
-    *__cn  = \&__cnx;
-    *__cp  = \&__cpx;
-    *__cnp = \&__cnpx;
+    *loc_c   = \&loc_cx;
+    *loc_cn  = \&loc_cnx;
+    *loc_cp  = \&loc_cpx;
+    *loc_cnp = \&loc_cnpx;
 
-    *__dc   = \&__dcx;
-    *__dcn  = \&__dcnx;
-    *__dcp  = \&__dcpx;
-    *__dcnp = \&__dcnpx;
+    *loc_dc   = \&loc_dcx;
+    *loc_dcn  = \&loc_dcnx;
+    *loc_dcp  = \&loc_dcpx;
+    *loc_dcnp = \&loc_dcnpx;
 
-    *N__d   = $dummy;
-    *N__dn  = $dummy;
-    *N__dp  = $dummy;
-    *N__dnp = $dummy;
+    *Nloc_d   = $dummy;
+    *Nloc_dn  = $dummy;
+    *Nloc_dp  = $dummy;
+    *Nloc_dnp = $dummy;
 
-    *N__dx   = $dummy;
-    *N__dnx  = $dummy;
-    *N__dpx  = $dummy;
-    *N__dnpx = $dummy;
+    *Nloc_dx   = $dummy;
+    *Nloc_dnx  = $dummy;
+    *Nloc_dpx  = $dummy;
+    *Nloc_dnpx = $dummy;
 
-    *N__c   = $dummy;
-    *N__cn  = $dummy;
-    *N__cp  = $dummy;
-    *N__cnp = $dummy;
+    *Nloc_c   = $dummy;
+    *Nloc_cn  = $dummy;
+    *Nloc_cp  = $dummy;
+    *Nloc_cnp = $dummy;
 
-    *N__cx   = $dummy;
-    *N__cnx  = $dummy;
-    *N__cpx  = $dummy;
-    *N__cnpx = $dummy;
+    *Nloc_cx   = $dummy;
+    *Nloc_cnx  = $dummy;
+    *Nloc_cpx  = $dummy;
+    *Nloc_cnpx = $dummy;
 
-    *N__dc   = $dummy;
-    *N__dcn  = $dummy;
-    *N__dcp  = $dummy;
-    *N__dcnp = $dummy;
+    *Nloc_dc   = $dummy;
+    *Nloc_dcn  = $dummy;
+    *Nloc_dcp  = $dummy;
+    *Nloc_dcnp = $dummy;
 
-    *N__dcx   = $dummy;
-    *N__dcnx  = $dummy;
-    *N__dcpx  = $dummy;
-    *N__dcnpx = $dummy;
+    *Nloc_dcx   = $dummy;
+    *Nloc_dcnx  = $dummy;
+    *Nloc_dcpx  = $dummy;
+    *Nloc_dcnpx = $dummy;
 }
 
 1;
@@ -277,11 +277,11 @@ __END__
 
 =head1 NAME
 
-Locale::TextDomain::OO::Plugin::Expand::Gettext::DomainAndCategory - Methods for dynamic domain and/or category, prefixed with __
+Locale::TextDomain::OO::Plugin::Expand::Gettext::Loc::DomainAndCategory - Methods for dynamic domain and/or category, prefixed with loc_
 
-$Id: DomainAndCategory.pm 543 2014-10-29 08:26:25Z steffenw $
+$Id: DomainAndCategory.pm 545 2014-10-30 13:23:00Z steffenw $
 
-$HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Gettext/DomainAndCategory.pm $
+$HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Plugin/Expand/Gettext/Loc/DomainAndCategory.pm $
 
 =head1 VERSION
 
@@ -298,7 +298,7 @@ Maybe that will change in future.
 
     my $loc = Locale::Text::TextDomain::OO->new(
         plugins => [ qw (
-            Expand::Gettext::DomainAndCategory
+            Expand::Gettext::Loc::DomainAndCategory
             ...
         )],
         ...
@@ -308,83 +308,83 @@ Maybe that will change in future.
 
 =head2 Switch methods
 
-=head3 methods __begin_d, __end_d
+=head3 methods loc_begin_d, loc_end_d
 
 Switch the domain.
 
-    $loc->__begin_d($domain);
+    $loc->loc_begin_d($domain);
 
 All translations using the lexicon of that domain.
 
-    $loc->__end_d;
+    $loc->loc_end_d;
 
-All translations using the lexicon before call of __begin_d.
+All translations using the lexicon before call of loc_begin_d.
 
-=head3 methods __begin_c, __end_c
+=head3 methods loc_begin_c, loc_end_c
 
 Switch the category.
 
-    $loc->__begin_c($category);
+    $loc->loc_begin_c($category);
 
 All translations using the lexicon of that category.
 
-    $loc->__end_c;
+    $loc->loc_end_c;
 
-All translations using the lexicon before call of __begin_c.
+All translations using the lexicon before call of loc_begin_c.
 
-=head3 methods __begin_dc, __end_dc
+=head3 methods loc_begin_dc, loc_end_dc
 
 Switch the domain and category.
 
-    $loc->__begin_dc($domain, $category);
+    $loc->loc_begin_dc($domain, $category);
 
 All translations using the lexicon of that domain and category.
 
-    $loc->__end_dc;
+    $loc->loc_end_dc;
 
-All translations using the lexicon before call of __begin_dc.
+All translations using the lexicon before call of loc_begin_dc.
 
 =head2 Translation methods
 
-=head3 methods __d, __dn, __dp, __dnp, __dx, __dnx, __dpx, __dnpx
+=head3 methods loc_d, loc_dn, loc_dp, loc_dnp, loc_dx, loc_dnx, loc_dpx, loc_dnpx
 
 Switch to that domain, translate and switch back.
 
-    $translation = $loc->__dx('domain', 'msgid', key => value );
+    $translation = $loc->loc_dx('domain', 'msgid', key => value );
 
 Other methods are similar extended.
 The domain is the 1st parameter.
 
-=head3 methods __c, __cn, __cp, __cnp, __cx, __cnx, __cpx, __cnpx
+=head3 methods loc_c, loc_cn, loc_cp, loc_cnp, loc_cx, loc_cnx, loc_cpx, loc_cnpx
 
 Switch to that category, translate and switch back.
 
-    $translation = $loc->__cx('msgid', 'category', key => value );
+    $translation = $loc->loc_cx('msgid', 'category', key => value );
 
 Other methods are similar extended.
 The category is the last parameter
 but before the placeholder replacement hash/hash_ref.
 
-=head3 methods __dc, __dcn, __dcp, __dcnp, __dcx, __dcnx, __dcpx, __dcnpx
+=head3 methods loc_dc, loc_dcn, loc_dcp, loc_dcnp, loc_dcx, loc_dcnx, loc_dcpx, loc_dcnpx
 
 Switch to that domain and category, translate and switch back both.
 
-    $translation = $loc->__dcx('domain', 'msgid', 'category', key => value );
+    $translation = $loc->loc_dcx('domain', 'msgid', 'category', key => value );
 
 Other methods are similar extended.
 The domain is the 1st parameter.
 The category is the last parameter
 but before the placeholder replacement hash/hash_ref.
 
-=head3 methods N__d, N__dn, N__dp, N__dnp, N__dx, N__dnx, N__dpx, N__dnpx
+=head3 methods Nloc_d, Nloc_dn, Nloc_dp, Nloc_dnp, Nloc_dx, Nloc_dnx, Nloc_dpx, Nloc_dnpx
 
 none translating methods with domain
 
-=head3 methods N__c, N__cn, N__cp, N__cnp, N__cx, N__cnx, N__cpx, N__cnpx
+=head3 methods Nloc_c, Nloc_cn, Nloc_cp, Nloc_cnp, Nloc_cx, Nloc_cnx, Nloc_cpx, Nloc_cnpx
 
 none translating methods with category
 
-=head3 methods N__dc, N__dcn, N__dcp, N__dcnp, N__dcx, N__dcnx, N__dcpx, N__dcnpx
+=head3 methods Nloc_dc, Nloc_dcn, Nloc_dcp, Nloc_dcnp, Nloc_dcx, Nloc_dcnx, Nloc_dcpx, Nloc_dcnpx
 
 none translating methods with domain and category
 
@@ -413,7 +413,7 @@ L<Moo::Role|Moo::Role>
 
 L<namespace::autoclean|namespace::autoclean>
 
-L<Locale::TextDomain::OO::Plugin::Expand::Gettext|Locale::TextDomain::OO::Plugin::Expand::Gettext>
+L<Locale::TextDomain::OO::Plugin::Expand::Gettext::Loc|Locale::TextDomain::OO::Plugin::Expand::Gettext::Loc>
 
 =head1 INCOMPATIBILITIES
 

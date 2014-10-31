@@ -51,7 +51,7 @@ for my $books ( 0 .. 2 ) {
     }
 }
 
-# $Id: 16_multiplural_mo_utf-8.pl 487 2014-02-03 14:31:43Z steffenw $
+# $Id: 17_multiplural_mo_utf-8.pl 546 2014-10-31 09:35:19Z steffenw $
 
 __END__
 

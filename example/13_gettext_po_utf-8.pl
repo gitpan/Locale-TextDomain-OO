@@ -104,7 +104,7 @@ binmode STDOUT, ':encoding(utf-8)'
         dates => 5,
     );
 
-# $Id: 12_gettext_po_utf-8.pl 508 2014-08-30 18:52:57Z steffenw $
+# $Id: 13_gettext_po_utf-8.pl 546 2014-10-31 09:35:19Z steffenw $
 
 __END__
 

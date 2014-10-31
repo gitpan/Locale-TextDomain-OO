@@ -104,7 +104,8 @@ is
         'He lives in {town}.',
         town => 'Москва',
     ),
-    'Он живет в Москве.';
+    'Он живет в Москве.',
+    '__x utf-8';
 is
     $loc->__nx(
         '{books :num} book',

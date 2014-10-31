@@ -41,19 +41,19 @@ binmode STDOUT, ':encoding(utf-8)'
     $loc->localize(
         '§ book',
     ),
-    $loc->localize_p(
+    $loc->localize_mp(
         'appointment',
         'date',
     ),
     $loc->Nlocalize(
         'book',
     ),
-    $loc->Nlocalize_p(
+    $loc->Nlocalize_mp(
         'appointment',
         'date',
     );
 
-# $Id: 23_localize_mo_utf-8.pl 460 2014-01-06 22:09:01Z steffenw $
+# $Id: 23_localize_mo_utf-8.pl 546 2014-10-31 09:35:19Z steffenw $
 
 __END__
 

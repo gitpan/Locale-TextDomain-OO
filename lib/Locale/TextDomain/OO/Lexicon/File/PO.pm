@@ -8,7 +8,7 @@ use Moo;
 use MooX::StrictConstructor;
 use namespace::autoclean;
 
-our $VERSION = '1.012';
+our $VERSION = '1.014';
 
 with qw(
     Locale::TextDomain::OO::Lexicon::Role::File
@@ -58,13 +58,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::File::PO - Gettext po file as lexicon
 
-$Id: PO.pm 508 2014-08-30 18:52:57Z steffenw $
+$Id: PO.pm 546 2014-10-31 09:35:19Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/File/PO.pm $
 
 =head1 VERSION
 
-1.011
+1.014
 
 =head1 DESCRIPTION
 

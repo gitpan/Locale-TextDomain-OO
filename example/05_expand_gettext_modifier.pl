@@ -39,7 +39,7 @@ $loc->expand_gettext->modifier_code(
     },
     $loc->__('{count :num} EUR', count => '12345678.90');
 
-# $Id$
+# $Id: 05_expand_gettext_modifier.pl 546 2014-10-31 09:35:19Z steffenw $
 
 __END__
 

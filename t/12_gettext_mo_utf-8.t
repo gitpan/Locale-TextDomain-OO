@@ -8,6 +8,8 @@ use Test::More tests => 21;
 use Test::NoWarnings;
 
 BEGIN {
+    use Carp qw(confess);
+    $SIG{__DIE__} = \&confess;
     require_ok('Locale::TextDomain::OO');
     require_ok('Locale::TextDomain::OO::Lexicon::File::MO');
 }
@@ -104,7 +106,8 @@ is
         'He lives in {town}.',
         town => 'Москва',
     ),
-    'Он живет в Москве.';
+    'Он живет в Москве.',
+    '__x utf-8';
 is
     $loc->__nx(
         '{books :num} book',

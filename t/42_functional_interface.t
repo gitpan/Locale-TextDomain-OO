@@ -85,7 +85,7 @@ eq_or_diff
     [ N__n('singular', 'plural', 1) ],
     [ qw( singular plural 1 ) ],
     'N__n';
-__begin_dc( qw( my_domain my_category ) );
+__begin_dc('my_domain', 'my_category');
 is
     ${$loc_ref}->domain,
     'my_domain',

@@ -48,21 +48,21 @@ my $loc = Locale::TextDomain::OO->new(
         '[quant,_1,shelf,shelves]',
         2,
     ),
-    $loc->loc_p(
+    $loc->loc_mp(
         'maskulin',
         'Dear',
     ),
-    $loc->loc_p(
+    $loc->loc_mp(
         'maskulin',
         'Dear [_1]',
         'Steffen Winkler',
     ),
-    $loc->loc_p(
+    $loc->loc_mp(
         'appointment',
         'This is/are [*,_1,date,dates].',
         1,
     ),
-    $loc->loc_p(
+    $loc->loc_mp(
         'appointment',
         'This is/are [*,_1,date,dates].',
         2,
@@ -82,13 +82,13 @@ my $loc = Locale::TextDomain::OO->new(
     $loc->Nloc(
         'book',
     ),
-    $loc->Nloc_p(
+    $loc->Nloc_mp(
         'appointment',
         'date',
     );
 
 
-# $Id: 22_loc_mo_style_gettext.pl 460 2014-01-06 22:09:01Z steffenw $
+# $Id: 22_loc_mo_style_gettext.pl 546 2014-10-31 09:35:19Z steffenw $
 
 __END__
 

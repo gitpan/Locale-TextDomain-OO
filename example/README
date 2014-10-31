@@ -49,8 +49,9 @@ attachment." and "There is/are 2 attachments.".
 06_expand_maketext_formatter_code.pl
    This example shows how to format numbers.
 
-11_gettext_hash.pl
+11_gettext_hash.pl, 11_gettext_loc_hash.pl, 11_gettext_named_hash.pl
     This example shows how to create a lexicon from hash.
+    And it shows how to run with the different gettext plugins.
 
 12_gettext_mo_utf-8.pl
     This example shows how to create a lexicon from mo file.
@@ -60,12 +61,13 @@ attachment." and "There is/are 2 attachments.".
 13_gettext_mo_cp1252.pl
     It is also possible to read the mo file with Windows charset cp1252.
 
-14_N__.pl
-    This example shows how to use all the N__... methods. This methods are seen
-    by extractor but doing no translation. Maybe there is a mapping and only one
-    translation is used at the end. So translate only that one and not all.
+14_N__.pl, 14_Nloc_.t
+    This example shows how to use all the N__... or Nloc_... methods.
+    This methods are seen by extractor but doing no translation.
+    Maybe there is a mapping and only one translation is used at the end.
+    So translate only that one and not all.
 
-16_multiplural_mo_utf-8.pl
+17_multiplural_mo_utf-8.pl
     This shows how to use more than one plural form in one phrase. That is a
     special thing but a possible way.
 
@@ -82,4 +84,6 @@ attachment." and "There is/are 2 attachments.".
 41_tied_interface.pl
     To interpolate all methods inside of a string use the tied stuff.
 
-42_gettext_mo_functional_interface
+42_gettext_mo_functional_interface.pl
+    There is also a functional Interface.
+    Create the object and bind that to the interface.

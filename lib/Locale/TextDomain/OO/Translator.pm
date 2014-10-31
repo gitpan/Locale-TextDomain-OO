@@ -4,15 +4,15 @@ use strict;
 use warnings;
 use Carp qw(confess);
 use Locale::TextDomain::OO::Singleton::Lexicon;
+use Locale::TextDomain::OO::Util::JoinSplitLexiconKeys;
 use Moo;
 use MooX::StrictConstructor;
 use MooX::Types::MooseLike::Base qw(Str);
 use namespace::autoclean;
 
-our $VERSION = '1.008';
+our $VERSION = '1.014';
 
 with qw(
-    Locale::TextDomain::OO::Lexicon::Role::Constants
     Locale::TextDomain::OO::Role::Logger
 );
 
@@ -53,6 +53,16 @@ has domain => (
     default => q{},
 );
 
+has project => (
+    is  => 'rw',
+    isa => sub {
+        my $project = shift;
+        defined $project
+            or return;
+        return Str->($project);
+    },
+);
+
 has filter => (
     is  => 'rw',
     isa => sub {
@@ -87,27 +97,23 @@ sub _calculate_multiplural_index {
 sub translate { ## no critic (ExcessComplexity ManyArgs)
     my ($self, $msgctxt, $msgid, $msgid_plural, $count, $is_n) = @_;
 
-    my $lexicon_key = join $self->lexicon_key_separator, (
-        $self->language,
-        $self->category,
-        $self->domain,
-    );
+    my $key_util = Locale::TextDomain::OO::Util::JoinSplitLexiconKeys->instance;
+    my $lexicon_key = $key_util->join_lexicon_key({(
+        map {
+            $_ => $self->$_;
+        }
+        qw( language category domain project )
+    )});
     my $lexicon = Locale::TextDomain::OO::Singleton::Lexicon->instance->data;
     $lexicon = exists $lexicon->{$lexicon_key}
         ? $lexicon->{$lexicon_key}
         : ();
 
-    my $length_or_empty_list = sub {
-        my $item = shift;
-        defined $item or return;
-        length $item or return;
-        return $item;
-    };
-    my $msg_key = join $self->msg_key_separator,
-        $length_or_empty_list->($msgctxt),
-        join $self->plural_separator,
-            $length_or_empty_list->($msgid),
-            $length_or_empty_list->($msgid_plural);
+    my $msg_key = $key_util->join_message_key({
+        msgctxt      => $msgctxt,
+        msgid        => $msgid,
+        msgid_plural => $msgid_plural,
+    });
     if ( $is_n ) {
         my $plural_code = $lexicon->{ q{} }->{plural_code}
             or confess qq{Plural-Forms not found in lexicon "$lexicon_key"};
@@ -193,13 +199,13 @@ __END__
 
 Locale::TextDomain::OO::Translator - Translator class
 
-$Id: Translator.pm 472 2014-01-21 16:37:44Z steffenw $
+$Id: Translator.pm 546 2014-10-31 09:35:19Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Translator.pm $
 
 =head1 VERSION
 
-1.008
+1.014
 
 =head1 DESCRIPTION
 
@@ -257,6 +263,8 @@ L<MooX::Types::MooseLike::Base|MooX::Types::MooseLike::Base>
 L<Carp|Carp>
 
 L<Locale::TextDomain::OO::Singleton::Lexicon|Locale::TextDomain::OO::Singleton::Lexicon>
+
+L<Locale::TextDomain::OO::Util::JoinSplitLexiconKeys|Locale::TextDomain::OO::Util::JoinSplitLexiconKeys>
 
 L<namespace::autoclean|namespace::autoclean>
 

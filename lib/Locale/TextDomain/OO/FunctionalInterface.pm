@@ -6,8 +6,81 @@ use warnings;
 our $VERSION = '1.000';
 
 use Carp qw(confess);
+use Scalar::Util qw(set_prototype);
 
 my %method_name = map { $_ => undef } qw(
+    loc_begin_d
+    loc_begin_c
+    loc_begin_dc
+    loc_end_d
+    loc_end_c
+    loc_end_dc
+    loc_
+    loc_x
+    loc_n
+    loc_nx
+    loc_p
+    loc_px
+    loc_np
+    loc_npx
+    loc_d
+    loc_dx
+    loc_dn
+    loc_dnx
+    loc_dp
+    loc_dpx
+    loc_dnp
+    loc_dnpx
+    loc_c
+    loc_cx
+    loc_cn
+    loc_cnx
+    loc_cp
+    loc_cpx
+    loc_cnp
+    loc_cnpx
+    loc_dc
+    loc_dcx
+    loc_dcn
+    loc_dcnx
+    loc_dcp
+    loc_dcpx
+    loc_dcnp
+    loc_dcnpx
+
+    Nloc_
+    Nloc_x
+    Nloc_n
+    Nloc_nx
+    Nloc_p
+    Nloc_px
+    Nloc_np
+    Nloc_npx
+    Nloc_d
+    Nloc_dx
+    Nloc_dn
+    Nloc_dnx
+    Nloc_dp
+    Nloc_dpx
+    Nloc_dnp
+    Nloc_dnpx
+    Nloc_c
+    Nloc_cx
+    Nloc_cn
+    Nloc_cnx
+    Nloc_cp
+    Nloc_cpx
+    Nloc_cnp
+    Nloc_cnpx
+    Nloc_dc
+    Nloc_dcx
+    Nloc_dcn
+    Nloc_dcnx
+    Nloc_dcp
+    Nloc_dcpx
+    Nloc_dcnp
+    Nloc_dcnpx
+
     __begin_d
     __begin_c
     __begin_dc
@@ -46,6 +119,7 @@ my %method_name = map { $_ => undef } qw(
     __dcpx
     __dcnp
     __dcnpx
+
     N__
     N__x
     N__n
@@ -78,18 +152,43 @@ my %method_name = map { $_ => undef } qw(
     N__dcpx
     N__dcnp
     N__dcnpx
+
+    locn
+    Nlocn
+
     maketext
     maketext_p
-    loc
-    loc_p
-    localize
-    localize_p
+    maketext_d
+    maketext_dp
+    maketext_c
+    maketext_cp
+    maketext_dc
+    maketext_dcp
+
     Nmaketext
     Nmaketext_p
+    Nmaketext_d
+    Nmaketext_dp
+    Nmaketext_c
+    Nmaketext_cp
+    Nmaketext_dc
+    Nmaketext_dcp
+
+    loc
+    loc_m
+    loc_mp
+
+    localise
+    localise_m
+    localise_mp
+
+    localize
+    localize_m
+    localize_mp
+
     Nloc
-    Nloc_p
-    Nlocalize
-    Nlocalize_p
+    Nloc_m
+    Nloc_mp
 );
 
 our $loc_ref = do { my $loc; \$loc }; ## no critic(PackageVars)
@@ -119,11 +218,46 @@ sub import {
         }
         exists $method_name{$import}
             or confess qq{"$import" is not exported};
+        my $prototype = $import;
+        ## no critic (ComplexRegexes)
+        $prototype =~ s{
+            \b N?
+            (?:
+                loc_begin_
+                | ( loc_ )                        # 1
+                | __begin_
+                | ( __ )                          # 2
+                | ( loc (?: ali[sz]e ) (?: _m ) ) # 3
+                | ( maketext [_]? )               # 4
+            )
+            (d)?                    # 5
+            (c)?                    # 6
+            (n)?                    # 7
+            (p)?                    # 8
+            (x)?                    # 9
+            \b
+            | \b N? ( locn ) \b
+        }{
+            $10
+            ? (
+                (  $5                   ? q{$}  : q{} ) # domain
+                .( $8                   ? q{$}  : q{} ) # context
+                .( $1 || $2 || $3 || $4 ? q{$}  : q{} ) # singular
+                .( $7                   ? q{$$} : q{} ) # plural, count
+                .( $6                   ? q{$}  : q{} ) # category
+                .( $3 ||$4 || $9        ? q{@}  : q{} ) # placeholder
+            )
+            : q{@};
+        }xmse or $prototype = q{};
+        ## use critic (ComplexRegexes)
         no strict qw(refs);       ## no critic (NoStrict)
         no warnings qw(redefine); ## no critic (NoWarnings)
-        *{"$caller\::$import"} = sub {
-            return ${$loc_ref}->$import(@_);
-        };
+        *{"$caller\::$import"} = set_prototype(
+            sub {
+                return ${$loc_ref}->$import(@_);
+            },
+            $prototype,
+        );
     }
 
     return;
@@ -137,9 +271,9 @@ __END__
 
 Locale::TextDomain::OO::FunctionalInterface - Call object methods as functions
 
-$Id: FunctionalInterface.pm 252 2009-12-29 13:55:33Z steffenw $
+$Id: FunctionalInterface.pm 546 2014-10-31 09:35:19Z steffenw $
 
-$HeadURL: https://perl-gettext-oo.svn.sourceforge.net/svnroot/perl-gettext-oo/module/tags/0.07/lib/Locale/TextDomain/OO/FunctionalInterface.pm $
+$HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/FunctionalInterface.pm $
 
 =head1 VERSION
 
@@ -164,6 +298,78 @@ or import only the given functions, as example all
 
     use Locale::TextDomain::OO;
     use Locale::TextDomain::OO::TiedInterface $loc_ref, qw(
+        loc_begin_d
+        loc_begin_c
+        loc_begin_dc
+        loc_end_d
+        loc_end_c
+        loc_end_dc
+        loc_
+        loc_x
+        loc_n
+        loc_nx
+        loc_p
+        loc_px
+        loc_np
+        loc_npx
+        loc_d
+        loc_dx
+        loc_dn
+        loc_dnx
+        loc_dp
+        loc_dpx
+        loc_dnp
+        loc_dnpx
+        loc_c
+        loc_cx
+        loc_cn
+        loc_cnx
+        loc_cp
+        loc_cpx
+        loc_cnp
+        loc_cnpx
+        loc_dc
+        loc_dcx
+        loc_dcn
+        loc_dcnx
+        loc_dcp
+        loc_dcpx
+        loc_dcnp
+        loc_dcnpx
+
+        Nloc_
+        Nloc_x
+        Nloc_n
+        Nloc_nx
+        Nloc_p
+        Nloc_px
+        Nloc_np
+        Nloc_npx
+        Nloc_d
+        Nloc_dx
+        Nloc_dn
+        Nloc_dnx
+        Nloc_dp
+        Nloc_dpx
+        Nloc_dnp
+        Nloc_dnpx
+        Nloc_c
+        Nloc_cx
+        Nloc_cn
+        Nloc_cnx
+        Nloc_cp
+        Nloc_cpx
+        Nloc_cnp
+        Nloc_cnpx
+        Nloc_dc
+        Nloc_dcx
+        Nloc_dcn
+        Nloc_dcnx
+        Nloc_dcp
+        Nloc_dcpx
+        Nloc_dcnp
+        Nloc_dcnpx
+
         __begin_d
         __begin_c
         __begin_dc
@@ -202,6 +408,7 @@ or import only the given functions, as example all
         __dcpx
         __dcnp
         __dcnpx
+
         N__
         N__x
         N__n
@@ -234,18 +441,43 @@ or import only the given functions, as example all
         N__dcpx
         N__dcnp
         N__dcnpx
+
+        locn
+        Nlocn
+
         maketext
         maketext_p
-        loc
-        loc_p
-        localize
-        localize_p
+        maketext_d
+        maketext_dp
+        maketext_c
+        maketext_cp
+        maketext_dc
+        maketext_dcp
+
         Nmaketext
         Nmaketext_p
+        Nmaketext_d
+        Nmaketext_dp
+        Nmaketext_c
+        Nmaketext_cp
+        Nmaketext_dc
+        Nmaketext_dcp
+
+        loc
+        loc_m
+        loc_mp
+
+        localise
+        localise_m
+        localise_mp
+
+        localize
+        localize_m
+        localize_mp
+
         Nloc
-        Nloc_p
-        Nlocalize
-        Nlocalize_p
+        Nloc_m
+    Nloc_mp
     );
     ${loc_ref} = Locale::TextDomain::OO->new(
         ...
@@ -290,7 +522,7 @@ Steffen Winkler
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2009 - 2013,
+Copyright (c) 2009 - 2014,
 Steffen Winkler
 C<< <steffenw at cpan.org> >>.
 All rights reserved.

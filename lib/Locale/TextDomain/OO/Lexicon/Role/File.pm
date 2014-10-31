@@ -6,15 +6,16 @@ use Carp qw(confess);
 use Encode qw(decode FB_CROAK);
 use English qw(-no_match_vars $OS_ERROR);
 use Locale::TextDomain::OO::Singleton::Lexicon;
+use Locale::TextDomain::OO::Util::ExtractHeader;
+use Locale::TextDomain::OO::Util::JoinSplitLexiconKeys;
 use Moo::Role;
 use MooX::Types::MooseLike::Base qw(CodeRef);
 use Path::Tiny qw(path);
 use namespace::autoclean;
 
-our $VERSION = '1.008';
+our $VERSION = '1.014';
 
 with qw(
-    Locale::TextDomain::OO::Lexicon::Role::ExtractHeader
     Locale::TextDomain::OO::Lexicon::Role::GettextToMaketext
     Locale::TextDomain::OO::Role::Logger
 );
@@ -39,10 +40,10 @@ has decode_code => (
 );
 
 sub _decode_messages {
-    my ($self, $messages) = @_;
+    my ($self, $messages_ref) = @_;
 
-    my $charset = lc $messages->[0]->{charset};
-    for my $value ( @{$messages} ) {
+    my $charset = lc $messages_ref->[0]->{charset};
+    for my $value ( @{$messages_ref} ) {
         for my $key ( qw( msgid msgid_plural msgstr ) ) {
             if ( exists $value->{$key} ) {
                 for my $text ( $value->{$key} ) {
@@ -52,7 +53,7 @@ sub _decode_messages {
         }
         if ( exists $value->{msgstr_plural} ) {
             my $got      = @{ $value->{msgstr_plural} };
-            my $expected = $messages->[0]->{nplurals};
+            my $expected = $messages_ref->[0]->{nplurals};
             $got == $expected or confess sprintf
                 'Count of msgstr_plural=%s but nplurals=%s for msgid="%s" msgid_plural="%s"',
                 $got,
@@ -106,7 +107,8 @@ sub _my_glob {
         }
         map {
             path($_, $right_dir, $filename);
-        } @left_and_inner_dirs
+        }
+        @left_and_inner_dirs
     );
 }
 
@@ -161,15 +163,17 @@ sub _run_extra_commands {
 }
 
 sub lexicon_ref {
-    my ($self, $file_lexicon) = @_;
+    my ($self, $file_lexicon_ref) = @_;
 
     my $instance = Locale::TextDomain::OO::Singleton::Lexicon->instance;
-    my $search_dirs = $file_lexicon->{search_dirs}
+    my $search_dirs = $file_lexicon_ref->{search_dirs}
         or confess 'Hash key "search_dirs" expected';
-    my $data = $file_lexicon->{data};
+    my $header_util = Locale::TextDomain::OO::Util::ExtractHeader->instance;
+    my $key_util    = Locale::TextDomain::OO::Util::JoinSplitLexiconKeys->instance;
+    my $data = $file_lexicon_ref->{data};
     my $index = 0;
     DATA:
-    while ( $index < @{ $file_lexicon->{data} } ) {
+    while ( $index < @{ $file_lexicon_ref->{data} } ) {
         my $identifier = $data->[ $index++ ];
         $self->_run_extra_commands(
             $identifier,
@@ -191,20 +195,30 @@ sub lexicon_ref {
                     substr $language, - length $parts[1], length $parts[1], q{};
                     $lexicon_language_key =~ s{[*]}{$language}xms;
                 }
-                my $messages = $self->read_messages($filename);
-                my $header_msgstr = $messages->[0]->{msgstr}
+                my $messages_ref = $self->read_messages($filename);
+                my $header_msgstr = $messages_ref->[0]->{msgstr}
                     or confess 'msgstr of header not found';
-                my $header = $messages->[0];
-                %{$header} = (
-                    msgid => $header->{msgid},
-                    %{ $self->extract_header_msgstr( $header->{msgstr} ) },
+                my $header_ref = $messages_ref->[0];
+                %{$header_ref} = (
+                    msgid => $header_ref->{msgid},
+                    %{ $header_util->extract_header_msgstr( $header_ref->{msgstr} ) },
                 );
-                $file_lexicon->{gettext_to_maketext}
-                    and $self->gettext_to_maketext($messages);
-                $file_lexicon->{decode}
-                    and $self->_decode_messages($messages);
-                $messages = $self->message_array_to_hash($messages);
-                $instance->data->{$lexicon_language_key} = $messages;
+                $file_lexicon_ref->{gettext_to_maketext}
+                    and $self->gettext_to_maketext($messages_ref);
+                $file_lexicon_ref->{decode}
+                    and $self->_decode_messages($messages_ref);
+                $instance->data->{$lexicon_language_key} = {
+                    map { ## no critic (ComplexMappings)
+                        my $message_ref = $_;
+                        my $msg_key = $key_util->join_message_key({(
+                            map {
+                                $_ => delete $message_ref->{$_};
+                            }
+                            qw( msgctxt msgid msgid_plural )
+                        )});
+                        ( $msg_key => $message_ref );
+                    } @{$messages_ref}
+                };
                 $self->logger and $self->logger->(
                     qq{Lexicon "$lexicon_language_key" loaded from file "$filename".},
                     {
@@ -228,13 +242,13 @@ __END__
 
 Locale::TextDomain::OO::Lexicon::Role::File - Helper role to add lexicon from file
 
-$Id: File.pm 472 2014-01-21 16:37:44Z steffenw $
+$Id: File.pm 546 2014-10-31 09:35:19Z steffenw $
 
 $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk/lib/Locale/TextDomain/OO/Lexicon/Role/File.pm $
 
 =head1 VERSION
 
-1.008
+1.014
 
 =head1 DESCRIPTION
 
@@ -319,6 +333,10 @@ L<English|English>
 
 L<Locale::TextDomain::OO::Singleton::Lexicon|Locale::TextDomain::OO::Singleton::Lexicon>
 
+L<Locale::TextDomain::OO::Util::ExtractHeader|Locale::TextDomain::OO::Util::ExtractHeader>
+
+L<Locale::TextDomain::OO::Util::JoinSplitLexiconKeys|Locale::TextDomain::OO::Util::JoinSplitLexiconKeys>
+
 L<Moo::Role|Moo::Role>
 
 L<MooX::Types::MooseLike::Base|MooX::Types::MooseLike::Base>
@@ -326,8 +344,6 @@ L<MooX::Types::MooseLike::Base|MooX::Types::MooseLike::Base>
 L<Path::Tiny|Path::Tiny>
 
 L<namespace::autoclean|namespace::autoclean>
-
-L<Locale::TextDomain::OO::Lexicon::Role::ExtractHeader|Locale::TextDomain::OO::Lexicon::Role::ExtractHeader>
 
 L<Locale::TextDomain::OO::Lexicon::Role::GettextToMaketext|Locale::TextDomain::OO::Lexicon::Role::GettextToMaketext>
 
