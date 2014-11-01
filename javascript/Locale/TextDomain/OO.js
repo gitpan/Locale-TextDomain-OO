@@ -1,5 +1,5 @@
 /*
-version 1.014
+version 1.015
 
 requires:
 http://jquery.com/
@@ -150,7 +150,7 @@ function localeTextDomainOO(argMap) {
                     {
                         object : this,
                         type   : 'warn',
-                        event  : 'translation,fallback',
+                        event  : 'translation,fallback'
                     }
                 );
         }

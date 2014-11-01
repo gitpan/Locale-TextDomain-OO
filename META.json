@@ -42,6 +42,7 @@
             "JSON" : "0",
             "Locale::MO::File" : "0",
             "Locale::PO" : "0.24",
+            "Locale::TextDomain::OO::Util" : "2.002",
             "Locale::Utils::PlaceholderMaketext" : "0.004",
             "Locale::Utils::PlaceholderNamed" : "0.005",
             "Moo" : "1.003001",
@@ -62,7 +63,7 @@
    "provides" : {
       "Locale::TextDomain::OO" : {
          "file" : "lib/Locale/TextDomain/OO.pm",
-         "version" : "1.014"
+         "version" : "1.015"
       },
       "Locale::TextDomain::OO::FunctionalInterface" : {
          "file" : "lib/Locale/TextDomain/OO/FunctionalInterface.pm",
@@ -171,5 +172,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "1.014"
+   "version" : "1.015"
 }

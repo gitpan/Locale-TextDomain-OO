@@ -3,7 +3,7 @@ package Locale::TextDomain::OO; ## no critic (TidyCode)
 use strict;
 use warnings;
 
-our $VERSION = '1.014';
+our $VERSION = '1.015';
 
 use Locale::TextDomain::OO::Translator;
 
@@ -42,7 +42,7 @@ $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk
 
 =head1 VERSION
 
-1.014
+1.015
 
 Starting with version 1.000 the interface has changed.
 

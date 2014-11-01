@@ -15,6 +15,7 @@ WriteMakefile
                    'JSON' => 0,
                    'Locale::MO::File' => 0,
                    'Locale::PO' => '0.24',
+                   'Locale::TextDomain::OO::Util' => '2.002',
                    'Locale::Utils::PlaceholderMaketext' => '0.004',
                    'Locale::Utils::PlaceholderNamed' => '0.005',
                    'Moo' => '1.003001',

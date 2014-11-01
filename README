@@ -1,4 +1,4 @@
-Locale-TextDomain-OO version 1.014
+Locale-TextDomain-OO version 1.015
 ==================================
 
 Perl OO Interface to Uniforum Message Translation
@@ -26,6 +26,7 @@ This module requires these other modules and libraries:
     JSON
     Locale::MO::File
     Locale::PO
+    Locale::TextDomain::OO::Util
     Locale::Utils::PlaceholderMaketext
     Locale::Utils::PlaceholderNamed
     Moo
