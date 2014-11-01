@@ -1,5 +1,9 @@
 Revision history for Perl extension Locale::TextDomain::OO.
 
+1.016  Sat Nov  1 13:05:12 2014
+- fixed Pod and so fixed
+  https://rt.cpan.org/Ticket/Display.html?id=99948
+
 1.015  Sat Nov  1 07:32:46 2014
 - fixed javascript/Locale/TextDomain/OO.js for IE
 - added dependency Locale::TextDomain::OO::Util

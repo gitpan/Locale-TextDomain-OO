@@ -9,7 +9,7 @@ use Moo::Role;
 use Try::Tiny;
 use namespace::autoclean;
 
-our $VERSION = '1.014';
+our $VERSION = '1.016';
 
 requires qw(
     translate
@@ -155,7 +155,7 @@ $HeadURL: svn+ssh://steffenw@svn.code.sf.net/p/perl-gettext-oo/code/module/trunk
 
 =head1 VERSION
 
-1.014
+1.016
 
 =head1 DESCRIPTION
 
@@ -320,7 +320,7 @@ The resulting attribute string is then C<num :numf>.
         },
     );
 
-=head2 Method to mark the translation for extraction only
+=head2 method Nlocn to mark the translation for extraction only
 
 The method name is N prefixed so it results in Nlocn.
 
